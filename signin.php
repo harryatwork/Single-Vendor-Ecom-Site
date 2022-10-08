@@ -1,0 +1,93 @@
+<?php include("head.php"); ?>
+
+<style>
+.header-sticky {
+    background-color: rgba(0, 0, 0, 0.7) !important;
+    box-shadow: 0 8px 6px -6px rgb(0 0 0 / 40%) !important;
+}
+.page-banner {
+    margin-top:10%;
+}
+
+.object {
+  animation: MoveUpDown 5s linear infinite;
+  position: absolute;
+  left: 10%;
+  bottom: 0;
+}
+
+@keyframes MoveUpDown {
+  0%, 100% {
+    bottom: 0;
+  }
+  50% {
+    bottom: 50px;
+  }
+}
+</style>
+
+<body>
+
+<?php include("header.php"); ?>
+
+    <div class="page-banner">
+        <div class="container">
+            <div class="page-banner-content">
+                <ul>
+                    <li><a href="index">Home</a></li>
+                    <li><a href="shop">Shop</a></li>
+                    <li class="active"><a href="#">Shop</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!--Login Register Area Strat-->
+    <div class="login-register-area pt-80 pb-95">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-md-6 col-sm-6">
+                    <div class="customer-login-register register-pt-0" style="box-shadow: 0px 0px 5px 4px rgb(0 0 0 / 20%);border-radius: 10px;padding: 36px;">
+                        <div class="form-register-title">
+                            <h2>Sign In</h2>
+                        </div>
+                        <div class="register-form">
+                            <form action="#">
+                                <div class="form-fild">
+                                    <label>Email address <span class="required">*</span></label>
+                                    <input name="username" value="" type="text">
+                                </div>
+                                <div class="form-fild">
+                                    <label>Password <span class="required">*</span></label>
+                                    <input name="password" value="" type="password">
+                                </div>
+                                <div class="register-submit">
+                                    <button type="submit" class="form-button">Sign In</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-sm-6">
+                    <div class="customer-login-register" style="padding:36px;position:relative;height: 350px;">
+                        <img class="img-slide object" src="images/slider/slider-icon-1.png" alt="" style="width:400px;">
+                    </div>
+                </div>
+
+            </div> 
+        </div>
+    </div>
+    <!--Login Register Area End-->
+
+
+<?php include("footer.php"); ?>
+
+<?php include("foot.php"); ?>
+
+</body>
+
+</html>

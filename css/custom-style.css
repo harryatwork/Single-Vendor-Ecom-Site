@@ -1,0 +1,9 @@
+.megamenu-title > a:hover { 
+    border-bottom: 2px solid orange;
+}
+.submenu-title:hover {
+    border-bottom: 1px solid orange;
+}
+.submenu-title > a:hover {
+    text-decoration: none !important;
+}
