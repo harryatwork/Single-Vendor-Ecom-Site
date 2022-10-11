@@ -66,7 +66,12 @@
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                                <span class="menu-title">Received ()</span>
+                                <span class="menu-title recieved_orders_count">Received (<div class="loader"> 
+                                                                                            <svg class="circular" viewBox="25 25 50 50">
+                                                                                                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
+                                                                                            </svg> 
+                                                                                        </div>)
+                                </span>
                             </a>
                         </div>
 
@@ -75,7 +80,12 @@
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                                <span class="menu-title">Running ()</span>
+                                <span class="menu-title running_orders_count">Running (<div class="loader"> 
+                                                                                        <svg class="circular" viewBox="25 25 50 50">
+                                                                                            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
+                                                                                        </svg> 
+                                                                                       </div>)
+                                </span>
                             </a>
                         </div>
 
@@ -84,7 +94,12 @@
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                                <span class="menu-title">Cancelled ()</span>
+                                <span class="menu-title cancelled_orders_count">Cancelled (<div class="loader"> 
+                                                                                            <svg class="circular" viewBox="25 25 50 50">
+                                                                                                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
+                                                                                            </svg> 
+                                                                                           </div>)
+                                </span>
                             </a>
                         </div>
 
@@ -93,7 +108,12 @@
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                                <span class="menu-title">Completed ()</span>
+                                <span class="menu-title completed_orders_count">Completed (<div class="loader"> 
+                                                                                            <svg class="circular" viewBox="25 25 50 50">
+                                                                                                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
+                                                                                            </svg> 
+                                                                                           </div>)
+                                </span>
                             </a>
                         </div>
 
@@ -122,7 +142,12 @@
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                                <span class="menu-title">Active ()</span>
+                                <span class="menu-title active_users_count">Active (<div class="loader"> 
+                                                                                        <svg class="circular" viewBox="25 25 50 50">
+                                                                                            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
+                                                                                        </svg> 
+                                                                                    </div>)
+                                </span>
                             </a>
                         </div>
 
@@ -131,7 +156,12 @@
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                                <span class="menu-title">De-Active ()</span>
+                                <span class="menu-title de_active_user_count">De-Active (<div class="loader"> 
+                                                                                            <svg class="circular" viewBox="25 25 50 50">
+                                                                                                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
+                                                                                            </svg> 
+                                                                                          </div>)
+                                </span>
                             </a>
                         </div>
 
@@ -160,7 +190,12 @@
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                                <span class="menu-title">Active ()</span>
+                                <span class="menu-title active_products_count">Active (<div class="loader"> 
+                                                                                        <svg class="circular" viewBox="25 25 50 50">
+                                                                                            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
+                                                                                        </svg> 
+                                                                                       </div>)
+                                </span>
                             </a>
                         </div>
 
@@ -169,7 +204,12 @@
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                                <span class="menu-title">De-Active ()</span>
+                                <span class="menu-title de_active_products_count">De-Active (<div class="loader"> 
+                                                                                                <svg class="circular" viewBox="25 25 50 50">
+                                                                                                    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
+                                                                                                </svg> 
+                                                                                              </div>)
+                                </span>
                             </a>
                         </div>
 
@@ -178,7 +218,12 @@
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                                <span class="menu-title">Highlighted ()</span>
+                                <span class="menu-title highlighted_products_count">Highlighted (<div class="loader"> 
+                                                                                                    <svg class="circular" viewBox="25 25 50 50">
+                                                                                                        <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
+                                                                                                    </svg> 
+                                                                                                  </div>)
+                                </span>
                             </a>
                         </div>
 
@@ -207,7 +252,12 @@
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                                <span class="menu-title">Categories ()</span>
+                                <span class="menu-title categories_count">Categories (<div class="loader"> 
+                                                                                        <svg class="circular" viewBox="25 25 50 50">
+                                                                                            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
+                                                                                        </svg> 
+                                                                                      </div>)
+                                </span>
                             </a>
                         </div>
 
@@ -216,7 +266,12 @@
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                                <span class="menu-title">Sub Categories ()</span>
+                                <span class="menu-title sub_categories_count">Sub Categories (<div class="loader"> 
+                                                                                                <svg class="circular" viewBox="25 25 50 50">
+                                                                                                    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
+                                                                                                </svg> 
+                                                                                               </div>)
+                                </span>
                             </a>
                         </div>
 
@@ -248,7 +303,12 @@
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                                <span class="menu-title">Approved ()</span>
+                                <span class="menu-title approved_reviews_count">Approved (<div class="loader"> 
+                                                                                            <svg class="circular" viewBox="25 25 50 50">
+                                                                                                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
+                                                                                            </svg> 
+                                                                                           </div>)
+                                </span>
                             </a>
                         </div>
 
@@ -257,7 +317,12 @@
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                                <span class="menu-title">Pending ()</span>
+                                <span class="menu-title pending_reviews_count">Pending (<div class="loader"> 
+                                                                                            <svg class="circular" viewBox="25 25 50 50">
+                                                                                                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
+                                                                                            </svg> 
+                                                                                        </div>)
+                                </span>
                             </a>
                         </div>
 
@@ -266,7 +331,12 @@
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                                <span class="menu-title">Rejected ()</span>
+                                <span class="menu-title rejected_reviews_count">Rejected (<div class="loader"> 
+                                                                                            <svg class="circular" viewBox="25 25 50 50">
+                                                                                                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
+                                                                                            </svg> 
+                                                                                           </div>)
+                                </span>
                             </a>
                         </div>
 

@@ -151,9 +151,9 @@
                                                                     </label>
 																	<div class="row row-cols-1 row-cols-md-3 row-cols-lg-1 row-cols-xl-3 g-9" data-kt-buttons="true" data-kt-buttons-target="[data-kt-button='true']" data-kt-initialized="1">
 																		<div class="col">
-																			<label class="btn btn-outline btn-outline-dashed btn-active-light-primary d-flex text-start p-6" data-kt-button="true">
+																			<label class="btn btn-outline btn-outline-dashed btn-active-light-primary d-flex text-start p-6 active" data-kt-button="true">
 																				<span class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1">
-																					<input class="form-check-input" type="radio" name="discount_option" value="1">
+																					<input class="form-check-input no_discount discount_option" type="radio" name="discount_option" value="1" checked="checked">
 																				</span>
 																				<span class="ms-5">
 																					<span class="fs-4 fw-bold text-gray-800 d-block">No Discount</span>
@@ -161,9 +161,9 @@
 																			</label>
 																		</div>
 																		<div class="col">
-																			<label class="btn btn-outline btn-outline-dashed btn-active-light-primary d-flex text-start p-6 active" data-kt-button="true">
+																			<label class="btn btn-outline btn-outline-dashed btn-active-light-primary d-flex text-start p-6" data-kt-button="true">
 																				<span class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1">
-																					<input class="form-check-input" type="radio" name="discount_option" value="2" checked="checked">
+																					<input class="form-check-input yes_discount discount_option" type="radio" name="discount_option" value="0" >
 																				</span>
 																				<span class="ms-5">
 																					<span class="fs-4 fw-bold text-gray-800 d-block">Percentage 
@@ -176,7 +176,7 @@
 																</div>
 																
 																
-																<div class="mb-10 fv-row" id="kt_ecommerce_add_product_discount_percentage">
+																<div class="mb-10 fv-row discount_slider" id="kt_ecommerce_add_product_discount_percentage" style="display:none;">
 																	<label class="form-label">Set Discount Percentage</label>
 																	<input id="discount_slider_input" type="range" min="0" max="100" value="0" style="width:100%;">
 																	<div class="text-muted fs-7">Set a percentage discount to be applied on this product.</div>
