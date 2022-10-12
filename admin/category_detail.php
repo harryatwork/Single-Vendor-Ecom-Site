@@ -12,7 +12,7 @@
 				<div class="app-wrapper flex-column flex-row-fluid" id="kt_app_wrapper">
 
 					<?php include("menu.php"); ?>
-
+					<span class="c_id" style="hidden"><?= $_GET["id"]; ?></span>
                     <div class="app-main flex-column flex-row-fluid" id="kt_app_main">
 						<div class="d-flex flex-column flex-column-fluid">
 							<div id="kt_app_toolbar" class="app-toolbar py-3 py-lg-6">
@@ -46,11 +46,11 @@
 												<div class="card-body text-center pt-0">
 													
                                                     <div class="image-input image-input-empty image-input-outline image-input-placeholder mb-3" data-kt-image-input="true">
-														<div class="image-input-wrapper w-150px h-150px" style="background-image: url(assets/images/product.png)"></div>
+														<div class="cat_pic image-input-wrapper w-150px h-150px" style="background-image: url(assets/images/product.png)"></div>
 														<label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" aria-label="Change avatar" data-kt-initialized="1">
 															<i class="bi bi-pencil-fill fs-7"></i>
-															<input type="file" name="avatar" accept=".png, .jpg, .jpeg">
-															<input type="hidden" name="avatar_remove">
+															<input type="file" id="cat_pic" name="avatar" accept=".png, .jpg, .jpeg">
+															<!-- <input type="hidden" name="avatar_remove"> -->
 														</label>
 													</div>
 													
@@ -82,7 +82,7 @@
 															<div class="card-body pt-0">
 																<div class="mb-10 fv-row fv-plugins-icon-container">
 																	<label class="required form-label">Category Name</label>
-																	<input type="text" name="category_name" class="form-control mb-2" placeholder="Category name" value="Sample Category">
+																	<input type="text" name="category_name" class="category_name form-control mb-2" placeholder="Category name" value="Sample Category">
                                                                 </div>
 															</div>
 
@@ -95,7 +95,7 @@
 											
 											<div class="d-flex justify-content-end">
 												<a href="categories" id="kt_ecommerce_add_product_cancel" class="btn btn-light me-5">Cancel</a>
-												<button type="submit" id="kt_ecommerce_add_product_submit" class="btn btn-primary">
+												<button type="button" id="kt_ecommerce_add_product_submit" class="btn btn-primary category_submit_btn">
 													<span class="indicator-label">Save Changes</span>
 													<span class="indicator-progress">Please wait... 
                                                         <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
@@ -113,6 +113,63 @@
     <script src="assets/js/custom/apps/ecommerce/sales/listing.js"></script>
 		
 	<?php include("footer.php"); ?>
+
+	<?php include("pop_notifications.php"); ?>
+
+	<script>
+	var date = new Date(), y = date.getFullYear(), m = date.getMonth();
+	var firstDay = new Date(y, m+1, -29).toISOString().slice(0, 10);
+	var lastDay = new Date(y, m+1, 0).toISOString().slice(0, 10);
+	$(document).ready(function() {
+		var c_id = $(".c_id").html();
+		categories_list("id='"+c_id+"'",'','id,name,image');
+	});
+
+	function categories_list(condition,limit,return_values) {
+		$.post('backend/functions.php', {
+			condition : condition,
+			limit : limit,
+			return_values : return_values,
+			trigger : 'categories'
+		}, function(result) {
+			result = JSON.parse(result);
+			$('.category_name').val(result[0][1]);
+			$('.cat_pic').css('background-image','url(../images-main/categories/'+result[0][2]+')');
+		});
+	}
+
+	$(".category_submit_btn").on("click",()=>{ 
+		console.log(1);
+		$(".indicator-label").css("display","none");
+		$(".indicator-progress").css("display","block");
+		var fd = new FormData();
+		var category = $(".category_name").val();
+		var files = $('#cat_pic')[0].files;
+		var c_id = $(".c_id").html();
+
+		fd.append('cat_pic',files[0]);
+		fd.append('category',category);
+		fd.append('c_id',c_id);
+
+		$.ajax({
+			url:'backend/cat_update.php',
+			type:'post',
+			data:fd,
+			contentType: false,
+			processData: false,
+			success:function(response) {
+				$(".pop_notify").fadeIn().css({"background":"green"}).animate({"bottom":"2%"}).html(response);
+                setTimeout(()=>{
+                    $(".pop_notify").animate({"bottom":"-20%"}).fadeOut().html('');
+                },3000);
+				$(".category_submit_btn").html("Uploaded");
+				$(".category_submit_btn").attr("disabled",'disabled');
+				$(".indicator-label").css("display","block");
+				$(".indicator-progress").css("display","none");
+			}
+		});
+	});
+	</script>
 
 
 

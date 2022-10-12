@@ -70,33 +70,14 @@
                                                                 <th class="text-end min-w-100px sorting_disabled" rowspan="1" colspan="1" aria-label="Actions" style="width: 102.047px;">Actions</th>
                                                             </tr>
 												        </thead>
-												        <tbody class="fw-semibold text-gray-600">
-													
-                                                            <tr class="odd">
-                                                                <td data-kt-ecommerce-order-filter="order_id">
-                                                                    <a class="text-gray-800 text-hover-primary fw-bold">1</a>
-                                                                </td>
+												        <tbody class="fw-semibold text-gray-600 categories_list">
+                                                            <tr>
                                                                 <td>
-                                                                    <div class="d-flex align-items-center">
-                                                                        <div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
-                                                                            <a>
-                                                                                <div class="symbol-label">
-                                                                                    <img src="assets/images/product.png" alt="Product Name" class="w-100">
-                                                                                </div>
-                                                                            </a>
-                                                                        </div>
-                                                                        <div class="ms-5">
-                                                                            <a class="text-gray-800 text-hover-primary fs-5 fw-bold">Category Name</a>
-                                                                        </div>
+                                                                    <div class="loader"> 
+                                                                        <svg class="circular" viewBox="25 25 50 50">
+                                                                            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
+                                                                        </svg> 
                                                                     </div>
-                                                                </td>
-                                                                <td class="text-end pe-0">
-                                                                    <span class="fw-bold">46</span>
-                                                                </td>
-                                                                <td class="text-end">
-                                                                    <a href="category_detail" class="btn btn-primary"> 
-                                                                        view
-                                                                    </a>
                                                                 </td>
                                                             </tr>
                                                     
@@ -112,14 +93,73 @@
 								</div>
 							</div>
 
-
-
     <script src="assets/plugins/global/plugins.bundle.js"></script>
     <script src="assets/js/scripts.bundle.js"></script>
     <script src="assets/js/custom/apps/ecommerce/sales/listing.js"></script>
-		
 	<?php include("footer.php"); ?>
+    <script>
+        var date = new Date(), y = date.getFullYear(), m = date.getMonth();
+        var firstDay = new Date(y, m+1, -29).toISOString().slice(0, 10);
+        var lastDay = new Date(y, m+1, 0).toISOString().slice(0, 10);
+        $(document).ready(function() {
+            categories_list("1=1",'','id,name,image');
+        });
 
-	
+        function categories_list(condition,limit,return_values) {
+            $.post('backend/functions.php', {
+                condition : condition,
+                limit : limit,
+                return_values : return_values,
+                trigger : 'categories'
+            }, function(result) {
+                result = JSON.parse(result);
+                var final_html = '';
+                for(let r=0;r<result.length;r++) { 
+                    let c_id = result[r][0];
+                    let stock_condition = 'c_id ='+c_id;
+                    $.post('backend/functions.php', {
+                        condition : stock_condition,
+                        limit : limit,
+                        return_values : 'id',
+                        trigger : 'products'
+                    }, function(result_) {
+                        var stock_result = JSON.parse(result_);
+
+                        var html = `<tr class="odd">
+                                        <td data-kt-ecommerce-order-filter="order_id">
+                                            <a class="text-gray-800 text-hover-primary fw-bold">`+r+`</a>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
+                                                    <a>
+                                                        <div class="symbol-label">
+                                                            <img src="../images-main/categories/`+result[r][2]+`" alt="Product Name" class="w-100">
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                                <div class="ms-5">
+                                                    <a class="text-gray-800 text-hover-primary fs-5 fw-bold">`+result[r][1]+`</a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="text-end pe-0">
+                                            <span class="fw-bold">`+stock_result.length+`</span>
+                                        </td>
+                                        <td class="text-end">
+                                            <a href="category_detail?id=`+result[r][0]+`" class="btn btn-primary"> 
+                                                view
+                                            </a>
+                                        </td>
+                                    </tr>`;
+                        final_html = final_html+html;
+                    });
+                }
+                setTimeout(()=>{
+                    $(".categories_list").html(final_html);
+                },1000);
+            });
+        }
+    </script>
 </body>
 </html>
