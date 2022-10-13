@@ -35,6 +35,39 @@
 							</div>
 
 
+						<?php 
+							$sql_products = "SELECT * FROM products WHERE id = '$p_id'";
+							$result_products = $conn->query($sql_products);
+							if($result_products->num_rows > 0){
+							while($row_products = $result_products->fetch_assoc()) {
+								$products_id = $row_products["id"];
+								$products_name = $row_products["name"];
+								$products_pic = $row_products["image"];
+								$products_price = $row_products["price"];
+								$products_status = $row_products["status"];
+								$products_sku = $row_products["sku"];
+								$products_cat_id = $row_products["cat_id"];
+								$products_subcat_id = $row_products["subcat_id"];
+								$products_description = $row_products["description"];
+								$products_sku = $row_products["sku"];
+								$products_discount = $row_products["discount"];
+								$products_brand = $row_products["brand"];
+								$products_shipping = $row_products["shipping"];
+
+								$sql_cat_echo = "SELECT * FROM categories WHERE id = '$products_cat_id'";
+								$result_cat_echo = $conn->query($sql_cat_echo);
+								if($result_cat_echo->num_rows > 0){
+								while($row_cat_echo = $result_cat_echo->fetch_assoc()) {
+									$cat_name_echo = $row_cat_echo["name"];
+								} } else { }
+								$sql_subcat_echo = "SELECT * FROM subcategories WHERE id = '$products_subcat_id'";
+								$result_subcat_echo = $conn->query($sql_subcat_echo);
+								if($result_subcat_echo->num_rows > 0){
+								while($row_subcat_echo = $result_subcat_echo->fetch_assoc()) {
+									$subcat_cat_name_echo = $row_subcat_echo["name"];
+								} } else { } 
+						?>
+
                             <div id="kt_app_content" class="app-content flex-column-fluid" data-select2-id="select2-data-kt_app_content">
 								<div id="kt_app_content_container" class="app-container container-xxl" data-select2-id="select2-data-kt_app_content_container">
 									<form id="kt_ecommerce_add_product_form" class="form d-flex flex-column flex-lg-row fv-plugins-bootstrap5 fv-plugins-framework" data-kt-redirect="products.html" data-select2-id="select2-data-kt_ecommerce_add_product_form">
@@ -48,11 +81,11 @@
 												<div class="card-body text-center pt-0">
 													
                                                     <div class="image-input image-input-empty image-input-outline image-input-placeholder mb-3" data-kt-image-input="true">
-														<div class="image-input-wrapper w-150px h-150px" style="background-image: url(assets/images/product.png)"></div>
+														<div class="image-input-wrapper w-150px h-150px" style="background-image: url(../images-main/products/<?= $products_pic; ?>)"></div>
 														<label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" aria-label="Change avatar" data-kt-initialized="1">
 															<i class="bi bi-pencil-fill fs-7"></i>
-															<input type="file" name="avatar" accept=".png, .jpg, .jpeg">
-															<input type="hidden" name="avatar_remove">
+															<input type="file" id="product_pic" name="avatar" accept=".png, .jpg, .jpeg">
+															<!-- <input type="hidden" name="avatar_remove"> -->
 														</label>
 													</div>
 													
@@ -70,11 +103,12 @@
 													</div>
 												</div>
 												<div class="card-body pt-0">
-													<select class="form-select mb-2 " >
-														<option value="Active" selected="selected" data-select2-id="select2-data-11-9id2">Active</option>
+													<select class="form-select mb-2">
+														<option value="<?= $products_status; ?>" selected="selected" data-select2-id="select2-data-11-9id2"><?= $products_status; ?></option>
+														<option value="Active">Active</option>
 														<option value="De-Active">De-Active</option>
 													</select>
-													<div class="text-muted fs-7">Set the product status.</div>
+													<div class="text-muted fs-7">Set the product status</div>
 												</div>
 											</div>
 											
@@ -88,15 +122,34 @@
 												
 												<div class="card-body pt-0">
 													<label class="form-label">Category</label>
-													<select class="form-select mb-2 " >
-														<option value="Active" selected="selected" data-select2-id="select2-data-11-9id2">Category 1</option>
-														<option value="De-Active">Category 2</option>
+													<select class="form-select mb-2 cat_id" >
+														<option value="<?= $products_cat_id;?>"><?= $cat_name_echo; ?></option>
+													<?php	
+														$sql_cat = "SELECT * FROM categories";
+														$result_cat = $conn->query($sql_cat);
+														if($result_cat->num_rows > 0){
+														while($row_cat = $result_cat->fetch_assoc()) {
+															$cat_id = $row_cat["id"];
+															$cat_name = $row_cat["name"];
+													?>
+														<option value="<?= $cat_id; ?>"><?= $cat_name; ?></option>
+													<?php } } else { } ?>
 													</select>
 													
                                                     <label class="form-label">Sub Category</label>
-													<select class="form-select mb-2 " >
-														<option value="Active" selected="selected" data-select2-id="select2-data-11-9id2">Category 1</option>
-														<option value="De-Active">Category 2</option>
+													<select class="form-select mb-2 subcat_id" >
+													<option value="<?= $products_subcat_id;?>"><?= $subcat_cat_name_echo; ?></option>
+													<?php	
+														$sql_subcat = "SELECT * FROM subcategories";
+														$result_subcat = $conn->query($sql_subcat);
+														if($result_subcat->num_rows > 0){
+														while($row_subcat = $result_subcat->fetch_assoc()) {
+															$subcat_cat_id = $row_subcat["cat_id"];
+															$subcat_id = $row_subcat["id"];
+															$subcat_name = $row_subcat["name"];
+													?>
+														<option style="display:none;" class="cat_id_all cat_id_<?= $subcat_cat_id; ?>" value="<?= $subcat_id; ?>"><?= $subcat_name; ?></option>
+													<?php } } else { } ?>
 													</select>
 												</div>
 
@@ -130,11 +183,13 @@
 															<div class="card-body pt-0">
 																<div class="mb-10 fv-row fv-plugins-icon-container">
 																	<label class="required form-label">Product Name</label>
-																	<input type="text" name="product_name" class="form-control mb-2" placeholder="Product name" value="Sample product">
+																	<input type="text" name="product_name" class="product_name form-control mb-2" placeholder="Product name" value="<?= $products_name; ?>">
                                                                 </div>
 																<div>
 																	<label class="form-label">Description</label>
-																	<textarea class="form-control" placeholder="Enter Description here" style="height: 150px;"></textarea>
+																	<textarea class="form-control product_description" placeholder="Enter Description here" style="height: 150px;">
+																		<?= $products_description; ?>
+																	</textarea>
                                                                 </div>
 															</div>
 														</div>
@@ -148,7 +203,7 @@
 															<div class="card-body pt-0">
 																<div class="mb-10 fv-row fv-plugins-icon-container">
 																	<label class="required form-label">Base Price</label>
-																	<input type="text" name="price" class="form-control mb-2" placeholder="Product price" value="199.99">
+																	<input type="text" name="price" class="form-control mb-2 product_price" placeholder="Product price" value="<?= $products_price; ?>">
 																</div>
 																<div class="fv-row mb-10">
 																	<label class="fs-6 fw-semibold mb-2">Discount Type 
@@ -156,9 +211,9 @@
                                                                     </label>
 																	<div class="row row-cols-1 row-cols-md-3 row-cols-lg-1 row-cols-xl-3 g-9" data-kt-buttons="true" data-kt-buttons-target="[data-kt-button='true']" data-kt-initialized="1">
 																		<div class="col">
-																			<label class="btn btn-outline btn-outline-dashed btn-active-light-primary d-flex text-start p-6" data-kt-button="true">
+																			<label class="btn btn-outline btn-outline-dashed btn-active-light-primary d-flex text-start p-6 <?php if($products_discount == 0) { ?> active <?php } else { } ?>" data-kt-button="true">
 																				<span class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1">
-																					<input class="form-check-input" type="radio" name="discount_option" value="1">
+																					<input class="form-check-input no_discount discount_option" type="radio" name="discount_option" value="1">
 																				</span>
 																				<span class="ms-5">
 																					<span class="fs-4 fw-bold text-gray-800 d-block">No Discount</span>
@@ -166,13 +221,13 @@
 																			</label>
 																		</div>
 																		<div class="col">
-																			<label class="btn btn-outline btn-outline-dashed btn-active-light-primary d-flex text-start p-6 active" data-kt-button="true">
+																			<label class="btn btn-outline btn-outline-dashed btn-active-light-primary d-flex text-start p-6 <?php if($products_discount == 0) { } else { ?> active <?php } ?>" data-kt-button="true">
 																				<span class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1">
-																					<input class="form-check-input" type="radio" name="discount_option" value="2" checked="checked">
+																					<input class="form-check-input yes_discount discount_option" type="radio" name="discount_option" value="2" checked="checked">
 																				</span>
 																				<span class="ms-5">
 																					<span class="fs-4 fw-bold text-gray-800 d-block">Percentage 
-                                                                                        <span id="discount_slider_perc">0</span> %
+                                                                                        <span id="discount_slider_perc"><?= $products_discount; ?></span> %
                                                                                     </span>
 																				</span>
 																			</label>
@@ -181,9 +236,9 @@
 																</div>
 																
 																
-																<div class="mb-10 fv-row" id="kt_ecommerce_add_product_discount_percentage">
+																<div class="mb-10 fv-row discount_slider" id="kt_ecommerce_add_product_discount_percentage">
 																	<label class="form-label">Set Discount Percentage</label>
-																	<input id="discount_slider_input" type="range" min="0" max="100" value="0" style="width:100%;">
+																	<input id="discount_slider_input" type="range" min="0" max="100" value="<?= $products_discount; ?>" style="width:100%;">
 																	<div class="text-muted fs-7">Set a percentage discount to be applied on this product.</div>
 																</div>
 																
@@ -205,8 +260,15 @@
 															<div class="card-body pt-0">
 																<div class="mb-10 fv-row fv-plugins-icon-container">
 																	<label class="required form-label">SKU</label>
-																	<input type="text" name="sku" class="form-control mb-2" placeholder="SKU Number" value="011985001">
+																	<input type="text" name="sku" class="form-control mb-2 product_sku" placeholder="SKU Number" value="<?= $products_sku; ?>">
 																	<div class="text-muted fs-7">Enter the product SKU.</div>
+																</div>
+															</div>
+															<div class="card-body pt-0">
+																<div class="mb-10 fv-row fv-plugins-icon-container">
+																	<label class="required form-label">Brand</label>
+																	<input type="text" name="brand" class="product_brand form-control mb-2" placeholder="Brand Name" value="<?= $products_brand; ?>">
+																	<div class="text-muted fs-7">Enter the product Brand.</div>
 																</div>
 															</div>
 														</div>
@@ -226,20 +288,17 @@
 																			<div data-repeater-list="kt_ecommerce_add_product_options" class="d-flex flex-column gap-3" data-select2-id="select2-data-133-blfw">
 																			    <div data-repeater-item="" class="form-group d-flex flex-wrap align-items-center gap-5" data-select2-id="select2-data-167-r6df">
 																					
-                                                                                    <div class="w-100 w-md-200px" data-select2-id="select2-data-166-snhd">
-																						<select class="form-select select2-hidden-accessible" name="kt_ecommerce_add_product_options[0][product_option]" data-placeholder="Select a variation" data-kt-ecommerce-catalog-add-product="product_option" data-select2-id="select2-data-162-rulv" tabindex="-1" aria-hidden="true">
-																							<option data-select2-id="select2-data-164-ypvo"></option>
+                                                                                    <div class="w-100 w-md-150px" data-select2-id="select2-data-166-snhd">
+																						<select class="form-select " name="kt_ecommerce_add_product_options[0][product_option]" data-placeholder="Select a variation" data-kt-ecommerce-catalog-add-product="product_option" data-select2-id="select2-data-162-rulv" tabindex="-1" aria-hidden="true">
 																							<option value="color" data-select2-id="select2-data-168-jqig">Color</option>
 																							<option value="size" data-select2-id="select2-data-169-3bxf">Size</option>
 																							<option value="material" data-select2-id="select2-data-170-1xba">Material</option>
 																							<option value="style" data-select2-id="select2-data-171-o4g6">Style</option>
 																						</select>
-                                                                                        <span class="select2 select2-container select2-container--bootstrap5 select2-container--below" dir="ltr" data-select2-id="select2-data-163-rnhk" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single form-select" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-kt_ecommerce_add_product_options0product_option-7o-container" aria-controls="select2-kt_ecommerce_add_product_options0product_option-7o-container"><span class="select2-selection__rendered" id="select2-kt_ecommerce_add_product_options0product_option-7o-container" role="textbox" aria-readonly="true" title="Select a variation"><span class="select2-selection__placeholder">Select a variation</span></span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
 																					</div>
 																					
 																					<input type="text" class="form-control mw-100 w-200px" name="kt_ecommerce_add_product_options[0][product_option_value]" placeholder="Title">
                                                                                     <input type="number" class="form-control mw-100px" name="kt_ecommerce_add_product_options[0][product_option_value]" placeholder="Quantity">
-                                                                                    <input type="number" class="form-control mw-100px" name="kt_ecommerce_add_product_options[0][product_option_value]" placeholder="Price">
 																					
 																					<button type="button" data-repeater-delete="" class="btn btn-sm btn-icon btn-light-danger">
 																						<span class="svg-icon svg-icon-1">
@@ -278,7 +337,9 @@
 																</div>
 															</div>
 															<div class="card-body pt-0">
-																<textarea class="form-control" placeholder="Enter Details here" style="height: 150px;" ></textarea>
+																<textarea class="form-control product_shipping" placeholder="Enter Details here" style="height: 150px;" >
+																	<?= $products_shipping; ?>
+																</textarea>
 															</div>
 														</div>
 														
@@ -425,12 +486,24 @@
 								</div>
 							</div>
 
+
+						<?php } } else { } ?>
+
+
     <script src="assets/plugins/global/plugins.bundle.js"></script>
     <script src="assets/js/scripts.bundle.js"></script>
     <script src="assets/js/custom/apps/ecommerce/sales/listing.js"></script>
 		
 	<?php include("footer.php"); ?>
+	<?php include("pop_notifications.php"); ?>
 
+	<script>
+		$(".cat_id").on("change",function(){
+			let cat_id = $(this).val();4
+			$(".cat_id_all").css("display","none"); 
+			$(".cat_id_"+cat_id).css("display","block"); 
+		});
+	</script>
 
 
 

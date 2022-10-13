@@ -68,7 +68,7 @@
                                                             <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
                                                                 <th class="min-w-100px sorting" tabindex="0" aria-controls="kt_ecommerce_sales_table" rowspan="1" colspan="1" aria-label="Order ID: activate to sort column ascending" style="width: 102.016px;">SKU</th>
                                                                 <th class="min-w-175px sorting" tabindex="0" aria-controls="kt_ecommerce_sales_table" rowspan="1" colspan="1" aria-label="Customer: activate to sort column ascending" style="width: 207.656px;">Product</th>
-                                                                <th class="text-end min-w-70px sorting" tabindex="0" aria-controls="kt_ecommerce_sales_table" rowspan="1" colspan="1" aria-label="Status: activate to sort column ascending" style="width: 74.0859px;">Stock</th>
+                                                                <th class="text-end min-w-70px sorting" tabindex="0" aria-controls="kt_ecommerce_sales_table" rowspan="1" colspan="1" aria-label="Status: activate to sort column ascending" style="width: 74.0859px;">Variant Stock</th>
                                                                 <th class="text-end min-w-100px sorting" tabindex="0" aria-controls="kt_ecommerce_sales_table" rowspan="1" colspan="1" aria-label="Total: activate to sort column ascending" style="width: 102.016px;">Price</th>
                                                                 <th class="text-end min-w-100px sorting" tabindex="0" aria-controls="kt_ecommerce_sales_table" rowspan="1" colspan="1" aria-label="Date Added: activate to sort column ascending" style="width: 102.016px;">Status</th>
                                                                 <th class="text-end min-w-100px sorting_disabled" rowspan="1" colspan="1" aria-label="Actions" style="width: 102.047px;">Actions</th>
@@ -76,40 +76,63 @@
 												        </thead>
 												        <tbody class="fw-semibold text-gray-600">
 													
+                                                        <?php 
+                                                            $sql_products = "SELECT * FROM products WHERE status = '$filter'";
+                                                            $result_products = $conn->query($sql_products);
+                                                            if($result_products->num_rows > 0){
+                                                            while($row_products = $result_products->fetch_assoc()) {
+                                                                $products_id = $row_products["id"];
+                                                                $products_name = $row_products["name"];
+                                                                $products_pic = $row_products["image"];
+                                                                $products_price = $row_products["price"];
+                                                                $products_status = $row_products["status"];
+                                                                $products_sku = $row_products["sku"];
+                                                        ?>
                                                             <tr class="odd">
                                                                 <td data-kt-ecommerce-order-filter="order_id">
-                                                                    <a class="text-gray-800 text-hover-primary fw-bold">13455342</a>
+                                                                    <a class="text-gray-800 text-hover-primary fw-bold"><?= $products_sku; ?></a>
                                                                 </td>
                                                                 <td>
                                                                     <div class="d-flex align-items-center">
                                                                         <div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
                                                                             <a>
                                                                                 <div class="symbol-label">
-                                                                                    <img src="assets/images/product.png" alt="Product Name" class="w-100">
+                                                                                    <img src="../images-main/products/<?= $products_pic; ?>" onerror="this.src='assets/images/product.png'" alt="<?= $products_name; ?>" class="w-100">
                                                                                 </div>
                                                                             </a>
                                                                         </div>
                                                                         <div class="ms-5">
-                                                                            <a class="text-gray-800 text-hover-primary fs-5 fw-bold">Product Name</a>
+                                                                            <a class="text-gray-800 text-hover-primary fs-5 fw-bold"><?= $products_name; ?></a>
                                                                         </div>
                                                                     </div>
                                                                 </td>
                                                                 <td class="text-end pe-0">
-                                                                    <span class="fw-bold">46</span>
+                                                                <?php   
+                                                                    $sql_product_var_stock = "SELECT SUM(stock) AS total FROM product_variants WHERE p_id = '$products_id'";
+                                                                    $row_product_var_stock = mysqli_query($conn, $sql_product_var_stock);
+                                                                    $count_product_var_stock = mysqli_fetch_assoc($row_product_var_stock);
+                                                                    $product_var_stock = $count_product_var_stock["total"];
+                                                                ?>
+                                                                    <span class="fw-bold"><?= $product_var_stock; ?></span>
                                                                 </td>
                                                                 <td class="text-end pe-0">
-                                                                    <span class="fw-bold">$131.00</span>
+                                                                    <span class="fw-bold">$ <?= $products_price; ?></span>
                                                                 </td>
                                                                 <td class="text-end" data-order="2022-09-07">
-                                                                    <div class="badge badge-light-danger">Inactive</div>
-                                                                    <!-- <div class="badge badge-light-success">Published</div> -->
+                                                                    <?php if($products_status == 'Active') { ?> 
+                                                                        <div class="badge badge-light-success">Published</div>
+                                                                    <?php } else { ?>
+                                                                        <div class="badge badge-light-danger"><?= $products_status; ?></div>
+                                                                    <?php } ?>
                                                                 </td>
                                                                 <td class="text-end">
-                                                                    <a href="product_detail?p_id=3" class="btn btn-primary"> 
+                                                                    <a href="product_detail?p_id=<?= $products_id; ?>" class="btn btn-primary"> 
                                                                         view
                                                                     </a>
                                                                 </td>
                                                             </tr>
+
+                                                        <?php } } else { } ?>
                                                     
                                                         </tbody>
 												

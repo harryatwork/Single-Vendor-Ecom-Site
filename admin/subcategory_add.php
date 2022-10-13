@@ -49,8 +49,8 @@
 														<div class="image-input-wrapper w-150px h-150px" style="background-image: url(assets/images/product.png)"></div>
 														<label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" aria-label="Change avatar" data-kt-initialized="1">
 															<i class="bi bi-pencil-fill fs-7"></i>
-															<input type="file" name="avatar" accept=".png, .jpg, .jpeg">
-															<input type="hidden" name="avatar_remove">
+															<input type="file" id="subcat_pic" name="avatar"  accept=".png, .jpg, .jpeg">
+															<!-- <input type="hidden" name="avatar_remove"> -->
 														</label>
 													</div>
 													
@@ -82,8 +82,17 @@
                                                             <div class="card-body pt-0">
 																<div class="mb-10 fv-row fv-plugins-icon-container">
 																	<label class="required form-label">Category</label>
-                                                                    <select class="form-control mb-2">
-                                                                        <option>Category</option>
+                                                                    <select class="category form-control mb-2">
+																	<?php	
+																		$sql_cat = "SELECT * FROM categories";
+																		$result_cat = $conn->query($sql_cat);
+																		if($result_cat->num_rows > 0){
+																		while($row_cat = $result_cat->fetch_assoc()) {
+																			$cat_id = $row_cat["id"];
+																			$cat_name = $row_cat["name"];
+																	?>
+                                                                        <option value="<?= $cat_id; ?>"><?= $cat_name; ?></option>
+																	<?php } } else { }  ?>
                                                                     </select>
                                                                 </div>
 															</div>
@@ -91,7 +100,7 @@
 															<div class="card-body pt-0">
 																<div class="mb-10 fv-row fv-plugins-icon-container">
 																	<label class="required form-label">Sub Category Name</label>
-																	<input type="text" name="category_name" class="form-control mb-2" placeholder="Category name" value="Sample Category">
+																	<input type="text" name="" class="subcat_name form-control mb-2" placeholder="Sub Category name" value="Sample Category">
                                                                 </div>
 															</div>
 
@@ -104,7 +113,7 @@
 											
 											<div class="d-flex justify-content-end">
 												<a href="subcategories" id="kt_ecommerce_add_product_cancel" class="btn btn-light me-5">Cancel</a>
-												<button type="submit" id="kt_ecommerce_add_product_submit" class="btn btn-primary">
+												<button type="button" id="kt_ecommerce_add_product_submit" class="subcategory_submit_btn btn btn-primary">
 													<span class="indicator-label">Save Changes</span>
 													<span class="indicator-progress">Please wait... 
                                                         <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
@@ -122,7 +131,40 @@
     <script src="assets/js/custom/apps/ecommerce/sales/listing.js"></script>
 		
 	<?php include("footer.php"); ?>
+	<?php include("pop_notifications.php"); ?>
 
+	<script>
+	$(".subcategory_submit_btn").on("click",()=>{ 
+		$(".indicator-label").css("display","none");
+		$(".indicator-progress").css("display","block");
+		var fd = new FormData();
+		var category = $(".category").val();
+		var subcategory = $(".subcat_name").val();
+		var files = $('#subcat_pic')[0].files;
+
+		fd.append('subcat_pic',files[0]);
+		fd.append('category',category);
+		fd.append('subcategory',subcategory);
+
+		$.ajax({
+			url:'backend/subcat_insert.php',
+			type:'post',
+			data:fd,
+			contentType: false,
+			processData: false,
+			success:function(response) {
+				$(".pop_notify").fadeIn().css({"background":"green"}).animate({"bottom":"2%"}).html(response);
+                setTimeout(()=>{
+                    $(".pop_notify").animate({"bottom":"-20%"}).fadeOut().html('');
+                },3000);
+				$(".subcategory_submit_btn").html("Uploaded");
+				$(".subcategory_submit_btn").attr("disabled",'disabled');
+				$(".indicator-label").css("display","block");
+				$(".indicator-progress").css("display","none");
+			}
+		});
+	});
+	</script>
 
 
 

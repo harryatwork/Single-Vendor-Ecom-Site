@@ -116,7 +116,7 @@
                 var final_html = '';
                 for(let r=0;r<result.length;r++) { 
                     let c_id = result[r][0];
-                    let stock_condition = 'c_id ='+c_id;
+                    let stock_condition = 'cat_id ='+c_id;
                     $.post('backend/functions.php', {
                         condition : stock_condition,
                         limit : limit,

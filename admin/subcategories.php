@@ -13,19 +13,12 @@
 
 					<?php include("menu.php"); ?>
 
-                    <?php if(isset($_GET["category"])) {
-                            $category = $_GET["category"];
-                        } else {
-                            $category = 'All';
-                        }
-                    ?>
-
                     <div class="app-main flex-column flex-row-fluid" id="kt_app_main">
 						<div class="d-flex flex-column flex-column-fluid">
 							<div id="kt_app_toolbar" class="app-toolbar py-3 py-lg-6">
 								<div id="kt_app_toolbar_container" class="app-container container-xxl d-flex flex-stack">
 									<div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
-										<h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">Sub Categories of : <?= $category; ?></h1>
+										<h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">Sub Categories</h1>
 										<ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
 											<li class="breadcrumb-item text-muted">
 												<a href="dashboard" class="text-muted text-hover-primary">Dashboard</a>
@@ -33,7 +26,7 @@
 											<li class="breadcrumb-item">
 												<span class="bullet bg-gray-400 w-5px h-2px"></span>
 											</li>
-											<li class="breadcrumb-item text-muted">Sub Categories of : <?= $category; ?></li>
+											<li class="breadcrumb-item text-muted">Sub Categories</li>
 										</ul>
 									</div>
                                     <a href="subcategory_add" class="btn btn-primary"> 
@@ -73,43 +66,71 @@
                                                             <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
                                                                 <th class="min-w-100px sorting" tabindex="0" aria-controls="kt_ecommerce_sales_table" rowspan="1" colspan="1" aria-label="Order ID: activate to sort column ascending" style="width: 102.016px;">Sl</th>
                                                                 <th class="min-w-175px sorting" tabindex="0" aria-controls="kt_ecommerce_sales_table" rowspan="1" colspan="1" aria-label="Customer: activate to sort column ascending" style="width: 207.656px;">Name</th>
-                                                                <th class="min-w-175px sorting" tabindex="0" aria-controls="kt_ecommerce_sales_table" rowspan="1" colspan="1" aria-label="Customer: activate to sort column ascending" style="width: 207.656px;">Category</th>
+                                                                <th class="min-w-175px sorting" tabindex="0" aria-controls="kt_ecommerce_sales_table" rowspan="1" colspan="1" aria-label="Customer: activate to sort column ascending" style="width: 207.656px;text-align: right;">Category</th>
                                                                 <th class="text-end min-w-70px sorting" tabindex="0" aria-controls="kt_ecommerce_sales_table" rowspan="1" colspan="1" aria-label="Status: activate to sort column ascending" style="width: 74.0859px;">Stock</th>
                                                                 <th class="text-end min-w-100px sorting_disabled" rowspan="1" colspan="1" aria-label="Actions" style="width: 102.047px;">Actions</th>
                                                             </tr>
 												        </thead>
 												        <tbody class="fw-semibold text-gray-600">
 													
+                                                        <?php 
+                                                            $sql_cat = "SELECT * FROM categories";
+                                                            $result_cat = $conn->query($sql_cat);
+                                                            if($result_cat->num_rows > 0){
+                                                            while($row_cat = $result_cat->fetch_assoc()) {
+                                                                $cat_id = $row_cat["id"];
+                                                                $cat_name = $row_cat["name"];
+
+                                                                $sql_subcat = "SELECT * FROM subcategories WHERE cat_id = '$cat_id'";
+                                                                $result_subcat = $conn->query($sql_subcat);
+                                                                if($result_subcat->num_rows > 0){
+                                                                    $sl = 1;
+                                                                while($row_subcat = $result_subcat->fetch_assoc()) {
+                                                                    $subcat_id = $row_subcat["id"];
+                                                                    $subcat_name = $row_subcat["name"];
+                                                                    $subcat_image = $row_subcat["image"];
+
+                                                                $sql_subcat_prodcount = "SELECT COUNT(*) AS total FROM products WHERE subcat_id = '$subcat_id'";
+                                                                $row_subcat_prodcount = mysqli_query($conn, $sql_subcat_prodcount);
+                                                                $count_subcat_prodcount = mysqli_fetch_assoc($row_subcat_prodcount);
+                                                                $prod_count = $count_subcat_prodcount["total"];
+                                                        ?>
+                                                            
                                                             <tr class="odd">
                                                                 <td data-kt-ecommerce-order-filter="order_id">
-                                                                    <a class="text-gray-800 text-hover-primary fw-bold">1</a>
+                                                                    <a class="text-gray-800 text-hover-primary fw-bold"><?= $sl; ?></a>
                                                                 </td>
                                                                 <td>
                                                                     <div class="d-flex align-items-center">
                                                                         <div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
                                                                             <a>
                                                                                 <div class="symbol-label">
-                                                                                    <img src="assets/images/product.png" alt="Product Name" class="w-100">
+                                                                                    <img src="../images-main/subcategories/<?= $subcat_image; ?>" onerror="this.src='assets/images/product.png'" alt="<?= $subcat_name; ?>" class="w-100">
                                                                                 </div>
                                                                             </a>
                                                                         </div>
                                                                         <div class="ms-5">
-                                                                            <a class="text-gray-800 text-hover-primary fs-5 fw-bold">Sub Category Name</a>
+                                                                            <a class="text-gray-800 text-hover-primary fs-5 fw-bold"><?= $subcat_name; ?></a>
                                                                         </div>
                                                                     </div>
                                                                 </td>
                                                                 <td class="text-end pe-0">
-                                                                    <span class="fw-bold">Category</span>
+                                                                    <span class="fw-bold"><?= $cat_name; ?></span>
                                                                 </td>
                                                                 <td class="text-end pe-0">
-                                                                    <span class="fw-bold">46</span>
+                                                                    <span class="fw-bold"><?= $prod_count; ?></span>
                                                                 </td>
                                                                 <td class="text-end">
-                                                                    <a href="subcategory_detail" class="btn btn-primary"> 
+                                                                    <a href="subcategory_detail?id=<?= $subcat_id; ?>" class="btn btn-primary"> 
                                                                         view
                                                                     </a>
                                                                 </td>
                                                             </tr>
+
+                                                    <?php   
+                                                          $sl++;  } } else { }
+                                                        } } else { }
+                                                    ?>
                                                     
                                                         </tbody>
 												

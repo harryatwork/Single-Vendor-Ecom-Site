@@ -32,7 +32,17 @@
 								</div>
 							</div>
 
-
+						<?php 
+							$subcat_id = $_GET["id"]; 
+							$sql_subcat = "SELECT * FROM subcategories WHERE id = '$subcat_id'";
+							$result_subcat = $conn->query($sql_subcat);
+							if($result_subcat->num_rows > 0){
+							while($row_subcat = $result_subcat->fetch_assoc()) {
+								$subcat_id = $row_subcat["id"];
+								$subcat_name = $row_subcat["name"];
+								$subcat_image = $row_subcat["image"];
+						?>
+							<span class="subcat_id" style="hidden"><?= $_GET["id"]; ?></span>
                             <div id="kt_app_content" class="app-content flex-column-fluid" data-select2-id="select2-data-kt_app_content">
 								<div id="kt_app_content_container" class="app-container container-xxl" data-select2-id="select2-data-kt_app_content_container">
 									<form id="kt_ecommerce_add_product_form" class="form d-flex flex-column flex-lg-row fv-plugins-bootstrap5 fv-plugins-framework" data-kt-redirect="" data-select2-id="select2-data-kt_ecommerce_add_product_form">
@@ -46,11 +56,11 @@
 												<div class="card-body text-center pt-0">
 													
                                                     <div class="image-input image-input-empty image-input-outline image-input-placeholder mb-3" data-kt-image-input="true">
-														<div class="image-input-wrapper w-150px h-150px" style="background-image: url(assets/images/product.png)"></div>
+														<div class="image-input-wrapper w-150px h-150px" style="background-image: url(../images-main/subcategories/<?= $subcat_image; ?>)"></div>
 														<label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" aria-label="Change avatar" data-kt-initialized="1">
 															<i class="bi bi-pencil-fill fs-7"></i>
-															<input type="file" name="avatar" accept=".png, .jpg, .jpeg">
-															<input type="hidden" name="avatar_remove">
+															<input type="file" id="subcat_pic" name="avatar" accept=".png, .jpg, .jpeg">
+															<!-- <input type="hidden" name="avatar_remove"> -->
 														</label>
 													</div>
 													
@@ -79,19 +89,10 @@
 																</div>
 															</div>
 
-                                                            <div class="card-body pt-0">
-																<div class="mb-10 fv-row fv-plugins-icon-container">
-																	<label class="required form-label">Category</label>
-                                                                    <select class="form-control mb-2">
-                                                                        <option>Category</option>
-                                                                    </select>
-                                                                </div>
-															</div>
-
 															<div class="card-body pt-0">
 																<div class="mb-10 fv-row fv-plugins-icon-container">
 																	<label class="required form-label">Sub Category Name</label>
-																	<input type="text" name="category_name" class="form-control mb-2" placeholder="Category name" value="Sample Category">
+																	<input type="text" name="subcategory_name" class="subcategory_name form-control mb-2" placeholder="Sub Category name" value="<?= $subcat_name; ?>">
                                                                 </div>
 															</div>
 
@@ -104,7 +105,7 @@
 											
 											<div class="d-flex justify-content-end">
 												<a href="subcategories" id="kt_ecommerce_add_product_cancel" class="btn btn-light me-5">Cancel</a>
-												<button type="submit" id="kt_ecommerce_add_product_submit" class="btn btn-primary">
+												<button type="button" id="kt_ecommerce_add_product_submit" class="subcategory_submit_btn btn btn-primary">
 													<span class="indicator-label">Save Changes</span>
 													<span class="indicator-progress">Please wait... 
                                                         <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
@@ -117,11 +118,47 @@
 								</div>
 							</div>
 
+						<?php } } else { } ?>
+
     <script src="assets/plugins/global/plugins.bundle.js"></script>
     <script src="assets/js/scripts.bundle.js"></script>
     <script src="assets/js/custom/apps/ecommerce/sales/listing.js"></script>
 		
 	<?php include("footer.php"); ?>
+	<?php include("pop_notifications"); ?>
+
+	<script>
+		$(".subcategory_submit_btn").on("click",()=>{ 
+			$(".indicator-label").css("display","none");
+			$(".indicator-progress").css("display","block");
+			var fd = new FormData();
+			var subcategory = $(".subcategory_name").val();
+			var files = $('#subcat_pic')[0].files;
+			var subcat_id = $(".subcat_id").html();
+
+			fd.append('subcat_pic',files[0]);
+			fd.append('subcategory',subcategory);
+			fd.append('subcat_id',subcat_id);
+
+			$.ajax({
+				url:'backend/subcat_update.php',
+				type:'post',
+				data:fd,
+				contentType: false,
+				processData: false,
+				success:function(response) {
+					$(".pop_notify").fadeIn().css({"background":"green"}).animate({"bottom":"2%"}).html(response);
+					setTimeout(()=>{
+						$(".pop_notify").animate({"bottom":"-20%"}).fadeOut().html('');
+					},3000);
+					$(".subcategory_submit_btn").html("Uploaded");
+					$(".subcategory_submit_btn").attr("disabled",'disabled');
+					$(".indicator-label").css("display","block");
+					$(".indicator-progress").css("display","none");
+				}
+			});
+		});
+	</script>
 
 
 

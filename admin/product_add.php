@@ -49,8 +49,8 @@
 														<div class="image-input-wrapper w-150px h-150px" style="background-image: url(assets/images/product.png)"></div>
 														<label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" aria-label="Change avatar" data-kt-initialized="1">
 															<i class="bi bi-pencil-fill fs-7"></i>
-															<input type="file" name="avatar" accept=".png, .jpg, .jpeg">
-															<input type="hidden" name="avatar_remove">
+															<input type="file" id="product_pic" name="avatar" accept=".png, .jpg, .jpeg">
+															<!-- <input type="hidden" name="avatar_remove"> -->
 														</label>
 													</div>
 													
@@ -68,7 +68,7 @@
 													</div>
 												</div>
 												<div class="card-body pt-0">
-													<select class="form-select mb-2 " >
+													<select class="product_status form-select mb-2 " >
 														<option value="Active" selected="selected" data-select2-id="select2-data-11-9id2">Active</option>
 														<option value="De-Active">De-Active</option>
 													</select>
@@ -86,15 +86,33 @@
 												
 												<div class="card-body pt-0">
 													<label class="form-label">Category</label>
-													<select class="form-select mb-2 " >
-														<option value="Active" selected="selected" data-select2-id="select2-data-11-9id2">Category 1</option>
-														<option value="De-Active">Category 2</option>
+													<select class="form-select mb-2 cat_id" >
+													<?php	
+														$sql_cat = "SELECT * FROM categories";
+														$result_cat = $conn->query($sql_cat);
+														if($result_cat->num_rows > 0){
+														while($row_cat = $result_cat->fetch_assoc()) {
+															$cat_id = $row_cat["id"];
+															$cat_name = $row_cat["name"];
+													?>
+														<option value="<?= $cat_id; ?>"><?= $cat_name; ?></option>
+													<?php } } else { } ?>
 													</select>
 													
                                                     <label class="form-label">Sub Category</label>
-													<select class="form-select mb-2 " >
-														<option value="Active" selected="selected" data-select2-id="select2-data-11-9id2">Category 1</option>
-														<option value="De-Active">Category 2</option>
+													<select class="form-select mb-2 subcat_id" >
+														<option selected disabled hidden>Choose One</option>
+													<?php	
+														$sql_subcat = "SELECT * FROM subcategories";
+														$result_subcat = $conn->query($sql_subcat);
+														if($result_subcat->num_rows > 0){
+														while($row_subcat = $result_subcat->fetch_assoc()) {
+															$subcat_cat_id = $row_subcat["cat_id"];
+															$subcat_id = $row_subcat["id"];
+															$subcat_name = $row_subcat["name"];
+													?>
+														<option style="display:none;" class="cat_id_all cat_id_<?= $subcat_cat_id; ?>" value="<?= $subcat_id; ?>"><?= $subcat_name; ?></option>
+													<?php } } else { } ?>
 													</select>
 												</div>
 
@@ -125,11 +143,11 @@
 															<div class="card-body pt-0">
 																<div class="mb-10 fv-row fv-plugins-icon-container">
 																	<label class="required form-label">Product Name</label>
-																	<input type="text" name="product_name" class="form-control mb-2" placeholder="Product name" value="Sample product">
+																	<input type="text" name="product_name" class="product_name form-control mb-2" placeholder="Product name" value="Sample product">
                                                                 </div>
 																<div>
 																	<label class="form-label">Description</label>
-																	<textarea class="form-control" placeholder="Enter Description here" style="height: 150px;"></textarea>
+																	<textarea class="product_description form-control" placeholder="Enter Description here" style="height: 150px;"></textarea>
                                                                 </div>
 															</div>
 														</div>
@@ -143,7 +161,7 @@
 															<div class="card-body pt-0">
 																<div class="mb-10 fv-row fv-plugins-icon-container">
 																	<label class="required form-label">Base Price</label>
-																	<input type="text" name="price" class="form-control mb-2" placeholder="Product price" value="199.99">
+																	<input type="text" name="price" class="product_price form-control mb-2" placeholder="Product price" value="199.99">
 																</div>
 																<div class="fv-row mb-10">
 																	<label class="fs-6 fw-semibold mb-2">Discount Type 
@@ -153,7 +171,7 @@
 																		<div class="col">
 																			<label class="btn btn-outline btn-outline-dashed btn-active-light-primary d-flex text-start p-6 active" data-kt-button="true">
 																				<span class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1">
-																					<input class="form-check-input no_discount discount_option" type="radio" name="discount_option" value="1" checked="checked">
+																					<input class="form-check-input no_discount discount_option" type="radio" name="discount_option" value="0" checked="checked">
 																				</span>
 																				<span class="ms-5">
 																					<span class="fs-4 fw-bold text-gray-800 d-block">No Discount</span>
@@ -163,7 +181,7 @@
 																		<div class="col">
 																			<label class="btn btn-outline btn-outline-dashed btn-active-light-primary d-flex text-start p-6" data-kt-button="true">
 																				<span class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1">
-																					<input class="form-check-input yes_discount discount_option" type="radio" name="discount_option" value="0" >
+																					<input class="form-check-input yes_discount discount_option" type="radio" name="discount_option" value="1" >
 																				</span>
 																				<span class="ms-5">
 																					<span class="fs-4 fw-bold text-gray-800 d-block">Percentage 
@@ -200,8 +218,15 @@
 															<div class="card-body pt-0">
 																<div class="mb-10 fv-row fv-plugins-icon-container">
 																	<label class="required form-label">SKU</label>
-																	<input type="text" name="sku" class="form-control mb-2" placeholder="SKU Number" placeholder="011985001">
+																	<input type="text" name="sku" class="product_sku form-control mb-2" placeholder="SKU Number" placeholder="011985001">
 																	<div class="text-muted fs-7">Enter the product SKU.</div>
+																</div>
+															</div>
+															<div class="card-body pt-0">
+																<div class="mb-10 fv-row fv-plugins-icon-container">
+																	<label class="required form-label">Brand</label>
+																	<input type="text" name="brand" class="product_brand form-control mb-2" placeholder="Brand Name" placeholder="NIke, Puma">
+																	<div class="text-muted fs-7">Enter the product Brand.</div>
 																</div>
 															</div>
 														</div>
@@ -221,20 +246,17 @@
 																			<div data-repeater-list="kt_ecommerce_add_product_options" class="d-flex flex-column gap-3" data-select2-id="select2-data-133-blfw">
 																			    <div data-repeater-item="" class="form-group d-flex flex-wrap align-items-center gap-5" data-select2-id="select2-data-167-r6df">
 																					
-                                                                                    <div class="w-100 w-md-200px" data-select2-id="select2-data-166-snhd">
-																						<select class="form-select select2-hidden-accessible" name="kt_ecommerce_add_product_options[0][product_option]" data-placeholder="Select a variation" data-kt-ecommerce-catalog-add-product="product_option" data-select2-id="select2-data-162-rulv" tabindex="-1" aria-hidden="true">
-																							<option data-select2-id="select2-data-164-ypvo"></option>
+                                                                                    <div class="w-100 w-md-150px" data-select2-id="select2-data-166-snhd">
+																						<select class="form-select " name="kt_ecommerce_add_product_options[0][product_option]" data-placeholder="Select a variation" data-kt-ecommerce-catalog-add-product="product_option" data-select2-id="select2-data-162-rulv" tabindex="-1" aria-hidden="true">
 																							<option value="color" data-select2-id="select2-data-168-jqig">Color</option>
 																							<option value="size" data-select2-id="select2-data-169-3bxf">Size</option>
 																							<option value="material" data-select2-id="select2-data-170-1xba">Material</option>
 																							<option value="style" data-select2-id="select2-data-171-o4g6">Style</option>
 																						</select>
-                                                                                        <span class="select2 select2-container select2-container--bootstrap5 select2-container--below" dir="ltr" data-select2-id="select2-data-163-rnhk" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single form-select" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-kt_ecommerce_add_product_options0product_option-7o-container" aria-controls="select2-kt_ecommerce_add_product_options0product_option-7o-container"><span class="select2-selection__rendered" id="select2-kt_ecommerce_add_product_options0product_option-7o-container" role="textbox" aria-readonly="true" title="Select a variation"><span class="select2-selection__placeholder">Select a variation</span></span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
 																					</div>
 																					
 																					<input type="text" class="form-control mw-100 w-200px" name="kt_ecommerce_add_product_options[0][product_option_value]" placeholder="Title">
                                                                                     <input type="number" class="form-control mw-100px" name="kt_ecommerce_add_product_options[0][product_option_value]" placeholder="Quantity">
-                                                                                    <input type="number" class="form-control mw-100px" name="kt_ecommerce_add_product_options[0][product_option_value]" placeholder="Price">
 																					
 																					<button type="button" data-repeater-delete="" class="btn btn-sm btn-icon btn-light-danger">
 																						<span class="svg-icon svg-icon-1">
@@ -273,7 +295,7 @@
 																</div>
 															</div>
 															<div class="card-body pt-0">
-																<textarea class="form-control" placeholder="Enter Details here" style="height: 150px;" ></textarea>
+																<textarea class="product_shipping form-control" placeholder="Enter Details here" style="height: 150px;" ></textarea>
 															</div>
 														</div>
 														
@@ -284,7 +306,7 @@
 											
 											<div class="d-flex justify-content-end">
 												<a href="productsq=active" id="kt_ecommerce_add_product_cancel" class="btn btn-light me-5">Cancel</a>
-												<button type="submit" id="kt_ecommerce_add_product_submit" class="btn btn-primary">
+												<button type="button" id="kt_ecommerce_add_product_submit" class="product_submit_btn btn btn-primary">
 													<span class="indicator-label">Save Changes</span>
 													<span class="indicator-progress">Please wait... 
                                                         <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
@@ -302,8 +324,66 @@
     <script src="assets/js/custom/apps/ecommerce/sales/listing.js"></script>
 		
 	<?php include("footer.php"); ?>
+	<?php include("pop_notifications.php"); ?>
 
+	
+	<script>
+		$(".cat_id").on("change",function(){
+			let cat_id = $(this).val();4
+			$(".cat_id_all").css("display","none"); 
+			$(".cat_id_"+cat_id).css("display","block"); 
+		});
 
+		$(".product_submit_btn").on("click",()=>{
+			$(".indicator-label").css("display","none");
+			$(".indicator-progress").css("display","block");
+			var fd = new FormData();
+			var cat_id = $(".cat_id").val();
+			var subcat_id = $(".subcat_id").val();
+			var product_status = $(".product_status").val();
+			var product_name = $(".product_name").val();
+			var product_description = $(".product_description").val();
+			var product_price = $(".product_price").val();
+			var discount_option = $(".discount_option").val();
+			var product_discount_perc = parseInt($("#discount_slider_perc").html());
+			var product_sku = $(".product_sku").val();
+			var product_brand = $(".product_brand").val();
+			var product_shipping = $(".product_shipping").val();
+			var files = $('#product_pic')[0].files;
+
+			fd.append('product_pic',files[0]);
+			fd.append('cat_id',cat_id);
+			fd.append('subcat_id',subcat_id);
+			fd.append('product_status',product_status);
+			fd.append('product_name',product_name);
+			fd.append('product_description',product_description);
+			fd.append('product_price',product_price);
+			fd.append('discount_option',discount_option);
+			fd.append('product_discount_perc',product_discount_perc);
+			fd.append('product_sku',product_sku);
+			fd.append('product_brand',product_brand);
+			fd.append('product_shipping',product_shipping);
+
+			$.ajax({
+				url:'backend/product_insert.php',
+				type:'post',
+				data:fd,
+				contentType: false,
+				processData: false,
+				success:function(response) {
+					$(".pop_notify").fadeIn().css({"background":"green"}).animate({"bottom":"2%"}).html(response);
+					setTimeout(()=>{
+						$(".pop_notify").animate({"bottom":"-20%"}).fadeOut().html('');
+					},3000);
+					$(".product_submit_btn").html("Uploaded");
+					$(".product_submit_btn").attr("disabled",'disabled');
+					$(".indicator-label").css("display","block");
+					$(".indicator-progress").css("display","none");
+				}
+			});
+		});
+		
+	</script>
 
 
 </body>

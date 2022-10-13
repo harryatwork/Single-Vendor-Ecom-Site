@@ -138,7 +138,7 @@
                     <div class="menu-sub menu-sub-accordion" kt-hidden-height="242">
                         
                         <div class="menu-item">
-                            <a class="menu-link" href="users?q=active">
+                            <a class="menu-link" href="users?q=Active">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
@@ -152,7 +152,7 @@
                         </div>
 
                         <div class="menu-item">
-                            <a class="menu-link" href="users?q=de-active">
+                            <a class="menu-link" href="users?q=De-Active">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
@@ -186,7 +186,7 @@
                     <div class="menu-sub menu-sub-accordion" kt-hidden-height="242">
                         
                         <div class="menu-item">
-                            <a class="menu-link" href="products?q=active">
+                            <a class="menu-link" href="products?q=Active">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
@@ -200,7 +200,7 @@
                         </div>
 
                         <div class="menu-item">
-                            <a class="menu-link" href="products?q=de-active">
+                            <a class="menu-link" href="products?q=De-Active">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
