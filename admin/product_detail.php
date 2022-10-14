@@ -86,6 +86,7 @@
 															<i class="bi bi-pencil-fill fs-7"></i>
 															<input type="file" id="product_pic" name="avatar" accept=".png, .jpg, .jpeg">
 															<!-- <input type="hidden" name="avatar_remove"> -->
+															<input type="hidden" class="p_id" value="<?= $p_id; ?>" />
 														</label>
 													</div>
 													
@@ -103,7 +104,7 @@
 													</div>
 												</div>
 												<div class="card-body pt-0">
-													<select class="form-select mb-2">
+													<select class="form-select mb-2 product_status">
 														<option value="<?= $products_status; ?>" selected="selected" data-select2-id="select2-data-11-9id2"><?= $products_status; ?></option>
 														<option value="Active">Active</option>
 														<option value="De-Active">De-Active</option>
@@ -354,6 +355,7 @@
 																<div class="card-title">
 																	<h2>Customer Reviews</h2>
 																</div>
+															<!--
 																<div class="card-toolbar">
 																	<span class="fw-bold me-5">Overall Rating:</span>
 																	
@@ -394,8 +396,9 @@
 																			</span>
 																		</div>
 																	</div>
-																	
 																</div>
+														-->
+
 															</div>
 															
 															<div class="card-body pt-0">
@@ -408,38 +411,56 @@
 																		</tr>
 																	</thead>
 																	<tbody>
+
+																	<?php 
+																		$sql_reviews = "SELECT * FROM reviews WHERE p_id = '$p_id' AND status = 'Approved'";
+																		$result_reviews = $conn->query($sql_reviews);
+																		if($result_reviews->num_rows > 0){
+																		while($row_reviews = $result_reviews->fetch_assoc()){
+																			$review_u_id = $row_reviews["u_id"];
+																			$review_rating = $row_reviews["rating"];
+																			$review_review = $row_reviews["review"];
+																			$review_date = $row_reviews["date"];
+
+																			$sql_reviews_user = "SELECT * FROM users WHERE id = '$review_u_id'";
+																			$result_reviews_user = $conn->query($sql_reviews_user);
+																			if($result_reviews_user->num_rows > 0){
+																			while($row_reviews_user = $result_reviews_user->fetch_assoc()){
+																				$review_user_name = $row_reviews_user["f_name"];
+																			} } else { } 
+																	?>
 																		<tr>
 																			<td data-order="rating-5">
 																				<div class="rating">
-																					<div class="rating-label checked">
+																					<div class="rating-label <?php if($review_rating >= 1) { ?> checked <?php } else { } ?>">
 																						<span class="svg-icon svg-icon-2">
 																							<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 																								<path d="M11.1359 4.48359C11.5216 3.82132 12.4784 3.82132 12.8641 4.48359L15.011 8.16962C15.1523 8.41222 15.3891 8.58425 15.6635 8.64367L19.8326 9.54646C20.5816 9.70867 20.8773 10.6186 20.3666 11.1901L17.5244 14.371C17.3374 14.5803 17.2469 14.8587 17.2752 15.138L17.7049 19.382C17.7821 20.1445 17.0081 20.7069 16.3067 20.3978L12.4032 18.6777C12.1463 18.5645 11.8537 18.5645 11.5968 18.6777L7.69326 20.3978C6.99192 20.7069 6.21789 20.1445 6.2951 19.382L6.7248 15.138C6.75308 14.8587 6.66264 14.5803 6.47558 14.371L3.63339 11.1901C3.12273 10.6186 3.41838 9.70867 4.16744 9.54646L8.3365 8.64367C8.61089 8.58425 8.84767 8.41222 8.98897 8.16962L11.1359 4.48359Z" fill="currentColor"></path>
 																							</svg>
 																						</span>
 																					</div>
-																					<div class="rating-label checked">
+																					<div class="rating-label <?php if($review_rating >= 2) { ?> checked <?php } else { } ?>">
 																						<span class="svg-icon svg-icon-2">
 																							<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 																								<path d="M11.1359 4.48359C11.5216 3.82132 12.4784 3.82132 12.8641 4.48359L15.011 8.16962C15.1523 8.41222 15.3891 8.58425 15.6635 8.64367L19.8326 9.54646C20.5816 9.70867 20.8773 10.6186 20.3666 11.1901L17.5244 14.371C17.3374 14.5803 17.2469 14.8587 17.2752 15.138L17.7049 19.382C17.7821 20.1445 17.0081 20.7069 16.3067 20.3978L12.4032 18.6777C12.1463 18.5645 11.8537 18.5645 11.5968 18.6777L7.69326 20.3978C6.99192 20.7069 6.21789 20.1445 6.2951 19.382L6.7248 15.138C6.75308 14.8587 6.66264 14.5803 6.47558 14.371L3.63339 11.1901C3.12273 10.6186 3.41838 9.70867 4.16744 9.54646L8.3365 8.64367C8.61089 8.58425 8.84767 8.41222 8.98897 8.16962L11.1359 4.48359Z" fill="currentColor"></path>
 																							</svg>
 																						</span>
 																					</div>
-																					<div class="rating-label checked">
+																					<div class="rating-label <?php if($review_rating >= 3) { ?> checked <?php } else { } ?>">
 																						<span class="svg-icon svg-icon-2">
 																							<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 																								<path d="M11.1359 4.48359C11.5216 3.82132 12.4784 3.82132 12.8641 4.48359L15.011 8.16962C15.1523 8.41222 15.3891 8.58425 15.6635 8.64367L19.8326 9.54646C20.5816 9.70867 20.8773 10.6186 20.3666 11.1901L17.5244 14.371C17.3374 14.5803 17.2469 14.8587 17.2752 15.138L17.7049 19.382C17.7821 20.1445 17.0081 20.7069 16.3067 20.3978L12.4032 18.6777C12.1463 18.5645 11.8537 18.5645 11.5968 18.6777L7.69326 20.3978C6.99192 20.7069 6.21789 20.1445 6.2951 19.382L6.7248 15.138C6.75308 14.8587 6.66264 14.5803 6.47558 14.371L3.63339 11.1901C3.12273 10.6186 3.41838 9.70867 4.16744 9.54646L8.3365 8.64367C8.61089 8.58425 8.84767 8.41222 8.98897 8.16962L11.1359 4.48359Z" fill="currentColor"></path>
 																							</svg>
 																						</span>
 																					</div>
-																					<div class="rating-label checked">
+																					<div class="rating-label <?php if($review_rating >= 4) { ?> checked <?php } else { } ?>">
 																						<span class="svg-icon svg-icon-2">
 																							<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 																								<path d="M11.1359 4.48359C11.5216 3.82132 12.4784 3.82132 12.8641 4.48359L15.011 8.16962C15.1523 8.41222 15.3891 8.58425 15.6635 8.64367L19.8326 9.54646C20.5816 9.70867 20.8773 10.6186 20.3666 11.1901L17.5244 14.371C17.3374 14.5803 17.2469 14.8587 17.2752 15.138L17.7049 19.382C17.7821 20.1445 17.0081 20.7069 16.3067 20.3978L12.4032 18.6777C12.1463 18.5645 11.8537 18.5645 11.5968 18.6777L7.69326 20.3978C6.99192 20.7069 6.21789 20.1445 6.2951 19.382L6.7248 15.138C6.75308 14.8587 6.66264 14.5803 6.47558 14.371L3.63339 11.1901C3.12273 10.6186 3.41838 9.70867 4.16744 9.54646L8.3365 8.64367C8.61089 8.58425 8.84767 8.41222 8.98897 8.16962L11.1359 4.48359Z" fill="currentColor"></path>
 																							</svg>
 																						</span>
 																					</div>
-																					<div class="rating-label checked">
+																					<div class="rating-label <?php if($review_rating >= 5) { ?> checked <?php } else { } ?>">
 																						<span class="svg-icon svg-icon-2">
 																							<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 																								<path d="M11.1359 4.48359C11.5216 3.82132 12.4784 3.82132 12.8641 4.48359L15.011 8.16962C15.1523 8.41222 15.3891 8.58425 15.6635 8.64367L19.8326 9.54646C20.5816 9.70867 20.8773 10.6186 20.3666 11.1901L17.5244 14.371C17.3374 14.5803 17.2469 14.8587 17.2752 15.138L17.7049 19.382C17.7821 20.1445 17.0081 20.7069 16.3067 20.3978L12.4032 18.6777C12.1463 18.5645 11.8537 18.5645 11.5968 18.6777L7.69326 20.3978C6.99192 20.7069 6.21789 20.1445 6.2951 19.382L6.7248 15.138C6.75308 14.8587 6.66264 14.5803 6.47558 14.371L3.63339 11.1901C3.12273 10.6186 3.41838 9.70867 4.16744 9.54646L8.3365 8.64367C8.61089 8.58425 8.84767 8.41222 8.98897 8.16962L11.1359 4.48359Z" fill="currentColor"></path>
@@ -452,17 +473,19 @@
 																				<a class="d-flex text-dark text-gray-800 text-hover-primary">
 																					<div class="symbol symbol-circle symbol-25px me-3">
 																						<div class="symbol-label bg-light-danger">
-																							<span class="text-danger">M</span>
+																							<span class="text-danger"><?= substr($review_user_name, 0, 1); ?></span>
 																						</div>
 																					</div>
-																					<span class="fw-bold">Melody Macy</span>
+																					<span class="fw-bold"><?= $review_user_name; ?></span>
 																				</a>
 																			</td>
-																			<td class="text-gray-600 fw-bold">I like this design</td>
+																			<td class="text-gray-600 fw-bold"><?= $review_review; ?></td>
 																			<td class="text-end">
-																				<span class="fw-semibold text-muted">Today</span>
+																				<span class="fw-semibold text-muted"><?= $review_date; ?></span>
 																			</td>
 																		</tr>
+																	<?php } } else { } ?>
+
 																	</tbody>
 																</table>
 															</div>
@@ -473,7 +496,7 @@
 											
 											<div class="d-flex justify-content-end">
 												<a href="productsq=active" id="kt_ecommerce_add_product_cancel" class="btn btn-light me-5">Cancel</a>
-												<button type="submit" id="kt_ecommerce_add_product_submit" class="btn btn-primary">
+												<button type="button" id="kt_ecommerce_add_product_submit" class="btn btn-primary product_submit_btn">
 													<span class="indicator-label">Save Changes</span>
 													<span class="indicator-progress">Please wait... 
                                                         <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
@@ -502,6 +525,57 @@
 			let cat_id = $(this).val();4
 			$(".cat_id_all").css("display","none"); 
 			$(".cat_id_"+cat_id).css("display","block"); 
+		});
+
+		$(".product_submit_btn").on("click",()=>{
+			$(".indicator-label").css("display","none");
+			$(".indicator-progress").css("display","block");
+			var fd = new FormData();
+			var p_id = $(".p_id").val();
+			var cat_id = $(".cat_id").val();
+			var subcat_id = $(".subcat_id").val();
+			var product_status = $(".product_status").val();
+			var product_name = $(".product_name").val();
+			var product_description = $(".product_description").val();
+			var product_price = $(".product_price").val();
+			var discount_option = $(".discount_option").val();
+			var product_discount_perc = parseInt($("#discount_slider_perc").html());
+			var product_sku = $(".product_sku").val();
+			var product_brand = $(".product_brand").val();
+			var product_shipping = $(".product_shipping").val();
+			var files = $('#product_pic')[0].files;
+
+			fd.append('product_pic',files[0]);
+			fd.append('p_id',p_id);
+			fd.append('cat_id',cat_id);
+			fd.append('subcat_id',subcat_id);
+			fd.append('product_status',product_status);
+			fd.append('product_name',product_name);
+			fd.append('product_description',product_description);
+			fd.append('product_price',product_price);
+			fd.append('discount_option',discount_option);
+			fd.append('product_discount_perc',product_discount_perc);
+			fd.append('product_sku',product_sku);
+			fd.append('product_brand',product_brand);
+			fd.append('product_shipping',product_shipping);
+
+			$.ajax({
+				url:'backend/product_update.php',
+				type:'post',
+				data:fd,
+				contentType: false,
+				processData: false,
+				success:function(response) {
+					$(".pop_notify").fadeIn().css({"background":"green"}).animate({"bottom":"2%"}).html(response);
+					setTimeout(()=>{
+						// $(".pop_notify").animate({"bottom":"-20%"}).fadeOut().html('');
+					},3000);
+					$(".product_submit_btn").html("Uploaded");
+					$(".product_submit_btn").attr("disabled",'disabled');
+					$(".indicator-label").css("display","block");
+					$(".indicator-progress").css("display","none");
+				}
+			});
 		});
 	</script>
 
