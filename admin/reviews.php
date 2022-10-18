@@ -55,15 +55,44 @@
 															</tr>
 														</thead>
 														<tbody>
+
+														<?php
+															$sql_reviews = "SELECT * FROM reviews WHERE status = '$filter'";
+                                                            $result_reviews = $conn->query($sql_reviews);
+                                                            if($result_reviews->num_rows > 0){
+                                                            while($row_reviews = $result_reviews->fetch_assoc()) {
+                                                                $reviews_id = $row_reviews["id"];
+																$reviews_u_id = $row_reviews["u_id"];
+																$reviews_p_id = $row_reviews["p_id"];
+																$reviews_rating = $row_reviews["rating"];
+																$reviews_review = $row_reviews["review"];
+																$reviews_date = $row_reviews["date"];
+
+															$sql_users = "SELECT * FROM users WHERE id = '$reviews_u_id'";
+															$result_users = $conn->query($sql_users);
+															if($result_users->num_rows > 0){
+															while($row_users = $result_users->fetch_assoc()) {
+																$u_f_name = $row_users["f_name"];
+																$u_l_name = $row_users["l_name"];
+															} } else { }
+
+															$sql_products = "SELECT * FROM products WHERE id = '$reviews_p_id'";
+                                                            $result_products = $conn->query($sql_products);
+                                                            if($result_products->num_rows > 0){
+                                                            while($row_products = $result_products->fetch_assoc()) {
+                                                                $product_name = $row_products["name"];
+																$product_profile_pic = $row_products["image"];
+															} } else { } 
+														?>
 															<tr>
 															    <td>
 																	<a class="d-flex text-dark text-gray-800 text-hover-primary">
 																		<div class="symbol symbol-circle symbol-25px me-3">
 																			<div class="symbol-label bg-light-danger">
-																				<span class="text-danger">M</span>
+																				<span class="text-danger">O</span>
 																			</div>
 																		</div>
-																		<span class="fw-bold">Melody Macy</span>
+																		<span class="fw-bold"><?= $u_f_name; ?> <?= $u_l_name; ?></span>
 																	</a>
 																</td>
 																<td>
@@ -71,46 +100,46 @@
                                                                         <div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
                                                                             <a>
                                                                                 <div class="symbol-label">
-                                                                                    <img src="assets/images/product.png" alt="Product Name" class="w-100">
+                                                                                    <img src="../images-main/products/<?= $product_profile_pic; ?>" onerror="this.src='assets/images/product.png'" alt="<?= $product_name; ?>" class="w-100">
                                                                                 </div>
                                                                             </a>
                                                                         </div>
                                                                         <div class="ms-5">
-                                                                            <a class="text-gray-800 text-hover-primary fs-5 fw-bold">Product Name</a>
+                                                                            <a class="text-gray-800 text-hover-primary fs-5 fw-bold"><?= $product_name; ?></a>
                                                                         </div>
                                                                     </div>
                                                                 </td>
 																<td data-order="rating-5">
 																	<div class="rating">
-																		<div class="rating-label checked">
+																		<div class="rating-label <?php if($reviews_rating >=1) { ?> checked <?php } else { } ?>">
 																			<span class="svg-icon svg-icon-2">
 																				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 																					<path d="M11.1359 4.48359C11.5216 3.82132 12.4784 3.82132 12.8641 4.48359L15.011 8.16962C15.1523 8.41222 15.3891 8.58425 15.6635 8.64367L19.8326 9.54646C20.5816 9.70867 20.8773 10.6186 20.3666 11.1901L17.5244 14.371C17.3374 14.5803 17.2469 14.8587 17.2752 15.138L17.7049 19.382C17.7821 20.1445 17.0081 20.7069 16.3067 20.3978L12.4032 18.6777C12.1463 18.5645 11.8537 18.5645 11.5968 18.6777L7.69326 20.3978C6.99192 20.7069 6.21789 20.1445 6.2951 19.382L6.7248 15.138C6.75308 14.8587 6.66264 14.5803 6.47558 14.371L3.63339 11.1901C3.12273 10.6186 3.41838 9.70867 4.16744 9.54646L8.3365 8.64367C8.61089 8.58425 8.84767 8.41222 8.98897 8.16962L11.1359 4.48359Z" fill="currentColor"></path>
 																				</svg>
 																			</span>
 																		</div>
-																		<div class="rating-label checked">
+																		<div class="rating-label <?php if($reviews_rating >=2) { ?> checked <?php } else { } ?>">
 																			<span class="svg-icon svg-icon-2">
 																				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 																					<path d="M11.1359 4.48359C11.5216 3.82132 12.4784 3.82132 12.8641 4.48359L15.011 8.16962C15.1523 8.41222 15.3891 8.58425 15.6635 8.64367L19.8326 9.54646C20.5816 9.70867 20.8773 10.6186 20.3666 11.1901L17.5244 14.371C17.3374 14.5803 17.2469 14.8587 17.2752 15.138L17.7049 19.382C17.7821 20.1445 17.0081 20.7069 16.3067 20.3978L12.4032 18.6777C12.1463 18.5645 11.8537 18.5645 11.5968 18.6777L7.69326 20.3978C6.99192 20.7069 6.21789 20.1445 6.2951 19.382L6.7248 15.138C6.75308 14.8587 6.66264 14.5803 6.47558 14.371L3.63339 11.1901C3.12273 10.6186 3.41838 9.70867 4.16744 9.54646L8.3365 8.64367C8.61089 8.58425 8.84767 8.41222 8.98897 8.16962L11.1359 4.48359Z" fill="currentColor"></path>
 																				</svg>
 																			</span>
 																		</div>
-																		<div class="rating-label checked">
+																		<div class="rating-label <?php if($reviews_rating >=3) { ?> checked <?php } else { } ?>">
 																			<span class="svg-icon svg-icon-2">
 																				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 																					<path d="M11.1359 4.48359C11.5216 3.82132 12.4784 3.82132 12.8641 4.48359L15.011 8.16962C15.1523 8.41222 15.3891 8.58425 15.6635 8.64367L19.8326 9.54646C20.5816 9.70867 20.8773 10.6186 20.3666 11.1901L17.5244 14.371C17.3374 14.5803 17.2469 14.8587 17.2752 15.138L17.7049 19.382C17.7821 20.1445 17.0081 20.7069 16.3067 20.3978L12.4032 18.6777C12.1463 18.5645 11.8537 18.5645 11.5968 18.6777L7.69326 20.3978C6.99192 20.7069 6.21789 20.1445 6.2951 19.382L6.7248 15.138C6.75308 14.8587 6.66264 14.5803 6.47558 14.371L3.63339 11.1901C3.12273 10.6186 3.41838 9.70867 4.16744 9.54646L8.3365 8.64367C8.61089 8.58425 8.84767 8.41222 8.98897 8.16962L11.1359 4.48359Z" fill="currentColor"></path>
 																				</svg>
 																			</span>
 																		</div>
-																		<div class="rating-label checked">
+																		<div class="rating-label <?php if($reviews_rating >=4) { ?> checked <?php } else { } ?>">
 																			<span class="svg-icon svg-icon-2">
 																				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 																					<path d="M11.1359 4.48359C11.5216 3.82132 12.4784 3.82132 12.8641 4.48359L15.011 8.16962C15.1523 8.41222 15.3891 8.58425 15.6635 8.64367L19.8326 9.54646C20.5816 9.70867 20.8773 10.6186 20.3666 11.1901L17.5244 14.371C17.3374 14.5803 17.2469 14.8587 17.2752 15.138L17.7049 19.382C17.7821 20.1445 17.0081 20.7069 16.3067 20.3978L12.4032 18.6777C12.1463 18.5645 11.8537 18.5645 11.5968 18.6777L7.69326 20.3978C6.99192 20.7069 6.21789 20.1445 6.2951 19.382L6.7248 15.138C6.75308 14.8587 6.66264 14.5803 6.47558 14.371L3.63339 11.1901C3.12273 10.6186 3.41838 9.70867 4.16744 9.54646L8.3365 8.64367C8.61089 8.58425 8.84767 8.41222 8.98897 8.16962L11.1359 4.48359Z" fill="currentColor"></path>
 																				</svg>
 																			</span>
 																		</div>
-																		<div class="rating-label checked">
+																		<div class="rating-label <?php if($reviews_rating >=5) { ?> checked <?php } else { } ?>">
 																			<span class="svg-icon svg-icon-2">
 																				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 																					<path d="M11.1359 4.48359C11.5216 3.82132 12.4784 3.82132 12.8641 4.48359L15.011 8.16962C15.1523 8.41222 15.3891 8.58425 15.6635 8.64367L19.8326 9.54646C20.5816 9.70867 20.8773 10.6186 20.3666 11.1901L17.5244 14.371C17.3374 14.5803 17.2469 14.8587 17.2752 15.138L17.7049 19.382C17.7821 20.1445 17.0081 20.7069 16.3067 20.3978L12.4032 18.6777C12.1463 18.5645 11.8537 18.5645 11.5968 18.6777L7.69326 20.3978C6.99192 20.7069 6.21789 20.1445 6.2951 19.382L6.7248 15.138C6.75308 14.8587 6.66264 14.5803 6.47558 14.371L3.63339 11.1901C3.12273 10.6186 3.41838 9.70867 4.16744 9.54646L8.3365 8.64367C8.61089 8.58425 8.84767 8.41222 8.98897 8.16962L11.1359 4.48359Z" fill="currentColor"></path>
@@ -119,24 +148,28 @@
 																		</div>
 																	</div>
 																</td>
-																<td class="text-gray-600 fw-bold">I like this design</td>
+																<td class="text-gray-600 fw-bold"><?= $reviews_review; ?></td>
 																<td class="text-end">
-																	<span class="fw-semibold text-muted">Today</span>
+																	<span class="fw-semibold text-muted"><?= $reviews_date; ?></span>
 																</td>
 															<?php if($filter == 'Approved') { ?>
 																<td class="" style="text-align: center;">
-																    <a href="#" class="btn btn-primary"> 
+																    <a class="btn btn-primary review_update_btn" review-status="rejected" review-id="<?= $reviews_id; ?>"> 
                                                                         Remove
                                                                     </a>
 																</td>
 															<?php  } else { ?>
 															    <td class="" style="text-align: center;">
-																    <a href="#" class="btn btn-primary"> 
+																    <a class="btn btn-primary review_update_btn" review-status="approved" review-id="<?= $reviews_id; ?>"> 
                                                                         Approve
                                                                     </a>
 																</td>
 															<?php } ?>
 															</tr>
+
+															
+														<?php } } else { } ?>
+
 														</tbody>
 													</table>
 												</div>
@@ -190,6 +223,7 @@
     <script src="assets/js/custom/apps/ecommerce/sales/listing.js"></script>
 		
 	<?php include("footer.php"); ?>
+	<?php include("pop_notifications.php"); ?>
 
 	
 </body>

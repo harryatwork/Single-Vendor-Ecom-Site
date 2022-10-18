@@ -73,9 +73,37 @@
 												        </thead>
 												        <tbody class="fw-semibold text-gray-600">
 													
+                                                        <?php 
+                                                            $sql_users = "SELECT * FROM users WHERE status = '$filter'";
+                                                            $result_users = $conn->query($sql_users);
+                                                            if($result_users->num_rows > 0){
+                                                            while($row_users = $result_users->fetch_assoc()) {
+                                                                $users_id = $row_users["id"];
+                                                                $users_f_name = $row_users["f_name"];
+                                                                $users_l_name = $row_users["l_name"];
+                                                                $users_date = $row_users["date"];
+
+                                                            $total = 0;
+                                                            $sql_orders = "SELECT * FROM orders WHERE u_id = '$users_id' AND delivery_status = 'Delivered'";
+                                                            $result_orders = $conn->query($sql_orders);
+                                                            if($result_orders->num_rows > 0) {
+                                                            while($row_orders = $result_orders->fetch_assoc()) {
+                                                                $price_indi = $row_orders["price"];
+                                                                $quantity_indi = $row_orders["quantity"];
+                                                                $total = $total + ($price_indi * $quantity_indi);
+                                                            } } else { } 
+
+                                                            $total_count = 0;
+                                                            $sql_orders_count = "SELECT DISTINCT(o_id) FROM orders WHERE u_id = '$users_id' AND delivery_status = 'Delivered'";
+                                                            $result_orders_count = $conn->query($sql_orders_count);
+                                                            if($result_orders_count->num_rows > 0) {
+                                                            while($row_orders_count = $result_orders_count->fetch_assoc()) {
+                                                                $total_count++;
+                                                            } } else { } 
+                                                        ?>
                                                             <tr class="odd">
                                                                 <td data-kt-ecommerce-order-filter="order_id">
-                                                                    <a class="text-gray-800 text-hover-primary fw-bold">12</a>
+                                                                    <a class="text-gray-800 text-hover-primary fw-bold"><?= $users_id; ?></a>
                                                                 </td>
                                                                 <td>
                                                                     <div class="d-flex align-items-center">
@@ -87,25 +115,27 @@
                                                                             </a>
                                                                         </div>
                                                                         <div class="ms-5">
-                                                                            <a class="text-gray-800 text-hover-primary fs-5 fw-bold">Brian Cox</a>
+                                                                            <a class="text-gray-800 text-hover-primary fs-5 fw-bold"><?= $users_f_name; ?> <?= $users_l_name; ?></a>
                                                                         </div>
                                                                     </div>
                                                                 </td>
                                                                 <td class="text-end pe-0">
-                                                                    <span class="fw-bold">46</span>
+                                                                    <span class="fw-bold"><?= $total_count; ?></span>
                                                                 </td>
                                                                 <td class="text-end pe-0">
-                                                                    <span class="fw-bold">$131.00</span>
+                                                                    <span class="fw-bold">$<?= $total; ?></span>
                                                                 </td>
                                                                 <td class="text-end" data-order="2022-09-07">
-                                                                    <span class="fw-bold">07/09/2022</span>
+                                                                    <span class="fw-bold"><?= $users_date; ?></span>
                                                                 </td>
                                                                 <td class="text-end">
-                                                                    <a href="user_detail?user_id=3" class="btn btn-primary"> 
+                                                                    <a href="user_detail?id=<?= $users_id; ?>" class="btn btn-primary"> 
                                                                         view
                                                                     </a>
                                                                 </td>
                                                             </tr>
+
+                                                        <?php } } else { } ?>
                                                     
                                                         </tbody>
 												

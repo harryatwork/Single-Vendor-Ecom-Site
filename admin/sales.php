@@ -40,7 +40,7 @@
                                     
                                         <div class="card-header align-items-center py-5 gap-2 gap-md-5">
                                             <div class="card-toolbar flex-row-fluid justify-content-end gap-5">
-    											<input class="form-control form-control-solid w-100 mw-250px" placeholder="Pick date range" id="kt_ecommerce_report_sales_daterangepicker">
+    											<!-- <input class="form-control form-control-solid w-100 mw-250px" placeholder="Pick date range" id="kt_ecommerce_report_sales_daterangepicker"> -->
     											<button type="button" class="btn btn-light-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
     											<span class="svg-icon svg-icon-2">
     												<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -81,48 +81,48 @@
 															</tr>
 														</thead>
 														<tbody>
+														<?php
+															$sql_orders_dist_date = "SELECT DISTINCT(date) FROM orders WHERE order_status = 'Confirmed' AND delivery_status = 'Delivered' ORDER BY date DESC";
+															$result_orders_dist_date = $conn->query($sql_orders_dist_date);
+															if($result_orders_dist_date->num_rows > 0) {
+															while($row_orders_dist_date = $result_orders_dist_date->fetch_assoc()) {
+																$o_date = $row_orders_dist_date["date"];
+
+																$sql_orders_count = "SELECT DISTINCT(o_id) FROM orders WHERE date = '$o_date'";
+																$result_orders_count = $conn->query($sql_orders_count);
+																$orders_count = $result_orders_dist_date->num_rows;
+
+																$sql_products_count = "SELECT * FROM orders WHERE date = '$o_date'";
+																$result_products_count = $conn->query($sql_products_count);
+																$products_count = $result_products_count->num_rows;
+
+																$total_revenue = 0;
+																$sql_orders_total = "SELECT * FROM orders WHERE date = '$o_date'";
+																$result_orders_total = $conn->query($sql_orders_total);
+																if($result_orders_total->num_rows > 0) {
+																while($row_orders_total = $result_orders_total->fetch_assoc()) {
+																	$orders_price = $row_orders_total["price"];
+																	$orders_quantity = $row_orders_total["quantity"];
+																	$orders_total = $orders_price * $orders_quantity;
+																	$total_revenue = $total_revenue + $orders_total;
+																} } else { }
+														?>
 															<tr>
 															    <td class="" style="text-align:center;">
-																	<span class="fw-semibold text-muted">Jun 20, 2022</span>
+																	<span class="fw-semibold text-muted"><?= $o_date; ?></span>
 																</td>
 																<td class="" style="text-align:center;">
-																	<span class="fw-semibold text-muted">34</span>
+																	<span class="fw-semibold text-muted"><?= $orders_count; ?></span>
 																</td>
 																<td class="" style="text-align:center;">
-																	<span class="fw-semibold text-muted">23</span>
+																	<span class="fw-semibold text-muted"><?= $products_count; ?></span>
 																</td>
 																<td class="" style="text-align:center;">
-																	<span class="fw-semibold text-muted">$341</span>
+																	<span class="fw-semibold text-muted">$<?= $total_revenue; ?></span>
 																</td>
 															</tr>
-															<tr>
-															    <td class="" style="text-align:center;">
-																	<span class="fw-semibold text-muted">Jun 20, 2022</span>
-																</td>
-																<td class="" style="text-align:center;">
-																	<span class="fw-semibold text-muted">34</span>
-																</td>
-																<td class="" style="text-align:center;">
-																	<span class="fw-semibold text-muted">23</span>
-																</td>
-																<td class="" style="text-align:center;">
-																	<span class="fw-semibold text-muted">$341</span>
-																</td>
-															</tr>
-															<tr>
-															    <td class="" style="text-align:center;">
-																	<span class="fw-semibold text-muted">Jun 20, 2022</span>
-																</td>
-																<td class="" style="text-align:center;">
-																	<span class="fw-semibold text-muted">34</span>
-																</td>
-																<td class="" style="text-align:center;">
-																	<span class="fw-semibold text-muted">23</span>
-																</td>
-																<td class="" style="text-align:center;">
-																	<span class="fw-semibold text-muted">$341</span>
-																</td>
-															</tr>
+														<?php } } else { } ?>
+															
 														</tbody>
 													</table>
 												</div>

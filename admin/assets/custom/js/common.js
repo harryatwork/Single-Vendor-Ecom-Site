@@ -55,10 +55,10 @@ $(".discount_option").on("click",()=>{
 
 //* Menu Count Load ------------------------------------------------->
 $(document).ready(function() {
-    recieved_orders_count("order_status='Ordered' AND delivery_status='Pending'",'','id');
-    running_orders_count("order_status!='Ordered' AND order_status != 'Cancelled' AND order_status != 'Completed' AND delivery_status!='Delivered' AND delivery_status!='Pending' AND delivery_status!='Cancelled'",'','id');
+    recieved_orders_count("order_status='Recieved' AND delivery_status='Pending'",'','id');
+    running_orders_count("order_status!='Recieved' AND order_status != 'Cancelled' AND order_status != 'Confirmed' AND delivery_status!='Delivered' AND delivery_status!='Cancelled'",'','id');
     cancelled_orders_count("order_status='Cancelled'",'','id');
-    completed_orders_count("order_status='Completed'",'','id');
+    completed_orders_count("order_status='Confirmed'",'','id');
     active_users_count("status='Active'",'','id');
     de_active_user_count("status!='Active'",'','id');
     active_products_count("status='Active'",'','id');
@@ -229,3 +229,39 @@ function rejected_reviews_count(condition,limit,return_values) {
 	});
 }
 //Todo Menu Count Load ------------------------------------------------->
+
+//* Order Details Page -------------------------------------------------->
+$(".order_status").on("click",function() {
+	var order_status = $(this).attr("order-status");
+	var o_id = $(".o_id").val();
+	$(this).append(`<span class="pulse-ring"></span>`);
+	$(this).find(".order_status_color").css("background","royalblue");
+	$.post('backend/order_status_update.php',{
+		order_status : order_status,
+		o_id : o_id
+	},()=>{
+		$(".pop_notify").fadeIn().css({"background":"green"}).animate({"bottom":"2%"}).html("Order Status Updated");
+		setTimeout(()=>{
+			$(".pop_notify").animate({"bottom":"-20%"}).fadeOut().html('');
+		},3000);
+	});
+});
+//Todo Order Details Page -------------------------------------------------->
+
+
+//* Review Page ------------------------------------------------------------>
+$(".review_update_btn").on("click",function(){
+	var review_id = $(this).attr("review-id");
+	var review_status = $(this).attr("review-status");
+	$(this).html(review_status);
+	$.post('backend/review_update.php',{
+		review_id : review_id,
+		review_status : review_status
+	},()=>{ 
+		$(".pop_notify").fadeIn().css({"background":"green"}).animate({"bottom":"2%"}).html("Review status changed");
+		setTimeout(()=>{
+			$(".pop_notify").animate({"bottom":"-20%"}).fadeOut().html('');
+		},3000);
+	})
+});
+//Todo Review Page --------------------------------------------------------->

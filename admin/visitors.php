@@ -40,7 +40,7 @@
                                     
                                         <div class="card-header align-items-center py-5 gap-2 gap-md-5">
                                             <div class="card-toolbar flex-row-fluid justify-content-end gap-5">
-    											<input class="form-control form-control-solid w-100 mw-250px" placeholder="Pick date range" id="kt_ecommerce_report_sales_daterangepicker">
+    											<!-- <input class="form-control form-control-solid w-100 mw-250px" placeholder="Pick date range" id="kt_ecommerce_report_sales_daterangepicker"> -->
     											<button type="button" class="btn btn-light-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
     											<span class="svg-icon svg-icon-2">
     												<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -81,72 +81,49 @@
 															</tr>
 														</thead>
 														<tbody>
+														<?php 
+                                                            $sql_products = "SELECT * FROM products WHERE status = 'Active'";
+                                                            $result_products = $conn->query($sql_products);
+                                                            if($result_products->num_rows > 0){
+                                                            while($row_products = $result_products->fetch_assoc()) {
+                                                                $products_id = $row_products["id"];
+                                                                $products_name = $row_products["name"];
+                                                                $products_pic = $row_products["image"];
+																$products_views = $row_products["views"];
+
+																$product_cart_count = 0;
+																$sql_cart = "SELECT * FROM cart WHERE p_id = '$products_id'";
+																$result_cart = $conn->query($sql_cart);
+																if($result_cart->num_rows > 0){
+																while($row_cart = $result_cart->fetch_assoc()) {
+																	$product_cart_count = $product_cart_count + 1;
+																} } else { }
+														?>
 															<tr>
 															    <td>
                                                                     <div class="d-flex align-items-center">
                                                                         <div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
                                                                             <a>
                                                                                 <div class="symbol-label">
-                                                                                    <img src="assets/images/product.png" alt="Product Name" class="w-100">
+                                                                                    <img src="../images-main/products/<?= $products_pic; ?>" onerror="this.src='assets/images/product.png'" alt="<?= $products_name; ?>" class="w-100">
                                                                                 </div>
                                                                             </a>
                                                                         </div>
                                                                         <div class="ms-5">
-                                                                            <a class="text-gray-800 text-hover-primary fs-5 fw-bold">Product Name</a>
+                                                                            <a class="text-gray-800 text-hover-primary fs-5 fw-bold"><?= $products_name; ?></a>
                                                                         </div>
                                                                     </div>
                                                                 </td>
 																<td class="" style="text-align:center;">
-																	<span class="fw-semibold text-muted">34</span>
+																	<span class="fw-semibold text-muted"><?= $products_views; ?></span>
 																</td>
 																<td class="" style="text-align:center;">
-																	<span class="fw-semibold text-muted">23</span>
+																	<span class="fw-semibold text-muted"><?= $product_cart_count; ?></span>
 																</td>
 															</tr>
-															<tr>
-															    <td>
-                                                                    <div class="d-flex align-items-center">
-                                                                        <div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
-                                                                            <a>
-                                                                                <div class="symbol-label">
-                                                                                    <img src="assets/images/product.png" alt="Product Name" class="w-100">
-                                                                                </div>
-                                                                            </a>
-                                                                        </div>
-                                                                        <div class="ms-5">
-                                                                            <a class="text-gray-800 text-hover-primary fs-5 fw-bold">Product Name</a>
-                                                                        </div>
-                                                                    </div>
-                                                                </td>
-																<td class="" style="text-align:center;">
-																	<span class="fw-semibold text-muted">34</span>
-																</td>
-																<td class="" style="text-align:center;">
-																	<span class="fw-semibold text-muted">23</span>
-																</td>
-															</tr>
-															<tr>
-															    <td>
-                                                                    <div class="d-flex align-items-center">
-                                                                        <div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
-                                                                            <a>
-                                                                                <div class="symbol-label">
-                                                                                    <img src="assets/images/product.png" alt="Product Name" class="w-100">
-                                                                                </div>
-                                                                            </a>
-                                                                        </div>
-                                                                        <div class="ms-5">
-                                                                            <a class="text-gray-800 text-hover-primary fs-5 fw-bold">Product Name</a>
-                                                                        </div>
-                                                                    </div>
-                                                                </td>
-																<td class="" style="text-align:center;">
-																	<span class="fw-semibold text-muted">34</span>
-																</td>
-																<td class="" style="text-align:center;">
-																	<span class="fw-semibold text-muted">23</span>
-																</td>
-															</tr>
+
+														<?php } } else { } ?>
+															
 														</tbody>
 													</table>
 												</div>

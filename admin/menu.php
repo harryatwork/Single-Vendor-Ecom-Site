@@ -66,11 +66,12 @@
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                                <span class="menu-title recieved_orders_count">Received (<div class="loader"> 
-                                                                                            <svg class="circular" viewBox="25 25 50 50">
-                                                                                                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
-                                                                                            </svg> 
-                                                                                        </div>)
+                                <span class="menu-title">Received 
+                                    <!-- (<div class="loader"> 
+                                        <svg class="circular" viewBox="25 25 50 50">
+                                            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
+                                        </svg> 
+                                    </div>) -->
                                 </span>
                             </a>
                         </div>
@@ -80,11 +81,12 @@
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                                <span class="menu-title running_orders_count">Running (<div class="loader"> 
-                                                                                        <svg class="circular" viewBox="25 25 50 50">
-                                                                                            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
-                                                                                        </svg> 
-                                                                                       </div>)
+                                <span class="menu-title">Running 
+                                    <!-- (<div class="loader"> 
+                                        <svg class="circular" viewBox="25 25 50 50">
+                                            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
+                                        </svg> 
+                                    </div>) -->
                                 </span>
                             </a>
                         </div>
@@ -94,11 +96,12 @@
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                                <span class="menu-title cancelled_orders_count">Cancelled (<div class="loader"> 
-                                                                                            <svg class="circular" viewBox="25 25 50 50">
-                                                                                                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
-                                                                                            </svg> 
-                                                                                           </div>)
+                                <span class="menu-title">Cancelled 
+                                    <!-- (<div class="loader"> 
+                                        <svg class="circular" viewBox="25 25 50 50">
+                                            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
+                                        </svg> 
+                                    </div>) -->
                                 </span>
                             </a>
                         </div>
@@ -108,11 +111,12 @@
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                                <span class="menu-title completed_orders_count">Completed (<div class="loader"> 
-                                                                                            <svg class="circular" viewBox="25 25 50 50">
-                                                                                                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
-                                                                                            </svg> 
-                                                                                           </div>)
+                                <span class="menu-title">Completed 
+                                    <!-- (<div class="loader"> 
+                                        <svg class="circular" viewBox="25 25 50 50">
+                                            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
+                                        </svg> 
+                                    </div>) -->
                                 </span>
                             </a>
                         </div>

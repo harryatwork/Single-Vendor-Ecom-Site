@@ -13,7 +13,20 @@
 
 					<?php include("menu.php"); ?>
 
-                    <?php $filter = ucfirst($_GET["q"]); ?>
+                    <?php  
+                        $filter = ucfirst($_GET["q"]); 
+                        if($filter == 'received') {
+                            $filter_query = "order_status='Ordered' AND delivery_status='Pending'";
+                        } elseif($filter == 'running') {
+                            $filter_query = "order_status!='Ordered' AND order_status != 'Cancelled' AND order_status != 'Completed' AND delivery_status!='Delivered' AND delivery_status!='Pending' AND delivery_status!='Cancelled'";
+                        } elseif($filter == 'cancelled') {
+                            $filter_query = "order_status='Cancelled'";
+                        } elseif($filter == 'completed') {
+                            $filter_query = "order_status='Completed'";
+                        } else {
+                            $filter_query = '1 = 1';
+                        }
+                    ?>
 
                     <div class="app-main flex-column flex-row-fluid" id="kt_app_main">
 						<div class="d-flex flex-column flex-column-fluid">
@@ -73,39 +86,68 @@
 												        </thead>
 												        <tbody class="fw-semibold text-gray-600">
 													
+                                                        <?php 
+                                                            $sql_orders_dist = "SELECT DISTINCT(o_id) FROM orders WHERE $filter_query";
+                                                            $result_orders_dist = $conn->query($sql_orders_dist);
+                                                            if($result_orders_dist->num_rows > 0) {
+                                                            while($row_orders_dist = $result_orders_dist->fetch_assoc()) {
+                                                                $o_id = $row_orders_dist["o_id"];
+
+                                                                $total = 0;
+                                                                $sql_orders = "SELECT * FROM orders WHERE o_id = '$o_id'";
+                                                                $result_orders = $conn->query($sql_orders);
+                                                                if($result_orders->num_rows > 0) {
+                                                                while($row_orders = $result_orders->fetch_assoc()) {
+                                                                    $user_id = $row_orders["u_id"];
+                                                                    $order_status = $row_orders["order_status"];
+                                                                    $order_date = $row_orders["date"];
+                                                                    $price_indi = $row_orders["price"];
+                                                                    $quantity_indi = $row_orders["quantity"];
+                                                                    $total = $total + ($price_indi * $quantity_indi);
+                                                                } } else { }
+
+                                                                $sql_users = "SELECT * FROM users WHERE id = '$user_id' LIMIT 1";
+                                                                $result_users = $conn->query($sql_users);
+                                                                if($result_users->num_rows > 0) {
+                                                                while($row_users = $result_users->fetch_assoc()) {
+                                                                    $user_name = $row_users["f_name"];
+                                                                } } else { }
+                                                        ?>
                                                             <tr class="odd">
                                                                 <td data-kt-ecommerce-order-filter="order_id">
-                                                                    <a class="text-gray-800 text-hover-primary fw-bold">14407</a>
+                                                                    <a class="text-gray-800 text-hover-primary fw-bold"><?= $o_id; ?></a>
                                                                 </td>
                                                                 <td>
                                                                     <div class="d-flex align-items-center">
                                                                         <div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
                                                                             <a>
                                                                                 <div class="symbol-label">
-                                                                                    <img src="assets/images/user.png" alt="Brian Cox" class="w-100">
+                                                                                    <img src="assets/images/user.png" alt="assets/images/user.png" class="w-100">
                                                                                 </div>
                                                                             </a>
                                                                         </div>
                                                                         <div class="ms-5">
-                                                                            <a class="text-gray-800 text-hover-primary fs-5 fw-bold">Brian Cox</a>
+                                                                            <a class="text-gray-800 text-hover-primary fs-5 fw-bold"><?= $user_name; ?></a>
                                                                         </div>
                                                                     </div>
                                                                 </td>
                                                                 <td class="text-end pe-0" data-order="Completed">
-                                                                    <div class="badge badge-light-success">Completed</div>
+                                                                    <div class="badge badge-light-success"><?= $order_status; ?></div>
                                                                 </td>
                                                                 <td class="text-end pe-0">
-                                                                    <span class="fw-bold">$131.00</span>
+                                                                    <span class="fw-bold">$ <?= $total; ?></span>
                                                                 </td>
                                                                 <td class="text-end" data-order="2022-09-07">
-                                                                    <span class="fw-bold">07/09/2022</span>
+                                                                    <span class="fw-bold"><?= $order_date; ?></span>
                                                                 </td>
                                                                 <td class="text-end">
-                                                                    <a href="#" class="btn btn-primary">view 
+                                                                    <a href="order_detail?id=<?= $o_id; ?>" target="_blank" class="btn btn-primary">view 
                                                                         view
                                                                     </a>
                                                                 </td>
                                                             </tr>
+
+                                                        <?php } } else { } ?>
                                                     
                                                         </tbody>
 												

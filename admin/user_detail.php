@@ -13,7 +13,44 @@
 
 					<?php include("menu.php"); ?>
 
-                    <?php $user_id = $_GET["user_id"]; ?>
+                    <?php $user_id = $_GET["id"]; 
+
+						$sql_users = "SELECT * FROM users WHERE id = '$user_id'";
+						$result_users = $conn->query($sql_users);
+						if($result_users->num_rows > 0){
+						while($row_users = $result_users->fetch_assoc()) {
+							$users_id = $row_users["id"];
+							$users_f_name = $row_users["f_name"];
+							$users_l_name = $row_users["l_name"];
+							$users_date = $row_users["date"];
+							$users_email = $row_users["email"];
+
+						$total = 0;
+						$sql_orders = "SELECT * FROM orders WHERE u_id = '$users_id' AND delivery_status = 'Delivered'";
+						$result_orders = $conn->query($sql_orders);
+						if($result_orders->num_rows > 0) {
+						while($row_orders = $result_orders->fetch_assoc()) {
+							$price_indi = $row_orders["price"];
+							$quantity_indi = $row_orders["quantity"];
+							$total = $total + ($price_indi * $quantity_indi);
+						} } else { } 
+
+						$sql_addresses = "SELECT * FROM addresses WHERE u_id = '$user_id' LIMIT 1";
+						$result_addresses = $conn->query($sql_addresses);
+						if($result_addresses->num_rows > 0){
+						while($row_addresses = $result_addresses->fetch_assoc()) {
+							$addresses_city = $row_addresses["city"];
+							$addresses_address = $row_addresses["address"];
+						} } else { }
+
+						$total_count = 0;
+						$sql_orders_count = "SELECT DISTINCT(o_id) FROM orders WHERE u_id = '$users_id' AND delivery_status = 'Delivered'";
+						$result_orders_count = $conn->query($sql_orders_count);
+						if($result_orders_count->num_rows > 0) {
+						while($row_orders_count = $result_orders_count->fetch_assoc()) {
+							$total_count++;
+						} } else { } 
+					?>
 
                     <div class="app-main flex-column flex-row-fluid" id="kt_app_main">
 						<div class="d-flex flex-column flex-column-fluid">
@@ -45,18 +82,18 @@
 														<div class="symbol symbol-100px symbol-circle mb-7">
 															<img src="assets/images/user.png" alt="image">
 														</div>
-														<a href="#" class="fs-3 text-gray-800 text-hover-primary fw-bold mb-1">Max Smith</a>
-														<div class="fs-5 fw-semibold text-muted mb-6">City name</div>
+														<a href="#" class="fs-3 text-gray-800 text-hover-primary fw-bold mb-1"><?= $users_f_name; ?> <?= $users_l_name; ?></a>
+														<div class="fs-5 fw-semibold text-muted mb-6"><?= $addresses_city; ?></div>
 														<div class="d-flex flex-wrap flex-center">
 															<div class="border border-gray-300 border-dashed rounded py-3 px-3 mb-3">
-																<div class="fs-4 fw-bold text-gray-700">
-																	<span class="w-75px">6,900</span>
+																<div class="fs-4 fw-bold text-gray-700" style="text-align: center;">
+																	<span class="w-75px"><?= $total; ?></span>
 																</div>
 																<div class="fw-semibold text-muted">Spending</div>
 															</div>
 															<div class="border border-gray-300 border-dashed rounded py-3 px-3 mx-4 mb-3">
-																<div class="fs-4 fw-bold text-gray-700">
-																	<span class="w-50px">130</span>
+																<div class="fs-4 fw-bold text-gray-700" style="text-align: center;">
+																	<span class="w-50px"><?= $total_count; ?></span>
 																</div>
 																<div class="fw-semibold text-muted">Orders</div>
 															</div>
@@ -67,9 +104,9 @@
 													
 													<div class="d-flex flex-stack fs-4 py-3">
 														<div class="fw-bold rotate collapsible" data-bs-toggle="collapse" href="#kt_customer_view_details" role="button" aria-expanded="false" aria-controls="kt_customer_view_details">Details </div>
-                                                        <span data-bs-toggle="tooltip" data-bs-trigger="hover" data-kt-initialized="1">
+                                                        <!-- <span data-bs-toggle="tooltip" data-bs-trigger="hover" data-kt-initialized="1">
 															<a href="#" class="btn btn-sm btn-light-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_update_customer">Edit</a>
-														</span>
+														</span> -->
 													</div>
 													
 													<div class="separator separator-dashed my-3"></div>
@@ -80,18 +117,15 @@
 															<div class="badge badge-light-info d-inline">Active User</div>
 															
 															<div class="fw-bold mt-5">Account ID</div>
-															<div class="text-gray-600">ID-45453423</div>
+															<div class="text-gray-600">ID-<?= $user_id; ?></div>
 															
 															<div class="fw-bold mt-5">Email</div>
 															<div class="text-gray-600">
-																<a href="#" class="text-gray-600 text-hover-primary">info@user.com</a>
+																<a href="#" class="text-gray-600 text-hover-primary"><?= $users_email; ?></a>
 															</div>
 															
 															<div class="fw-bold mt-5">Billing Address</div>
-															<div class="text-gray-600">101 Collin Street, 
-                                                                <br>Melbourne 3000 VIC
-                                                                <br>Australia
-                                                            </div>
+															<div class="text-gray-600"><?= $addresses_address; ?></div>
 														</div>
 													</div>
 												</div>
@@ -127,23 +161,43 @@
                                                                     <table class="table align-middle table-row-dashed gy-5 dataTable no-footer" id="kt_table_customers_payment">
                                                                         <thead class="border-bottom border-gray-200 fs-7 fw-bold">
                                                                             <tr class="text-start text-muted text-uppercase gs-0">
-                                                                                <th class="min-w-100px sorting" tabindex="0" aria-controls="kt_table_customers_payment" rowspan="1" colspan="1" aria-label="Invoice No.: activate to sort column ascending" style="width: 100px;">Order No.</th>
+                                                                                <th class="min-w-100px sorting" tabindex="0" aria-controls="kt_table_customers_payment" rowspan="1" colspan="1" aria-label="Invoice No.: activate to sort column ascending" style="width: 100px;text-align:center;">Order No.</th>
                                                                                 <th class="sorting" tabindex="0" aria-controls="kt_table_customers_payment" rowspan="1" colspan="1" aria-label="Status: activate to sort column ascending" style="width: 81.8594px;">Status</th>
                                                                                 <th class="sorting" tabindex="0" aria-controls="kt_table_customers_payment" rowspan="1" colspan="1" aria-label="Amount: activate to sort column ascending" style="width: 78.8906px;">Amount</th>
                                                                                 <th class="min-w-100px sorting" tabindex="0" aria-controls="kt_table_customers_payment" rowspan="1" colspan="1" aria-label="Date: activate to sort column ascending" style="width: 100px;">Date</th>
                                                                             </tr>
                                                                         </thead>
                                                                         <tbody class="fs-6 fw-semibold text-gray-600">
+																		<?php
+																			$sql_orders_dist = "SELECT DISTINCT(o_id) FROM orders WHERE u_id = '$users_id' AND delivery_status = 'Delivered'";
+																			$result_orders_dist = $conn->query($sql_orders_dist);
+																			if($result_orders_dist->num_rows > 0) {
+																			while($row_orders_dist = $result_orders_dist->fetch_assoc()) {
+																				$o_id = $row_orders_dist["o_id"];
+
+																				$order_total = 0;
+																				$sql_orders_indi = "SELECT * FROM orders WHERE o_id = '$o_id'";
+																				$result_orders_indi = $conn->query($sql_orders_indi);
+																				if($result_orders_indi->num_rows > 0) {
+																				while($row_orders_indi = $result_orders_indi->fetch_assoc()) {
+																					$order_date = $row_orders_indi["date"];
+																					$order_price = $row_orders_indi["price"];
+																					$order_quantity = $row_orders_indi["quantity"];
+																					$order_total_indi = $order_price * $order_quantity;
+																					$order_total = $order_total + $order_total_indi;
+																				} } else { }
+																		?>
                                                                             <tr class="odd">
-                                                                                <td>
-                                                                                    <a href="#" class="text-gray-600 text-hover-primary mb-1">3492</a>
+                                                                                <td style="text-align: center;">
+                                                                                    <a class="text-gray-600 text-hover-primary mb-1"><?= $o_id; ?></a>
                                                                                 </td>
                                                                                 <td>
                                                                                     <span class="badge badge-light-success">Successful</span>
                                                                                 </td>
-                                                                                <td>$1,200.00</td>
-                                                                                <td data-order="2020-12-14T20:43:00+05:30">14 Dec 2020, 8:43 pm</td>
+                                                                                <td>$<?= $order_total; ?></td>
+                                                                                <td data-order="<?= $order_date; ?>"><?= $order_date; ?></td>
                                                                             </tr>
+																		<?php } } else { } ?>
                                                                         </tbody>
                                                                     </table>
                                                                 </div>
@@ -343,6 +397,8 @@
 									
 								</div>
 							</div>
+
+					<?php } } else { } ?>
 
 
 

@@ -241,38 +241,33 @@
 															<div class="card-body pt-0" data-select2-id="select2-data-136-oy1f">
 																<div class="" data-kt-ecommerce-catalog-add-product="auto-options" data-select2-id="select2-data-135-lnzj">
 																	<label class="form-label">Add Product Variations</label>
-																	<div id="kt_ecommerce_add_product_options" data-select2-id="select2-data-kt_ecommerce_add_product_options">
-																		<div class="form-group" data-select2-id="select2-data-134-k5cr">
-																			<div data-repeater-list="kt_ecommerce_add_product_options" class="d-flex flex-column gap-3" data-select2-id="select2-data-133-blfw">
-																			    <div data-repeater-item="" class="form-group d-flex flex-wrap align-items-center gap-5" data-select2-id="select2-data-167-r6df">
-																					
-                                                                                    <div class="w-100 w-md-150px" data-select2-id="select2-data-166-snhd">
-																						<select class="form-select " name="kt_ecommerce_add_product_options[0][product_option]" data-placeholder="Select a variation" data-kt-ecommerce-catalog-add-product="product_option" data-select2-id="select2-data-162-rulv" tabindex="-1" aria-hidden="true">
-																							<option value="color" data-select2-id="select2-data-168-jqig">Color</option>
-																							<option value="size" data-select2-id="select2-data-169-3bxf">Size</option>
-																							<option value="material" data-select2-id="select2-data-170-1xba">Material</option>
-																							<option value="style" data-select2-id="select2-data-171-o4g6">Style</option>
-																						</select>
+																	<div  id="kt_ecommerce_add_product_options" data-select2-id="select2-data-kt_ecommerce_add_product_options">
+																		
+																		<div class="variants_div">
+																			<div class="form-group variant_indi" data-select2-id="select2-data-134-k5cr">
+																				<div data-repeater-list="kt_ecommerce_add_product_options" class="d-flex flex-column gap-3" data-select2-id="select2-data-133-blfw">
+																					<div data-repeater-item="" class="form-group d-flex flex-wrap align-items-center gap-5" data-select2-id="select2-data-167-r6df">
+																						
+																						<div class="w-100 w-md-150px" data-select2-id="select2-data-166-snhd">
+																							<select class="form-select variant_type[]" name="variant_type[]" data-placeholder="Select a variation" data-kt-ecommerce-catalog-add-product="product_option" data-select2-id="select2-data-162-rulv" tabindex="-1" aria-hidden="true">
+																								<option value="color" data-select2-id="select2-data-168-jqig">Color</option>
+																								<option value="size" data-select2-id="select2-data-169-3bxf">Size</option>
+																								<option value="material" data-select2-id="select2-data-170-1xba">Material</option>
+																								<option value="style" data-select2-id="select2-data-171-o4g6">Style</option>
+																							</select>
+																						</div>
+																						
+																						<input type="text" class="form-control mw-100 w-200px variant_title[]" name="variant_title[]" placeholder="Title">
+																						<input type="number" class="form-control mw-100px variant_quantity[]" name="variant_quantity[]" placeholder="Quantity">
+																						
 																					</div>
-																					
-																					<input type="text" class="form-control mw-100 w-200px" name="kt_ecommerce_add_product_options[0][product_option_value]" placeholder="Title">
-                                                                                    <input type="number" class="form-control mw-100px" name="kt_ecommerce_add_product_options[0][product_option_value]" placeholder="Quantity">
-																					
-																					<button type="button" data-repeater-delete="" class="btn btn-sm btn-icon btn-light-danger">
-																						<span class="svg-icon svg-icon-1">
-																							<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-																								<rect opacity="0.5" x="7.05025" y="15.5356" width="12" height="2" rx="1" transform="rotate(-45 7.05025 15.5356)" fill="currentColor"></rect>
-																								<rect x="8.46447" y="7.05029" width="12" height="2" rx="1" transform="rotate(45 8.46447 7.05029)" fill="currentColor"></rect>
-																							</svg>
-																						</span>
-																					</button>
-
 																				</div>
-                                                                            </div>
+																			</div>
 																		</div>
 																		
+																		
 																		<div class="form-group mt-5">
-																			<button type="button" data-repeater-create="" class="btn btn-sm btn-light-primary">
+																			<button type="button" data-repeater-create="" class="btn btn-sm btn-light-primary variant_add_btn">
                                                                                 <span class="svg-icon svg-icon-2">
                                                                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                                                         <rect opacity="0.5" x="11" y="18" width="12" height="2" rx="1" transform="rotate(-90 11 18)" fill="currentColor"></rect>
@@ -334,10 +329,53 @@
 			$(".cat_id_"+cat_id).css("display","block"); 
 		});
 
-		$(".product_submit_btn").on("click",()=>{
+		$(".variant_add_btn").on("click",()=>{
+			$(".variants_div").append(`<div class="form-group variant_indi" data-select2-id="select2-data-134-k5cr" style="margin-top:1%;">
+										<div data-repeater-list="kt_ecommerce_add_product_options" class="d-flex flex-column gap-3" data-select2-id="select2-data-133-blfw">
+											<div data-repeater-item="" class="form-group d-flex flex-wrap align-items-center gap-5" data-select2-id="select2-data-167-r6df">
+												
+												<div class="w-100 w-md-150px" data-select2-id="select2-data-166-snhd">
+													<select class="form-select variant_type[]" name="kt_ecommerce_add_product_options_1[]" data-placeholder="Select a variation" data-kt-ecommerce-catalog-add-product="product_option" data-select2-id="select2-data-162-rulv" tabindex="-1" aria-hidden="true">
+														<option value="color" data-select2-id="select2-data-168-jqig">Color</option>
+														<option value="size" data-select2-id="select2-data-169-3bxf">Size</option>
+														<option value="material" data-select2-id="select2-data-170-1xba">Material</option>
+														<option value="style" data-select2-id="select2-data-171-o4g6">Style</option>
+													</select>
+												</div>
+												
+												<input type="text" class="form-control mw-100 w-200px variant_title[]" name="kt_ecommerce_add_product_options_2[]" placeholder="Title">
+												<input type="number" class="form-control mw-100px variant_quantity[]" name="kt_ecommerce_add_product_options_3[]" placeholder="Quantity">
+												
+												<button type="button" data-repeater-delete="" class="btn btn-sm btn-icon btn-light-danger variant_remove">
+													<span class="svg-icon svg-icon-1">
+														<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+															<rect opacity="0.5" x="7.05025" y="15.5356" width="12" height="2" rx="1" transform="rotate(-45 7.05025 15.5356)" fill="currentColor"></rect>
+															<rect x="8.46447" y="7.05029" width="12" height="2" rx="1" transform="rotate(45 8.46447 7.05029)" fill="currentColor"></rect>
+														</svg>
+													</span>
+												</button>
+
+											</div>
+										</div>
+									</div>`);
+		});
+
+		$(document).on("click",".variant_remove",function(){
+			$(this).closest(".variant_indi").remove();
+		});
+
+		$(".product_submit_btn").on("click",function(){
 			$(".indicator-label").css("display","none");
 			$(".indicator-progress").css("display","block");
 			var fd = new FormData();
+
+			var variant_type = $("input[class='variant_type[]']").map(function(){return $(this).val();}).get();
+			var variant_title = $("input[class='variant_title[]']").map(function(){return $(this).val();}).get();
+			var variant_quantity = $("input[class='variant_quantity[]']").map(function(){return $(this).val();}).get();
+
+			console.log(variant_type);
+			console.log(variant_title);
+
 			var cat_id = $(".cat_id").val();
 			var subcat_id = $(".subcat_id").val();
 			var product_status = $(".product_status").val();
@@ -364,23 +402,23 @@
 			fd.append('product_brand',product_brand);
 			fd.append('product_shipping',product_shipping);
 
-			$.ajax({
-				url:'backend/product_insert.php',
-				type:'post',
-				data:fd,
-				contentType: false,
-				processData: false,
-				success:function(response) {
-					$(".pop_notify").fadeIn().css({"background":"green"}).animate({"bottom":"2%"}).html(response);
-					setTimeout(()=>{
-						$(".pop_notify").animate({"bottom":"-20%"}).fadeOut().html('');
-					},3000);
-					$(".product_submit_btn").html("Uploaded");
-					$(".product_submit_btn").attr("disabled",'disabled');
-					$(".indicator-label").css("display","block");
-					$(".indicator-progress").css("display","none");
-				}
-			});
+			// $.ajax({
+			// 	url:'backend/product_insert.php',
+			// 	type:'post',
+			// 	data:fd,
+			// 	contentType: false,
+			// 	processData: false,
+			// 	success:function(response) {
+			// 		$(".pop_notify").fadeIn().css({"background":"green"}).animate({"bottom":"2%"}).html(response);
+			// 		setTimeout(()=>{
+			// 			$(".pop_notify").animate({"bottom":"-20%"}).fadeOut().html('');
+			// 		},3000);
+			// 		$(".product_submit_btn").html("Uploaded");
+			// 		$(".product_submit_btn").attr("disabled",'disabled');
+			// 		$(".indicator-label").css("display","block");
+			// 		$(".indicator-progress").css("display","none");
+			// 	}
+			// });
 		});
 		
 	</script>
