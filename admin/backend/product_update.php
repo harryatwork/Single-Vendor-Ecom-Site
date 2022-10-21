@@ -13,6 +13,10 @@
     $product_brand = $conn->real_escape_string($_POST["product_brand"]);
     $product_shipping = $conn->real_escape_string($_POST["product_shipping"]);
 
+    $variant_type = $_POST["variant_type"];
+    $variant_title = $_POST["variant_title"];
+    $variant_quantity = $_POST["variant_quantity"];
+
     $p_id = $_POST["p_id"];
 
     $date = date_default_timezone_set('Asia/Kolkata');
@@ -29,7 +33,21 @@
                                        discount = '$product_discount_perc', price = '$product_price', sku = '$product_sku', brand = '$product_brand', shipping = '$product_shipping', status = '$product_status'
                                        WHERE id = '$p_id'";
     if ($con->query($sql_update) === TRUE) { 
+
+        $sql_variant_delete = "DELETE FROM product_variants WHERE p_id = '$p_id'";
+        if ($con->query($sql_variant_delete) === TRUE) { } else { }
+
+        for($i=0;$i<count($variant_type);$i++){
+
+            $sql_variant = "INSERT INTO product_variants (p_id, variant, title, stock, price)
+                            VALUES ('$p_id', '$variant_type[$i]', '$variant_title[$i]', '$variant_quantity[$i]', '$product_price')";
+                            if ($con->query($sql_variant) === TRUE) { 
+                                
+                            } else { }
+        }
+
         echo'Product Updated Successfully';
+
     } else {
         echo'Error Upload Product. Please try again';
         // echo "ERROR" . $sql_update . "<br>" . $conn->error;

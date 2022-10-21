@@ -285,37 +285,51 @@
 																<div class="" data-kt-ecommerce-catalog-add-product="auto-options" data-select2-id="select2-data-135-lnzj">
 																	<label class="form-label">Add Product Variations</label>
 																	<div id="kt_ecommerce_add_product_options" data-select2-id="select2-data-kt_ecommerce_add_product_options">
-																		<div class="form-group" data-select2-id="select2-data-134-k5cr">
-																			<div data-repeater-list="kt_ecommerce_add_product_options" class="d-flex flex-column gap-3" data-select2-id="select2-data-133-blfw">
-																			    <div data-repeater-item="" class="form-group d-flex flex-wrap align-items-center gap-5" data-select2-id="select2-data-167-r6df">
-																					
-                                                                                    <div class="w-100 w-md-150px" data-select2-id="select2-data-166-snhd">
-																						<select class="form-select " name="kt_ecommerce_add_product_options[0][product_option]" data-placeholder="Select a variation" data-kt-ecommerce-catalog-add-product="product_option" data-select2-id="select2-data-162-rulv" tabindex="-1" aria-hidden="true">
-																							<option value="color" data-select2-id="select2-data-168-jqig">Color</option>
-																							<option value="size" data-select2-id="select2-data-169-3bxf">Size</option>
-																							<option value="material" data-select2-id="select2-data-170-1xba">Material</option>
-																							<option value="style" data-select2-id="select2-data-171-o4g6">Style</option>
-																						</select>
-																					</div>
-																					
-																					<input type="text" class="form-control mw-100 w-200px" name="kt_ecommerce_add_product_options[0][product_option_value]" placeholder="Title">
-                                                                                    <input type="number" class="form-control mw-100px" name="kt_ecommerce_add_product_options[0][product_option_value]" placeholder="Quantity">
-																					
-																					<button type="button" data-repeater-delete="" class="btn btn-sm btn-icon btn-light-danger">
-																						<span class="svg-icon svg-icon-1">
-																							<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-																								<rect opacity="0.5" x="7.05025" y="15.5356" width="12" height="2" rx="1" transform="rotate(-45 7.05025 15.5356)" fill="currentColor"></rect>
-																								<rect x="8.46447" y="7.05029" width="12" height="2" rx="1" transform="rotate(45 8.46447 7.05029)" fill="currentColor"></rect>
-																							</svg>
-																						</span>
-																					</button>
+																		
+																		<div class="variants_div">
+																		<?php	
+																			$sql_product_variants = "SELECT * FROM product_variants WHERE p_id = '$p_id'";
+																			$result_product_variants = $conn->query($sql_product_variants);
+																			if($result_product_variants->num_rows > 0){
+																			while($row_product_variants = $result_product_variants->fetch_assoc()) {
+																				$variant_type = $row_product_variants["variant"];
+																				$variant_title = $row_product_variants["title"];
+																				$variant_stock = $row_product_variants["stock"];
+																		?>
+																			<div class="form-group variant_indi" style="margin-top:1%;">
+																				<div class="d-flex flex-column gap-3">
+																					<div class="form-group d-flex flex-wrap align-items-center gap-5">
+																						
+																						<div class="w-100 w-md-150px">
+																							<select class="form-select variant_type variant_type[]" name="kt_ecommerce_add_product_options_1[]" >
+																								<option value="<?= $variant_type; ?>"><?= $variant_type; ?></option>
+																								<option value="color">Color</option>
+																								<option value="size">Size</option>
+																								<option value="material">Material</option>
+																								<option value="style">Style</option>
+																							</select>
+																						</div>
+																						
+																						<input type="text" class="form-control variant_title mw-100 w-200px variant_title[]" name="kt_ecommerce_add_product_options_2[]" placeholder="Title" value="<?= $variant_title; ?>">
+																						<input type="number" class="form-control variant_quantity mw-100px variant_quantity[]" name="kt_ecommerce_add_product_options_3[]" placeholder="Quantity" value="<?= $variant_stock; ?>">
+																						
+																						<button type="button" class="btn btn-sm btn-icon btn-light-danger variant_remove">
+																							<span class="svg-icon svg-icon-1">
+																								<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+																									<rect opacity="0.5" x="7.05025" y="15.5356" width="12" height="2" rx="1" transform="rotate(-45 7.05025 15.5356)" fill="currentColor"></rect>
+																									<rect x="8.46447" y="7.05029" width="12" height="2" rx="1" transform="rotate(45 8.46447 7.05029)" fill="currentColor"></rect>
+																								</svg>
+																							</span>
+																						</button>
 
+																					</div>
 																				</div>
-                                                                            </div>
+																			</div>
+																		<?php } } else { } ?>
 																		</div>
 																		
 																		<div class="form-group mt-5">
-																			<button type="button" data-repeater-create="" class="btn btn-sm btn-light-primary">
+																			<button type="button" data-repeater-create="" class="btn btn-sm btn-light-primary variant_add_btn">
                                                                                 <span class="svg-icon svg-icon-2">
                                                                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                                                         <rect opacity="0.5" x="11" y="18" width="12" height="2" rx="1" transform="rotate(-90 11 18)" fill="currentColor"></rect>
@@ -325,6 +339,7 @@
                                                                                 Add another variation
                                                                             </button>
 																		</div>
+
 																	</div>
 																</div>
 															</div>
@@ -355,50 +370,6 @@
 																<div class="card-title">
 																	<h2>Customer Reviews</h2>
 																</div>
-															<!--
-																<div class="card-toolbar">
-																	<span class="fw-bold me-5">Overall Rating:</span>
-																	
-                                                                    <div class="rating">
-																		<div class="rating-label checked">
-																			<span class="svg-icon svg-icon-2">
-																				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-																					<path d="M11.1359 4.48359C11.5216 3.82132 12.4784 3.82132 12.8641 4.48359L15.011 8.16962C15.1523 8.41222 15.3891 8.58425 15.6635 8.64367L19.8326 9.54646C20.5816 9.70867 20.8773 10.6186 20.3666 11.1901L17.5244 14.371C17.3374 14.5803 17.2469 14.8587 17.2752 15.138L17.7049 19.382C17.7821 20.1445 17.0081 20.7069 16.3067 20.3978L12.4032 18.6777C12.1463 18.5645 11.8537 18.5645 11.5968 18.6777L7.69326 20.3978C6.99192 20.7069 6.21789 20.1445 6.2951 19.382L6.7248 15.138C6.75308 14.8587 6.66264 14.5803 6.47558 14.371L3.63339 11.1901C3.12273 10.6186 3.41838 9.70867 4.16744 9.54646L8.3365 8.64367C8.61089 8.58425 8.84767 8.41222 8.98897 8.16962L11.1359 4.48359Z" fill="currentColor"></path>
-																				</svg>
-																			</span>
-																		</div>
-																		<div class="rating-label checked">
-																			<span class="svg-icon svg-icon-2">
-																				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-																					<path d="M11.1359 4.48359C11.5216 3.82132 12.4784 3.82132 12.8641 4.48359L15.011 8.16962C15.1523 8.41222 15.3891 8.58425 15.6635 8.64367L19.8326 9.54646C20.5816 9.70867 20.8773 10.6186 20.3666 11.1901L17.5244 14.371C17.3374 14.5803 17.2469 14.8587 17.2752 15.138L17.7049 19.382C17.7821 20.1445 17.0081 20.7069 16.3067 20.3978L12.4032 18.6777C12.1463 18.5645 11.8537 18.5645 11.5968 18.6777L7.69326 20.3978C6.99192 20.7069 6.21789 20.1445 6.2951 19.382L6.7248 15.138C6.75308 14.8587 6.66264 14.5803 6.47558 14.371L3.63339 11.1901C3.12273 10.6186 3.41838 9.70867 4.16744 9.54646L8.3365 8.64367C8.61089 8.58425 8.84767 8.41222 8.98897 8.16962L11.1359 4.48359Z" fill="currentColor"></path>
-																				</svg>
-																			</span>
-																		</div>
-																		<div class="rating-label checked">
-																			<span class="svg-icon svg-icon-2">
-																				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-																					<path d="M11.1359 4.48359C11.5216 3.82132 12.4784 3.82132 12.8641 4.48359L15.011 8.16962C15.1523 8.41222 15.3891 8.58425 15.6635 8.64367L19.8326 9.54646C20.5816 9.70867 20.8773 10.6186 20.3666 11.1901L17.5244 14.371C17.3374 14.5803 17.2469 14.8587 17.2752 15.138L17.7049 19.382C17.7821 20.1445 17.0081 20.7069 16.3067 20.3978L12.4032 18.6777C12.1463 18.5645 11.8537 18.5645 11.5968 18.6777L7.69326 20.3978C6.99192 20.7069 6.21789 20.1445 6.2951 19.382L6.7248 15.138C6.75308 14.8587 6.66264 14.5803 6.47558 14.371L3.63339 11.1901C3.12273 10.6186 3.41838 9.70867 4.16744 9.54646L8.3365 8.64367C8.61089 8.58425 8.84767 8.41222 8.98897 8.16962L11.1359 4.48359Z" fill="currentColor"></path>
-																				</svg>
-																			</span>
-																		</div>
-																		<div class="rating-label checked">
-																			<span class="svg-icon svg-icon-2">
-																				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-																					<path d="M11.1359 4.48359C11.5216 3.82132 12.4784 3.82132 12.8641 4.48359L15.011 8.16962C15.1523 8.41222 15.3891 8.58425 15.6635 8.64367L19.8326 9.54646C20.5816 9.70867 20.8773 10.6186 20.3666 11.1901L17.5244 14.371C17.3374 14.5803 17.2469 14.8587 17.2752 15.138L17.7049 19.382C17.7821 20.1445 17.0081 20.7069 16.3067 20.3978L12.4032 18.6777C12.1463 18.5645 11.8537 18.5645 11.5968 18.6777L7.69326 20.3978C6.99192 20.7069 6.21789 20.1445 6.2951 19.382L6.7248 15.138C6.75308 14.8587 6.66264 14.5803 6.47558 14.371L3.63339 11.1901C3.12273 10.6186 3.41838 9.70867 4.16744 9.54646L8.3365 8.64367C8.61089 8.58425 8.84767 8.41222 8.98897 8.16962L11.1359 4.48359Z" fill="currentColor"></path>
-																				</svg>
-																			</span>
-																		</div>
-																		<div class="rating-label">
-																			<span class="svg-icon svg-icon-2">
-																				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-																					<path d="M11.1359 4.48359C11.5216 3.82132 12.4784 3.82132 12.8641 4.48359L15.011 8.16962C15.1523 8.41222 15.3891 8.58425 15.6635 8.64367L19.8326 9.54646C20.5816 9.70867 20.8773 10.6186 20.3666 11.1901L17.5244 14.371C17.3374 14.5803 17.2469 14.8587 17.2752 15.138L17.7049 19.382C17.7821 20.1445 17.0081 20.7069 16.3067 20.3978L12.4032 18.6777C12.1463 18.5645 11.8537 18.5645 11.5968 18.6777L7.69326 20.3978C6.99192 20.7069 6.21789 20.1445 6.2951 19.382L6.7248 15.138C6.75308 14.8587 6.66264 14.5803 6.47558 14.371L3.63339 11.1901C3.12273 10.6186 3.41838 9.70867 4.16744 9.54646L8.3365 8.64367C8.61089 8.58425 8.84767 8.41222 8.98897 8.16962L11.1359 4.48359Z" fill="currentColor"></path>
-																				</svg>
-																			</span>
-																		</div>
-																	</div>
-																</div>
-														-->
-
 															</div>
 															
 															<div class="card-body pt-0">
@@ -527,6 +498,41 @@
 			$(".cat_id_"+cat_id).css("display","block"); 
 		});
 
+		$(".variant_add_btn").on("click",()=>{
+			$(".variants_div").append(`<div class="form-group variant_indi" style="margin-top:1%;">
+										<div class="d-flex flex-column gap-3">
+											<div class="form-group d-flex flex-wrap align-items-center gap-5">
+												
+												<div class="w-100 w-md-150px">
+													<select class="form-select variant_type[]" name="kt_ecommerce_add_product_options_1[]">
+														<option value="color">Color</option>
+														<option value="size">Size</option>
+														<option value="material">Material</option>
+														<option value="style">Style</option>
+													</select>
+												</div>
+												
+												<input type="text" class="form-control mw-100 w-200px variant_title[]" name="kt_ecommerce_add_product_options_2[]" placeholder="Title">
+												<input type="number" class="form-control mw-100px variant_quantity[]" name="kt_ecommerce_add_product_options_3[]" placeholder="Quantity">
+												
+												<button type="button" class="btn btn-sm btn-icon btn-light-danger variant_remove">
+													<span class="svg-icon svg-icon-1">
+														<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+															<rect opacity="0.5" x="7.05025" y="15.5356" width="12" height="2" rx="1" transform="rotate(-45 7.05025 15.5356)" fill="currentColor"></rect>
+															<rect x="8.46447" y="7.05029" width="12" height="2" rx="1" transform="rotate(45 8.46447 7.05029)" fill="currentColor"></rect>
+														</svg>
+													</span>
+												</button>
+
+											</div>
+										</div>
+									</div>`);
+		});
+
+		$(document).on("click",".variant_remove",function(){
+			$(this).closest(".variant_indi").remove();
+		});
+
 		$(".product_submit_btn").on("click",()=>{
 			$(".indicator-label").css("display","none");
 			$(".indicator-progress").css("display","block");
@@ -545,6 +551,12 @@
 			var product_shipping = $(".product_shipping").val();
 			var files = $('#product_pic')[0].files;
 
+			var variant_type = $("select[name='kt_ecommerce_add_product_options_1[]']").map(function(){return $(this).val();}).get();
+			var variant_title = $("input[name='kt_ecommerce_add_product_options_2[]']").map(function(){return $(this).val();}).get();
+			var variant_quantity = $("input[name='kt_ecommerce_add_product_options_3[]']").map(function(){return $(this).val();}).get();
+
+			console.log(variant_type);
+
 			fd.append('product_pic',files[0]);
 			fd.append('p_id',p_id);
 			fd.append('cat_id',cat_id);
@@ -559,6 +571,10 @@
 			fd.append('product_brand',product_brand);
 			fd.append('product_shipping',product_shipping);
 
+			variant_type.forEach((item) => fd.append("variant_type[]", item));
+			variant_title.forEach((item) => fd.append("variant_title[]", item));
+			variant_quantity.forEach((item) => fd.append("variant_quantity[]", item));
+
 			$.ajax({
 				url:'backend/product_update.php',
 				type:'post',
@@ -568,7 +584,7 @@
 				success:function(response) {
 					$(".pop_notify").fadeIn().css({"background":"green"}).animate({"bottom":"2%"}).html(response);
 					setTimeout(()=>{
-						// $(".pop_notify").animate({"bottom":"-20%"}).fadeOut().html('');
+						$(".pop_notify").animate({"bottom":"-20%"}).fadeOut().html('');
 					},3000);
 					$(".product_submit_btn").html("Uploaded");
 					$(".product_submit_btn").attr("disabled",'disabled');

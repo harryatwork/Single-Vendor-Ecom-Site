@@ -244,12 +244,12 @@
 																	<div  id="kt_ecommerce_add_product_options" data-select2-id="select2-data-kt_ecommerce_add_product_options">
 																		
 																		<div class="variants_div">
-																			<div class="form-group variant_indi" data-select2-id="select2-data-134-k5cr">
-																				<div data-repeater-list="kt_ecommerce_add_product_options" class="d-flex flex-column gap-3" data-select2-id="select2-data-133-blfw">
-																					<div data-repeater-item="" class="form-group d-flex flex-wrap align-items-center gap-5" data-select2-id="select2-data-167-r6df">
+																			<div class="form-group variant_indi">
+																				<div class="d-flex flex-column gap-3">
+																					<div class="form-group d-flex flex-wrap align-items-center gap-5">
 																						
-																						<div class="w-100 w-md-150px" data-select2-id="select2-data-166-snhd">
-																							<select class="form-select variant_type[]" name="variant_type[]" data-placeholder="Select a variation" data-kt-ecommerce-catalog-add-product="product_option" data-select2-id="select2-data-162-rulv" tabindex="-1" aria-hidden="true">
+																						<div class="w-100 w-md-150px">
+																							<select class="form-select variant_type variant_type[]" name="kt_ecommerce_add_product_options_1[]" >
 																								<option value="color" data-select2-id="select2-data-168-jqig">Color</option>
 																								<option value="size" data-select2-id="select2-data-169-3bxf">Size</option>
 																								<option value="material" data-select2-id="select2-data-170-1xba">Material</option>
@@ -257,8 +257,8 @@
 																							</select>
 																						</div>
 																						
-																						<input type="text" class="form-control mw-100 w-200px variant_title[]" name="variant_title[]" placeholder="Title">
-																						<input type="number" class="form-control mw-100px variant_quantity[]" name="variant_quantity[]" placeholder="Quantity">
+																						<input type="text" class="form-control variant_title mw-100 w-200px variant_title[]" name="kt_ecommerce_add_product_options_2[]" placeholder="Title">
+																						<input type="number" class="form-control variant_quantity mw-100px variant_quantity[]" name="kt_ecommerce_add_product_options_3[]" placeholder="Quantity">
 																						
 																					</div>
 																				</div>
@@ -330,23 +330,23 @@
 		});
 
 		$(".variant_add_btn").on("click",()=>{
-			$(".variants_div").append(`<div class="form-group variant_indi" data-select2-id="select2-data-134-k5cr" style="margin-top:1%;">
-										<div data-repeater-list="kt_ecommerce_add_product_options" class="d-flex flex-column gap-3" data-select2-id="select2-data-133-blfw">
-											<div data-repeater-item="" class="form-group d-flex flex-wrap align-items-center gap-5" data-select2-id="select2-data-167-r6df">
+			$(".variants_div").append(`<div class="form-group variant_indi" style="margin-top:1%;">
+										<div class="d-flex flex-column gap-3">
+											<div class="form-group d-flex flex-wrap align-items-center gap-5">
 												
-												<div class="w-100 w-md-150px" data-select2-id="select2-data-166-snhd">
-													<select class="form-select variant_type[]" name="kt_ecommerce_add_product_options_1[]" data-placeholder="Select a variation" data-kt-ecommerce-catalog-add-product="product_option" data-select2-id="select2-data-162-rulv" tabindex="-1" aria-hidden="true">
-														<option value="color" data-select2-id="select2-data-168-jqig">Color</option>
-														<option value="size" data-select2-id="select2-data-169-3bxf">Size</option>
-														<option value="material" data-select2-id="select2-data-170-1xba">Material</option>
-														<option value="style" data-select2-id="select2-data-171-o4g6">Style</option>
+												<div class="w-100 w-md-150px">
+													<select class="form-select variant_type[]" name="kt_ecommerce_add_product_options_1[]">
+														<option value="color">Color</option>
+														<option value="size">Size</option>
+														<option value="material">Material</option>
+														<option value="style">Style</option>
 													</select>
 												</div>
 												
 												<input type="text" class="form-control mw-100 w-200px variant_title[]" name="kt_ecommerce_add_product_options_2[]" placeholder="Title">
 												<input type="number" class="form-control mw-100px variant_quantity[]" name="kt_ecommerce_add_product_options_3[]" placeholder="Quantity">
 												
-												<button type="button" data-repeater-delete="" class="btn btn-sm btn-icon btn-light-danger variant_remove">
+												<button type="button" class="btn btn-sm btn-icon btn-light-danger variant_remove">
 													<span class="svg-icon svg-icon-1">
 														<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 															<rect opacity="0.5" x="7.05025" y="15.5356" width="12" height="2" rx="1" transform="rotate(-45 7.05025 15.5356)" fill="currentColor"></rect>
@@ -368,13 +368,10 @@
 			$(".indicator-label").css("display","none");
 			$(".indicator-progress").css("display","block");
 			var fd = new FormData();
-
-			var variant_type = $("input[class='variant_type[]']").map(function(){return $(this).val();}).get();
-			var variant_title = $("input[class='variant_title[]']").map(function(){return $(this).val();}).get();
-			var variant_quantity = $("input[class='variant_quantity[]']").map(function(){return $(this).val();}).get();
-
-			console.log(variant_type);
-			console.log(variant_title);
+			
+			var variant_type = $("select[name='kt_ecommerce_add_product_options_1[]']").map(function(){return $(this).val();}).get();
+			var variant_title = $("input[name='kt_ecommerce_add_product_options_2[]']").map(function(){return $(this).val();}).get();
+			var variant_quantity = $("input[name='kt_ecommerce_add_product_options_3[]']").map(function(){return $(this).val();}).get();
 
 			var cat_id = $(".cat_id").val();
 			var subcat_id = $(".subcat_id").val();
@@ -402,23 +399,27 @@
 			fd.append('product_brand',product_brand);
 			fd.append('product_shipping',product_shipping);
 
-			// $.ajax({
-			// 	url:'backend/product_insert.php',
-			// 	type:'post',
-			// 	data:fd,
-			// 	contentType: false,
-			// 	processData: false,
-			// 	success:function(response) {
-			// 		$(".pop_notify").fadeIn().css({"background":"green"}).animate({"bottom":"2%"}).html(response);
-			// 		setTimeout(()=>{
-			// 			$(".pop_notify").animate({"bottom":"-20%"}).fadeOut().html('');
-			// 		},3000);
-			// 		$(".product_submit_btn").html("Uploaded");
-			// 		$(".product_submit_btn").attr("disabled",'disabled');
-			// 		$(".indicator-label").css("display","block");
-			// 		$(".indicator-progress").css("display","none");
-			// 	}
-			// });
+			variant_type.forEach((item) => fd.append("variant_type[]", item));
+			variant_title.forEach((item) => fd.append("variant_title[]", item));
+			variant_quantity.forEach((item) => fd.append("variant_quantity[]", item));
+			
+			$.ajax({
+				url:'backend/product_insert.php',
+				type:'post',
+				data:fd,
+				contentType: false,
+				processData: false,
+				success:function(response) {
+					$(".pop_notify").fadeIn().css({"background":"green"}).animate({"bottom":"2%"}).html(response);
+					setTimeout(()=>{
+						$(".pop_notify").animate({"bottom":"-20%"}).fadeOut().html('');
+					},3000);
+					$(".product_submit_btn").html("Uploaded");
+					$(".product_submit_btn").attr("disabled",'disabled');
+					$(".indicator-label").css("display","block");
+					$(".indicator-progress").css("display","none");
+				}
+			});
 		});
 		
 	</script>
