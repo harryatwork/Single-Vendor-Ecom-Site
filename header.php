@@ -12,43 +12,30 @@
                                 </li>
                                 <li><a href="#">Shop</a>
                                     <ul class="dropdown megamenu">
+                                    <?php 
+                                        $sql_categories = "SELECT * FROM categories";
+                                        $stmt_categories = $conn->prepare($sql_categories);
+                                        $stmt_categories->execute();
+                                        $result_categories = $stmt_categories->get_result();
+                                        while($row_categories = $result_categories->fetch_assoc()) {
+                                            $cat_id = $row_categories["id"];
+                                    ?>
                                         <li>
-                                            <h3 class="megamenu-title"><a >Sneaker’s</a></h3>
+                                            <h3 class="megamenu-title"><a href="shop?category=<?= str_replace('\'', '',str_replace(' ', '-',$row_categories["name"])); ?>/<?= $cat_id; ?>"><?= $row_categories["name"]; ?></a></h3>
                                             <ul>
-                                                <li class="submenu-title"><a href="shop">Men’s</a></li>
-                                                <li class="submenu-title"><a href="shop">Women’s </a></li>
-                                                <li class="submenu-title"><a href="shop">Gradeschool</a></li>
-                                                <li class="submenu-title"><a href="shop">Kid’s</a></li>
+                                            <?php
+                                                $sql_subcategories = "SELECT * FROM subcategories WHERE cat_id = ?";
+                                                $stmt_subcategories = $conn->prepare($sql_subcategories);
+                                                $stmt_subcategories->bind_param("s",$cat_id);
+                                                $stmt_subcategories->execute();
+                                                $result_subcategories = $stmt_subcategories->get_result();
+                                                while($row_subcategories = $result_subcategories->fetch_assoc()) {
+                                            ?>
+                                                <li class="submenu-title"><a href="shop?subcategory=<?= str_replace('\'', '',str_replace(' ', '-',$row_categories["name"])); ?>/<?= str_replace('\'', '',(str_replace(' ', '-',$row_subcategories["name"]))); ?>/<?= $row_subcategories["id"]; ?>" ><?= $row_subcategories["name"]; ?></a></li>
+                                            <?php } ?>
                                             </ul>
                                         </li>
-                                        <li>
-                                            <h3 class="megamenu-title"><a >Streetwear</a></h3>
-                                            <ul>
-                                                <li class="submenu-title"><a href="shop">T-Shirt’s</a></li>
-                                                <li class="submenu-title"><a href="shop">Sweatshirt’s & Hoodie’s </a></li>
-                                                <li class="submenu-title"><a href="shop">Bottom’s</a></li>
-                                                <li class="submenu-title"><a href="shop">Outerwear</a></li>
-                                                <li class="submenu-title"><a href="shop">Hats</a></li>
-                                                <li class="submenu-title"><a href="shop">Accessories</a></li>
-                                            </ul>
-                                        </li>
-                                        <li>
-                                            <h3 class="megamenu-title"><a >Vintage</a></h3>
-                                            <ul>
-                                                <li class="submenu-title"><a href="shop">T-Shirt’s</a></li>
-                                                <li class="submenu-title"><a href="shop">Sweatshirt’s & Hoodie’s </a></li>
-                                                <li class="submenu-title"><a href="shop">Bottom’s</a></li>
-                                                <li class="submenu-title"><a href="shop">Outerwear</a></li>
-                                                <li class="submenu-title"><a href="shop">Jersey’s</a></li>
-                                                <li class="submenu-title"><a href="shop">Hats</a></li>
-                                                <li class="submenu-title"><a href="shop">Accessories</a></li>
-                                            </ul>
-                                        </li>
-                                        <li>
-                                            <h3 class="megamenu-title">
-                                                <a class="submenu-title" href="shop">Collectible’s</a>
-                                            </h3>
-                                        </li>
+                                    <?php } ?>
                                     </ul>
                                 </li>
                                 <li>
@@ -78,10 +65,11 @@
                             <nav>
                                 <ul>
                                     <li>
-                                        <a href="cart"><i class="fa fa-shopping-bag"></i>Cart <span>(2)</span></a>
+                                        <a href="cart"><i class="fa fa-shopping-bag"></i>Cart <span>(0)</span></a>
                                         <ul class="dropdown cart-dropdown">
                                             <li>
-                                                <div class="cart-item">
+                                                
+                                                <!-- <div class="cart-item">
                                                     <div class="cart-img">
                                                         <a href="#">
                                                             <img src="images/menu/mini-cart/1.jpg" alt="">
@@ -102,29 +90,8 @@
                                                             <a href="#" title="Remove this product from my cart"></a>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div class="cart-item">
-                                                    <div class="cart-img">
-                                                        <a href="#">
-                                                            <img src="images/menu/mini-cart/2.jpg" alt="">
-                                                        </a>
-                                                    </div>
-                                                    <div class="cart-info">
-                                                        <div class="pro-item">
-                                                            <span class="quantity-formated">1x</span>
-                                                            <a class="pro-name" href="#" title="Printed Dress">Printed Dress</a>
-                                                        </div>
-                                                        <div class="pro-atributes">
-                                                            <a href="#" title="Product Detail">S, Beige</a>
-                                                        </div>
-                                                        <div class="pro-price">
-                                                            <span>$50.99</span>
-                                                        </div>
-                                                        <div class="remove-link">
-                                                            <a href="#" title="Remove this product from my cart"></a>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                </div> -->
+
                                                 <div class="cart-inner-bottom">
                                                     <div class="cart-shipping cart-item">
                                                         <div class="total">
@@ -167,8 +134,12 @@
                                 <ul>
                                     <li><a href="#"><i class="fa fa-cog"></i>My Account</a>
                                         <ul class="dropdown primary-dropdown">
+                                        <?php if(isset($_SESSION["email"])) { ?>
+                                            <li><a href="account"><i class="fa fa-user"></i>Account</a></li>
+                                        <?php } else { ?>
                                             <li><a href="signin"><i class="fa fa-unlock"></i>Sign In</a></li>
                                             <li><a href="signup"><i class="fa fa-user"></i>Sign Up</a></li>
+                                        <?php } ?>
                                             <li><a href="wishlist"><i class="fa fa-heart"></i>Wishlist</a></li>
                                             <!-- <li><a href="#"><i class="fa fa-check-square"></i>Checkout</a></li> -->
                                         </ul>
@@ -186,13 +157,13 @@
                                 <a href="index">Home</a>
                             </li>
                                 <li>
-                                <a href="#">Shop</a>
+                                    <a href="shop">Shop</a>
                                 </li>
                                 <li>
-                                <a href="#">Blog</a>
+                                    <a href="blogs">Blog</a>
                                 </li>
                                 <li>
-                                <a href="#">Contact Us</a>
+                                    <a href="contact">Contact Us</a>
                                 </li>
                             </ul>
                         </nav>

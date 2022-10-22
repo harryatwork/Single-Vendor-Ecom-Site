@@ -466,7 +466,7 @@
 											</div>
 											
 											<div class="d-flex justify-content-end">
-												<a href="productsq=active" id="kt_ecommerce_add_product_cancel" class="btn btn-light me-5">Cancel</a>
+												<a href="products=q=active" id="kt_ecommerce_add_product_cancel" class="btn btn-light me-5">Cancel</a>
 												<button type="button" id="kt_ecommerce_add_product_submit" class="btn btn-primary product_submit_btn">
 													<span class="indicator-label">Save Changes</span>
 													<span class="indicator-progress">Please wait... 

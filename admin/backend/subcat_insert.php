@@ -16,15 +16,15 @@
 
     if(move_uploaded_file($_FILES['subcat_pic']['tmp_name'],$location . $newfilename)) {
 
-        $sql = "INSERT INTO subcategories (cat_id, name, image)
-                VALUES ('$category','$subcategory', '$newfilename')";
-                if ($con->query($sql) === TRUE) { 
-                    echo'Sub Category Uploaded Successfully';
-                } else {
-                    echo'Error Upload Sub Category. Please try again';
-                    // echo "ERROR" . $sql . "<br>" . $conn->error;
-                }
-
     } else {
-        echo'Error Upload Category. Please try again';
+        // echo'Error Upload Category. Please try again';
     }
+
+    $sql = "INSERT INTO subcategories (cat_id, name, image)
+            VALUES ('$category','$subcategory', '$newfilename')";
+            if ($con->query($sql) === TRUE) { 
+                echo'Sub Category Uploaded Successfully';
+            } else {
+                echo'Error Upload Sub Category. Please try again';
+                // echo "ERROR" . $sql . "<br>" . $conn->error;
+            }

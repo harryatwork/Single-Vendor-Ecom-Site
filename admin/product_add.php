@@ -87,6 +87,7 @@
 												<div class="card-body pt-0">
 													<label class="form-label">Category</label>
 													<select class="form-select mb-2 cat_id" >
+														<option selected disabled hidden>Choose One</option>
 													<?php	
 														$sql_cat = "SELECT * FROM categories";
 														$result_cat = $conn->query($sql_cat);
@@ -143,7 +144,7 @@
 															<div class="card-body pt-0">
 																<div class="mb-10 fv-row fv-plugins-icon-container">
 																	<label class="required form-label">Product Name</label>
-																	<input type="text" name="product_name" class="product_name form-control mb-2" placeholder="Product name" value="Sample product">
+																	<input type="text" name="product_name" class="product_name form-control mb-2" placeholder="Product name" value="">
                                                                 </div>
 																<div>
 																	<label class="form-label">Description</label>
@@ -300,7 +301,7 @@
 											</div>
 											
 											<div class="d-flex justify-content-end">
-												<a href="productsq=active" id="kt_ecommerce_add_product_cancel" class="btn btn-light me-5">Cancel</a>
+												<a href="products=q=active" id="kt_ecommerce_add_product_cancel" class="btn btn-light me-5">Cancel</a>
 												<button type="button" id="kt_ecommerce_add_product_submit" class="product_submit_btn btn btn-primary">
 													<span class="indicator-label">Save Changes</span>
 													<span class="indicator-progress">Please wait... 
@@ -413,6 +414,7 @@
 					$(".pop_notify").fadeIn().css({"background":"green"}).animate({"bottom":"2%"}).html(response);
 					setTimeout(()=>{
 						$(".pop_notify").animate({"bottom":"-20%"}).fadeOut().html('');
+						window.location.href="products?q=active";
 					},3000);
 					$(".product_submit_btn").html("Uploaded");
 					$(".product_submit_btn").attr("disabled",'disabled');

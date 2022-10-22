@@ -100,7 +100,7 @@
 															<div class="card-body pt-0">
 																<div class="mb-10 fv-row fv-plugins-icon-container">
 																	<label class="required form-label">Sub Category Name</label>
-																	<input type="text" name="" class="subcat_name form-control mb-2" placeholder="Sub Category name" value="Sample Category">
+																	<input type="text" name="" class="subcat_name form-control mb-2" placeholder="Sub Category name" >
                                                                 </div>
 															</div>
 
@@ -156,6 +156,7 @@
 				$(".pop_notify").fadeIn().css({"background":"green"}).animate({"bottom":"2%"}).html(response);
                 setTimeout(()=>{
                     $(".pop_notify").animate({"bottom":"-20%"}).fadeOut().html('');
+					window.location.href='subcategories';
                 },3000);
 				$(".subcategory_submit_btn").html("Uploaded");
 				$(".subcategory_submit_btn").attr("disabled",'disabled');

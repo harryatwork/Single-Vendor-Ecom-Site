@@ -1,5 +1,7 @@
 <!-- jQuery-V3.6.0 -->
 <script src="js/vendor/jquery-3.6.0.min.js"></script>
+<script src="js/custom.js"></script>
+
 <script src="js/vendor/jquery-migrate-3.3.2.min.js"></script>
 <!-- Bootstrap v5.0.2 Fremwork js -->
 <script src="js/bootstrap.bundle.min.js"></script>

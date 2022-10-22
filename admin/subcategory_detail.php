@@ -125,7 +125,7 @@
     <script src="assets/js/custom/apps/ecommerce/sales/listing.js"></script>
 		
 	<?php include("footer.php"); ?>
-	<?php include("pop_notifications"); ?>
+	<?php include("pop_notifications.php"); ?>
 
 	<script>
 		$(".subcategory_submit_btn").on("click",()=>{ 
