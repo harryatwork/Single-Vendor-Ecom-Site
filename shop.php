@@ -1,18 +1,42 @@
 <?php include("head.php"); ?>
 
 <style>
-.header-sticky {
-    background-color: rgba(0, 0, 0, 0.7) !important;
-    box-shadow: 0 8px 6px -6px rgb(0 0 0 / 40%) !important;
-}
-.page-banner {
-    margin-top:10%;
-}
+    .header-sticky {
+        background-color: rgba(0, 0, 0, 0.7) !important;
+        box-shadow: 0 8px 6px -6px rgb(0 0 0 / 40%) !important;
+    }
+    .page-banner {
+        margin-top:10%;
+    }
+    .total_products_count {
+        color: white;
+        font-weight: 800;
+        background: #21a88f;
+        padding: 3px 7px;
+        border-radius: 4px;
+    }
 </style>
 
 <body>
 
 <?php include("header.php"); ?>
+
+<?php
+    $url = "http://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+    $url = explode("/", $url);
+    $url_cat_id = $url[count($url)-1];
+    $url_cat_name_array = $url[count($url)-2];
+    $url_cat_name_array = explode("=", $url_cat_name_array);
+    $url_cat_name = $url_cat_name_array[count($url_cat_name_array)-1];
+
+    if(isset($_GET[category])) {
+        $getter = 'cat_id';
+    } elseif (isset($_GET["subcategory"])) {
+        $getter = 'subcat_id';
+    } else {
+        $getter = 'NA';
+    }
+?>
 
     <div class="page-banner">
         <div class="container">
@@ -20,7 +44,7 @@
                 <ul>
                     <li><a href="index">Home</a></li>
                     <li><a href="shop">Shop</a></li>
-                    <li class="active"><a href="#">Shop</a></li>
+                    <li class="active"><a><?= $url_cat_name; ?></a></li>
                 </ul>
             </div>
         </div>
@@ -31,25 +55,13 @@
         <div class="container">
             <div class="row">
 
-<?php include("shop_sidebar.php"); ?>
+            <?php include("shop_sidebar.php"); ?>
 
                 <div class="col-lg-9 order-1 order-lg-2">
                     <div class="shop-topbar-wrapper shop-list-topbar-wrapper">
-                        <div class="grid-list">
-                            <ul class="nav">
-                                <li>
-                                    <a class="active show" data-bs-toggle="tab" href="#grid" title="Grid">
-                                        <i class="fa fa-th-large"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a data-bs-toggle="tab" href="#list" title="List">
-                                        <i class="fa fa-th-list"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
+                       
                         <div class="toolbar-short-area d-md-flex align-items-center">
+                            <p class="show-product">Total <span class="total_products_count"></span> Products</p>
                             <div class="toolbar-shorter">
                                 <label>Sort By:</label>
                                 <select class="nice-select wide">
@@ -58,12 +70,8 @@
                                     <option value="price:desc">Price: Highest first</option>
                                     <option value="name:asc">Product Name: A to Z</option>
                                     <option value="name:desc">Product Name: Z to A</option>
-                                    <option value="quantity:desc">In stock</option>
-                                    <option value="reference:asc">Reference: Lowest first</option>
-                                    <option value="reference:desc">Reference: Highest first</option>
                                 </select>
                             </div>
-                            <p class="show-product">Showing 1&ndash;9 of 42 results</p>
                         </div>
                     </div>
                                 
@@ -72,975 +80,132 @@
                         <div class="tab-content">
                             <div id="grid" class="tab-pane show fade in active">
                                 <div class="grid-view">
-                                    <div class="row">
-                                        <div class="col-lg-4 col-md-6 col-sm-6">
-                                            <div class="single-product single-product-3">
-                                                <div class="product-img">
-                                                    <a href="product">
-                                                        <img class="primary-img" src="images/product/1_1.jpg" alt="">
-                                                        <img class="secondary-img" src="images/product/1_2.jpg" alt="">
-                                                    </a>
-                                                    <div class="sticker"><span>New</span></div>
-                                                    <div class="product-action">
-                                                        <div class="product-action-inner">
-                                                            <div class="cart">
-                                                                <a href="cart">
-                                                                    <span>Add To Cart</span>
-                                                                </a>
-                                                            </div>
-                                                            <ul class="add-to-links">
-                                                                <li  class="rav-wishlist"><a href="wishlist" data-bs-toggle="tooltip" title="Add To Wishlist"><i class="fa fa-heart-o"></i></a></li>
-                                                                 
-                                                                <li class="rav-quickviewbtn">
-                                                                    <a href=".html" data-bs-toggle="modal" title="Quick view"><i class="fa fa-eye"></i></a>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="product-contents">
-                                                    <h5 class="product-name">
-                                                        <a href="product" title="Printed Chiffon Dress">Printed Chiffon Dress</a>
-                                                    </h5>
-                                                    <div class="price-box">
-                                                        <span class="price">$16.40</span>
-                                                        <span class="old-price">$20.50</span>
-                                                    </div>
-                                                    <div class="rating">
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-md-6 col-sm-6">
-                                            <div class="single-product single-product-3">
-                                                <div class="product-img">
-                                                    <a href="product">
-                                                        <img class="primary-img" src="images/product/2_1.jpg" alt="">
-                                                        <img class="secondary-img" src="images/product/2_2.jpg" alt="">
-                                                    </a>
-                                                    <div class="sticker"><span>New</span></div>
-                                                    <div class="product-action">
-                                                        <div class="product-action-inner">
-                                                            <div class="cart">
-                                                                <a href="cart">
-                                                                    <span>Add To Cart</span>
-                                                                </a>
-                                                            </div>
-                                                            <ul class="add-to-links">
-                                                                <li  class="rav-wishlist"><a href="wishlist" data-bs-toggle="tooltip" title="Add To Wishlist"><i class="fa fa-heart-o"></i></a></li>
-                                                                 
-                                                                <li class="rav-quickviewbtn">
-                                                                    <a href=".html" data-bs-toggle="modal" title="Quick view"><i class="fa fa-eye"></i></a>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="product-contents">
-                                                    <h5 class="product-name">
-                                                        <a href="product" title="Printed Chiffon Dress">Printed Chiffon Dress</a>
-                                                    </h5>
-                                                    <div class="price-box">
-                                                        <span class="price">$16.40</span>
-                                                        <span class="old-price">$20.50</span>
-                                                    </div>
-                                                    <div class="rating">
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-md-6 col-sm-6">
-                                            <div class="single-product single-product-3">
-                                                <div class="product-img">
-                                                    <a href="product">
-                                                        <img class="primary-img" src="images/product/3_1.jpg" alt="">
-                                                        <img class="secondary-img" src="images/product/3_2.jpg" alt="">
-                                                    </a>
-                                                    <div class="sticker"><span>New</span></div>
-                                                    <div class="product-action">
-                                                        <div class="product-action-inner">
-                                                            <div class="cart">
-                                                                <a href="cart">
-                                                                    <span>Add To Cart</span>
-                                                                </a>
-                                                            </div>
-                                                            <ul class="add-to-links">
-                                                                <li  class="rav-wishlist"><a href="wishlist" data-bs-toggle="tooltip" title="Add To Wishlist"><i class="fa fa-heart-o"></i></a></li>
-                                                                 
-                                                                <li class="rav-quickviewbtn">
-                                                                    <a href=".html" data-bs-toggle="modal" title="Quick view"><i class="fa fa-eye"></i></a>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="product-contents">
-                                                    <h5 class="product-name">
-                                                        <a href="product" title="Printed Chiffon Dress">Printed Chiffon Dress</a>
-                                                    </h5>
-                                                    <div class="price-box">
-                                                        <span class="price">$16.40</span>
-                                                        <span class="old-price">$20.50</span>
-                                                    </div>
-                                                    <div class="rating">
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-md-6 col-sm-6">
-                                            <div class="single-product single-product-3">
-                                                <div class="product-img">
-                                                    <a href="product">
-                                                        <img class="primary-img" src="images/product/4_1.jpg" alt="">
-                                                        <img class="secondary-img" src="images/product/4_2.jpg" alt="">
-                                                    </a>
-                                                    <div class="sticker"><span>New</span></div>
-                                                    <div class="product-action">
-                                                        <div class="product-action-inner">
-                                                            <div class="cart">
-                                                                <a href="cart">
-                                                                    <span>Add To Cart</span>
-                                                                </a>
-                                                            </div>
-                                                            <ul class="add-to-links">
-                                                                <li  class="rav-wishlist"><a href="wishlist" data-bs-toggle="tooltip" title="Add To Wishlist"><i class="fa fa-heart-o"></i></a></li>
-                                                                 
-                                                                <li class="rav-quickviewbtn">
-                                                                    <a href=".html" data-bs-toggle="modal" title="Quick view"><i class="fa fa-eye"></i></a>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="product-contents">
-                                                    <h5 class="product-name">
-                                                        <a href="product" title="Printed Chiffon Dress">Printed Chiffon Dress</a>
-                                                    </h5>
-                                                    <div class="price-box">
-                                                        <span class="price">$16.40</span>
-                                                        <span class="old-price">$20.50</span>
-                                                    </div>
-                                                    <div class="rating">
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-md-6 col-sm-6">
-                                            <div class="single-product single-product-3">
-                                                <div class="product-img">
-                                                    <a href="product">
-                                                        <img class="primary-img" src="images/product/5_1.jpg" alt="">
-                                                        <img class="secondary-img" src="images/product/5_2.jpg" alt="">
-                                                    </a>
-                                                    <div class="sticker"><span>New</span></div>
-                                                    <div class="product-action">
-                                                        <div class="product-action-inner">
-                                                            <div class="cart">
-                                                                <a href="cart">
-                                                                    <span>Add To Cart</span>
-                                                                </a>
-                                                            </div>
-                                                            <ul class="add-to-links">
-                                                                <li  class="rav-wishlist"><a href="wishlist" data-bs-toggle="tooltip" title="Add To Wishlist"><i class="fa fa-heart-o"></i></a></li>
-                                                                 
-                                                                <li class="rav-quickviewbtn">
-                                                                    <a href=".html" data-bs-toggle="modal" title="Quick view"><i class="fa fa-eye"></i></a>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="product-contents">
-                                                    <h5 class="product-name">
-                                                        <a href="product" title="Printed Chiffon Dress">Printed Chiffon Dress</a>
-                                                    </h5>
-                                                    <div class="price-box">
-                                                        <span class="price">$16.40</span>
-                                                        <span class="old-price">$20.50</span>
-                                                    </div>
-                                                    <div class="rating">
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-md-6 col-sm-6">
-                                            <div class="single-product single-product-3">
-                                                <div class="product-img">
-                                                    <a href="product">
-                                                        <img class="primary-img" src="images/product/5_1.jpg" alt="">
-                                                        <img class="secondary-img" src="images/product/5_2.jpg" alt="">
-                                                    </a>
-                                                    <div class="sticker"><span>New</span></div>
-                                                    <div class="product-action">
-                                                        <div class="product-action-inner">
-                                                            <div class="cart">
-                                                                <a href="cart">
-                                                                    <span>Add To Cart</span>
-                                                                </a>
-                                                            </div>
-                                                            <ul class="add-to-links">
-                                                                <li  class="rav-wishlist"><a href="wishlist" data-bs-toggle="tooltip" title="Add To Wishlist"><i class="fa fa-heart-o"></i></a></li>
-                                                                 
-                                                                <li class="rav-quickviewbtn">
-                                                                    <a href=".html" data-bs-toggle="modal" title="Quick view"><i class="fa fa-eye"></i></a>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="product-contents">
-                                                    <h5 class="product-name">
-                                                        <a href="product" title="Printed Chiffon Dress">Printed Chiffon Dress</a>
-                                                    </h5>
-                                                    <div class="price-box">
-                                                        <span class="price">$16.40</span>
-                                                        <span class="old-price">$20.50</span>
-                                                    </div>
-                                                    <div class="rating">
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-md-6 col-sm-6">
-                                            <div class="single-product single-product-3">
-                                                <div class="product-img">
-                                                    <a href="product">
-                                                        <img class="primary-img" src="images/product/6_1.jpg" alt="">
-                                                        <img class="secondary-img" src="images/product/6_2.jpg" alt="">
-                                                    </a>
-                                                    <div class="sticker"><span>New</span></div>
-                                                    <div class="product-action">
-                                                        <div class="product-action-inner">
-                                                            <div class="cart">
-                                                                <a href="cart">
-                                                                    <span>Add To Cart</span>
-                                                                </a>
-                                                            </div>
-                                                            <ul class="add-to-links">
-                                                                <li  class="rav-wishlist"><a href="wishlist" data-bs-toggle="tooltip" title="Add To Wishlist"><i class="fa fa-heart-o"></i></a></li>
-                                                                 
-                                                                <li class="rav-quickviewbtn">
-                                                                    <a href=".html" data-bs-toggle="modal" title="Quick view"><i class="fa fa-eye"></i></a>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="product-contents">
-                                                    <h5 class="product-name">
-                                                        <a href="product" title="Printed Chiffon Dress">Printed Chiffon Dress</a>
-                                                    </h5>
-                                                    <div class="price-box">
-                                                        <span class="price">$16.40</span>
-                                                        <span class="old-price">$20.50</span>
-                                                    </div>
-                                                    <div class="rating">
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-md-6 col-sm-6">
-                                            <div class="single-product single-product-3">
-                                                <div class="product-img">
-                                                    <a href="product">
-                                                        <img class="primary-img" src="images/product/7_1.jpg" alt="">
-                                                        <img class="secondary-img" src="images/product/7_2.jpg" alt="">
-                                                    </a>
-                                                    <div class="sticker"><span>New</span></div>
-                                                    <div class="product-action">
-                                                        <div class="product-action-inner">
-                                                            <div class="cart">
-                                                                <a href="cart">
-                                                                    <span>Add To Cart</span>
-                                                                </a>
-                                                            </div>
-                                                            <ul class="add-to-links">
-                                                                <li  class="rav-wishlist"><a href="wishlist" data-bs-toggle="tooltip" title="Add To Wishlist"><i class="fa fa-heart-o"></i></a></li>
-                                                                 
-                                                                <li class="rav-quickviewbtn">
-                                                                    <a href=".html" data-bs-toggle="modal" title="Quick view"><i class="fa fa-eye"></i></a>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="product-contents">
-                                                    <h5 class="product-name">
-                                                        <a href="product" title="Printed Chiffon Dress">Printed Chiffon Dress</a>
-                                                    </h5>
-                                                    <div class="price-box">
-                                                        <span class="price">$16.40</span>
-                                                        <span class="old-price">$20.50</span>
-                                                    </div>
-                                                    <div class="rating">
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-md-6 col-sm-6">
-                                            <div class="single-product single-product-3">
-                                                <div class="product-img">
-                                                    <a href="product">
-                                                        <img class="primary-img" src="images/product/8_1.jpg" alt="">
-                                                        <img class="secondary-img" src="images/product/8_2.jpg" alt="">
-                                                    </a>
-                                                    <div class="sticker"><span>New</span></div>
-                                                    <div class="product-action">
-                                                        <div class="product-action-inner">
-                                                            <div class="cart">
-                                                                <a href="cart">
-                                                                    <span>Add To Cart</span>
-                                                                </a>
-                                                            </div>
-                                                            <ul class="add-to-links">
-                                                                <li  class="rav-wishlist"><a href="wishlist" data-bs-toggle="tooltip" title="Add To Wishlist"><i class="fa fa-heart-o"></i></a></li>
-                                                                 
-                                                                <li class="rav-quickviewbtn">
-                                                                    <a href=".html" data-bs-toggle="modal" title="Quick view"><i class="fa fa-eye"></i></a>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="product-contents">
-                                                    <h5 class="product-name">
-                                                        <a href="product" title="Printed Chiffon Dress">Printed Chiffon Dress</a>
-                                                    </h5>
 
-                                                    <div class="price-box">
-                                                        <span class="price">$16.40</span>
-                                                        <span class="old-price">$20.50</span>
-                                                    </div>
-                                                    <!-- Price Box Area End Here -->
-                                                    <!-- Begin Rating Area -->
-                                                    <div class="rating">
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                    </div>
-                                                    <!-- Rating Area End Here -->
-                                                </div>
-                                                <!-- Product Content Area End Here -->
-                                            </div>
-                                            <!-- Single Product Area End Here -->
-                                        </div>
-                                        <div class="col-lg-4 col-md-6 col-sm-6">
-                                            <!-- Begin Single Product Area -->
-                                            <div class="single-product single-product-3">
-                                                <!-- Begin Product Image Area -->
-                                                <div class="product-img">
-                                                    <a href="product">
-                                                        <img class="primary-img" src="images/product/9_1.jpg" alt="">
-                                                        <img class="secondary-img" src="images/product/9_2.jpg" alt="">
-                                                    </a>
-                                                    <div class="sticker"><span>New</span></div>
-                                                    <!-- Begin Product Action Area -->
-                                                    <div class="product-action">
-                                                        <div class="product-action-inner">
-                                                            <div class="cart">
-                                                                <a href="cart">
-                                                                    <span>Add To Cart</span>
-                                                                </a>
-                                                            </div>
-                                                            <ul class="add-to-links">
-                                                                <li  class="rav-wishlist"><a href="wishlist" data-bs-toggle="tooltip" title="Add To Wishlist"><i class="fa fa-heart-o"></i></a></li>
-                                                                 
-                                                                <li class="rav-quickviewbtn">
-                                                                    <a href=".html" data-bs-toggle="modal" title="Quick view"><i class="fa fa-eye"></i></a>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                    <!-- Product Action Area End Here -->
-                                                </div>
-                                                <!-- Product Image Area End Here -->
-                                                <!-- Begin Product Content Area -->
-                                                <div class="product-contents">
-                                                    <!-- Begin Product Name Area -->
-                                                    <h5 class="product-name">
-                                                        <a href="product" title="Printed Chiffon Dress">Printed Chiffon Dress</a>
-                                                    </h5>
-                                                    <!-- Product Name Area End Here -->
-                                                    <!-- Begin Price Box Area -->
-                                                    <div class="price-box">
-                                                        <span class="price">$16.40</span>
-                                                        <span class="old-price">$20.50</span>
-                                                    </div>
-                                                    <!-- Price Box Area End Here -->
-                                                    <!-- Begin Rating Area -->
-                                                    <div class="rating">
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                    </div>
-                                                    <!-- Rating Area End Here -->
-                                                </div>
-                                                <!-- Product Content Area End Here -->
-                                            </div>
-                                            <!-- Single Product Area End Here -->
-                                        </div>
-                                        <div class="col-lg-4 col-md-6 col-sm-6">
-                                            <!-- Begin Single Product Area -->
-                                            <div class="single-product single-product-3">
-                                                <!-- Begin Product Image Area -->
-                                                <div class="product-img">
-                                                    <a href="product">
-                                                        <img class="primary-img" src="images/product/10_1.jpg" alt="">
-                                                        <img class="secondary-img" src="images/product/10_2.jpg" alt="">
-                                                    </a>
-                                                    <div class="sticker"><span>New</span></div>
-                                                    <!-- Begin Product Action Area -->
-                                                    <div class="product-action">
-                                                        <div class="product-action-inner">
-                                                            <div class="cart">
-                                                                <a href="cart">
-                                                                    <span>Add To Cart</span>
-                                                                </a>
-                                                            </div>
-                                                            <ul class="add-to-links">
-                                                                <li  class="rav-wishlist"><a href="wishlist" data-bs-toggle="tooltip" title="Add To Wishlist"><i class="fa fa-heart-o"></i></a></li>
-                                                                 
-                                                                <li class="rav-quickviewbtn">
-                                                                    <a href=".html" data-bs-toggle="modal" title="Quick view"><i class="fa fa-eye"></i></a>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                    <!-- Product Action Area End Here -->
-                                                </div>
-                                                <!-- Product Image Area End Here -->
-                                                <!-- Begin Product Content Area -->
-                                                <div class="product-contents">
-                                                    <!-- Begin Product Name Area -->
-                                                    <h5 class="product-name">
-                                                        <a href="product" title="Printed Chiffon Dress">Printed Chiffon Dress</a>
-                                                    </h5>
-                                                    <!-- Product Name Area End Here -->
-                                                    <!-- Begin Price Box Area -->
-                                                    <div class="price-box">
-                                                        <span class="price">$16.40</span>
-                                                        <span class="old-price">$20.50</span>
-                                                    </div>
-                                                    <!-- Price Box Area End Here -->
-                                                    <!-- Begin Rating Area -->
-                                                    <div class="rating">
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                    </div>
-                                                    <!-- Rating Area End Here -->
-                                                </div>
-                                                <!-- Product Content Area End Here -->
-                                            </div>
-                                            <!-- Single Product Area End Here -->
-                                        </div>
-                                        <div class="col-lg-4 col-md-6 col-sm-6">
-                                            <!-- Begin Single Product Area -->
-                                            <div class="single-product single-product-3">
-                                                <!-- Begin Product Image Area -->
-                                                <div class="product-img">
-                                                    <a href="product">
-                                                        <img class="primary-img" src="images/product/1_1.jpg" alt="">
-                                                        <img class="secondary-img" src="images/product/1_2.jpg" alt="">
-                                                    </a>
-                                                    <div class="sticker"><span>New</span></div>
-                                                    <!-- Begin Product Action Area -->
-                                                    <div class="product-action">
-                                                        <div class="product-action-inner">
-                                                            <div class="cart">
-                                                                <a href="cart">
-                                                                    <span>Add To Cart</span>
-                                                                </a>
-                                                            </div>
-                                                            <ul class="add-to-links">
-                                                                <li  class="rav-wishlist"><a href="wishlist" data-bs-toggle="tooltip" title="Add To Wishlist"><i class="fa fa-heart-o"></i></a></li>
-                                                                 
-                                                                <li class="rav-quickviewbtn">
-                                                                    <a href=".html" data-bs-toggle="modal" title="Quick view"><i class="fa fa-eye"></i></a>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                    <!-- Product Action Area End Here -->
-                                                </div>
-                                                <!-- Product Image Area End Here -->
-                                                <!-- Begin Product Content Area -->
-                                                <div class="product-contents">
-                                                    <!-- Begin Product Name Area -->
-                                                    <h5 class="product-name">
-                                                        <a href="product" title="Printed Chiffon Dress">Printed Chiffon Dress</a>
-                                                    </h5>
-                                                    <!-- Product Name Area End Here -->
-                                                    <!-- Begin Price Box Area -->
-                                                    <div class="price-box">
-                                                        <span class="price">$16.40</span>
-                                                        <span class="old-price">$20.50</span>
-                                                    </div>
-                                                    <!-- Price Box Area End Here -->
-                                                    <!-- Begin Rating Area -->
-                                                    <div class="rating">
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                    </div>
-                                                    <!-- Rating Area End Here -->
-                                                </div>
-                                                <!-- Product Content Area End Here -->
-                                            </div>
-                                            <!-- Single Product Area End Here -->
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="list" class="tab-pane fade">
-                                <div class="list-view">
-                                    <div class="row">
-                                        <div class="col-lg-4 col-md-4">
-                                            <!-- Begin Product Image Area -->
-                                            <div class="product-img pro-list-item pro-list-sidebar-items">
-                                                <a href="product">
-                                                    <img class="primary-img" src="images/product/1_1.jpg" alt="">
-                                                    <img class="secondary-img" src="images/product/1_2.jpg" alt="">
-                                                </a>
-                                            </div>
-                                            <!-- Product Image Area End Here -->
-                                        </div>
-                                        <div class="col-lg-8 col-md-8">
-                                            <!-- Begin Product List Content Area -->
-                                            <div class="pro-list-content">
-                                                <!-- Begin Product Name Area -->
-                                                <h5 class="product-name">
-                                                    <a href="product" title="Printed Chiffon Dress">Printed Chiffon Dress</a>
-                                                </h5>
-                                                <!-- Product Name Area End Here -->
-                                                <!-- Begin List Rating Area -->
-                                                <div class="rating list-rating">
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                </div>
-                                                <!-- List Rating Area End Here -->
-                                                <!-- Begin Price list Box Area -->
-                                                <div class="price-box list-price-box">
-                                                    <span class="price">$16.40</span>
-                                                    <span class="old-price">$20.50</span>
-                                                </div>
-                                                <!-- Price List Box Area End Here -->
-                                                <!-- Begin List Text -->
-                                                <div class="list-text">
-                                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis eaque cumque provident sed, nemo amet iure neque excepturi minus et quos recusandae enim praesentium laudantium sapiente voluptates facere impedit ab!</p>
-                                                </div>
-                                                <!-- List Text End Here -->
-                                                <!-- Begin Product Action Area -->
-                                                <div class="product-action product-action-2">
-                                                    <div class="product-action-inner">
-                                                        <div class="cart">
-                                                            <a href="cart">
-                                                                <span>Add To Cart</span>
-                                                            </a>
-                                                        </div>
-                                                        <ul class="add-to-links">
-                                                            <li  class="rav-wishlist"><a href="wishlist" data-bs-toggle="tooltip" title="Add To Wishlist"><i class="fa fa-heart-o"></i></a></li>
-                                                             
-                                                            <li class="rav-quickviewbtn">
-                                                                <a href=".html" data-bs-toggle="modal" title="Quick view"><i class="fa fa-eye"></i></a>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                                <!-- Product Action Area End Here -->
-                                            </div>
-                                            <!-- Product List Content Area End Here -->
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg-4 col-md-4">
-                                            <!-- Begin Product Image Area -->
-                                            <div class="product-img pro-list-item pro-list-sidebar-items">
-                                                <a href="product">
-                                                    <img class="primary-img" src="images/product/2_1.jpg" alt="">
-                                                    <img class="secondary-img" src="images/product/2_2.jpg" alt="">
-                                                </a>
-                                            </div>
-                                            <!-- Product Image Area End Here -->
-                                        </div>
-                                        <div class="col-lg-8 col-md-8">
-                                            <!-- Begin Product List Content Area -->
-                                            <div class="pro-list-content">
-                                                <!-- Begin Product Name Area -->
-                                                <h5 class="product-name">
-                                                    <a href="product" title="Printed Chiffon Dress">Printed Chiffon Dress</a>
-                                                </h5>
-                                                <!-- Product Name Area End Here -->
-                                                <!-- Begin List Rating Area -->
-                                                <div class="rating list-rating">
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                </div>
-                                                <!-- List Rating Area End Here -->
-                                                <!-- Begin Price list Box Area -->
-                                                <div class="price-box list-price-box">
-                                                    <span class="price">$16.40</span>
-                                                    <span class="old-price">$20.50</span>
-                                                </div>
-                                                <!-- Price List Box Area End Here -->
-                                                <!-- Begin List Text -->
-                                                <div class="list-text">
-                                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis eaque cumque provident sed, nemo amet iure neque excepturi minus et quos recusandae enim praesentium laudantium sapiente voluptates facere impedit ab!</p>
-                                                </div>
-                                                <!-- List Text End Here -->
-                                                <!-- Begin Product Action Area -->
-                                                <div class="product-action product-action-2">
-                                                    <div class="product-action-inner">
-                                                        <div class="cart">
-                                                            <a href="cart">
-                                                                <span>Add To Cart</span>
-                                                            </a>
-                                                        </div>
-                                                        <ul class="add-to-links">
-                                                            <li  class="rav-wishlist"><a href="wishlist" data-bs-toggle="tooltip" title="Add To Wishlist"><i class="fa fa-heart-o"></i></a></li>
-                                                             
-                                                            <li class="rav-quickviewbtn">
-                                                                <a href=".html" data-bs-toggle="modal" title="Quick view"><i class="fa fa-eye"></i></a>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                                <!-- Product Action Area End Here -->
-                                            </div>
-                                            <!-- Product List Content Area End Here -->
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg-4 col-md-4">
-                                            <!-- Begin Product Image Area -->
-                                            <div class="product-img pro-list-item pro-list-sidebar-items">
-                                                <a href="product">
-                                                    <img class="primary-img" src="images/product/3_1.jpg" alt="">
-                                                    <img class="secondary-img" src="images/product/3_2.jpg" alt="">
-                                                </a>
-                                            </div>
-                                            <!-- Product Image Area End Here -->
-                                        </div>
-                                        <div class="col-lg-8 col-md-8">
-                                            <!-- Begin Product List Content Area -->
-                                            <div class="pro-list-content">
-                                                <!-- Begin Product Name Area -->
-                                                <h5 class="product-name">
-                                                    <a href="product" title="Printed Chiffon Dress">Printed Chiffon Dress</a>
-                                                </h5>
-                                                <!-- Product Name Area End Here -->
-                                                <!-- Begin List Rating Area -->
-                                                <div class="rating list-rating">
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                </div>
-                                                <!-- List Rating Area End Here -->
-                                                <!-- Begin Price list Box Area -->
-                                                <div class="price-box list-price-box">
-                                                    <span class="price">$16.40</span>
-                                                    <span class="old-price">$20.50</span>
-                                                </div>
-                                                <!-- Price List Box Area End Here -->
-                                                <!-- Begin List Text -->
-                                                <div class="list-text">
-                                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis eaque cumque provident sed, nemo amet iure neque excepturi minus et quos recusandae enim praesentium laudantium sapiente voluptates facere impedit ab!</p>
-                                                </div>
-                                                <!-- List Text End Here -->
-                                                <!-- Begin Product Action Area -->
-                                                <div class="product-action product-action-2">
-                                                    <div class="product-action-inner">
-                                                        <div class="cart">
-                                                            <a href="cart">
-                                                                <span>Add To Cart</span>
-                                                            </a>
-                                                        </div>
-                                                        <ul class="add-to-links">
-                                                            <li  class="rav-wishlist"><a href="wishlist" data-bs-toggle="tooltip" title="Add To Wishlist"><i class="fa fa-heart-o"></i></a></li>
-                                                             
-                                                            <li class="rav-quickviewbtn">
-                                                                <a href=".html" data-bs-toggle="modal" title="Quick view"><i class="fa fa-eye"></i></a>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                                <!-- Product Action Area End Here -->
-                                            </div>
-                                            <!-- Product List Content Area End Here -->
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg-4 col-md-4">
-                                            <!-- Begin Product Image Area -->
-                                            <div class="product-img pro-list-item pro-list-sidebar-items">
-                                                <a href="product">
-                                                    <img class="primary-img" src="images/product/4_1.jpg" alt="">
-                                                    <img class="secondary-img" src="images/product/4_2.jpg" alt="">
-                                                </a>
-                                            </div>
-                                            <!-- Product Image Area End Here -->
-                                        </div>
-                                        <div class="col-lg-8 col-md-8">
-                                            <!-- Begin Product List Content Area -->
-                                            <div class="pro-list-content">
-                                                <!-- Begin Product Name Area -->
-                                                <h5 class="product-name">
-                                                    <a href="product" title="Printed Chiffon Dress">Printed Chiffon Dress</a>
-                                                </h5>
-                                                <!-- Product Name Area End Here -->
-                                                <!-- Begin List Rating Area -->
-                                                <div class="rating list-rating">
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                </div>
-                                                <!-- List Rating Area End Here -->
-                                                <!-- Begin Price list Box Area -->
-                                                <div class="price-box list-price-box">
-                                                    <span class="price">$16.40</span>
-                                                    <span class="old-price">$20.50</span>
-                                                </div>
-                                                <!-- Price List Box Area End Here -->
-                                                <!-- Begin List Text -->
-                                                <div class="list-text">
-                                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis eaque cumque provident sed, nemo amet iure neque excepturi minus et quos recusandae enim praesentium laudantium sapiente voluptates facere impedit ab!</p>
-                                                </div>
-                                                <!-- List Text End Here -->
-                                                <!-- Begin Product Action Area -->
-                                                <div class="product-action product-action-2">
-                                                    <div class="product-action-inner">
-                                                        <div class="cart">
-                                                            <a href="cart">
-                                                                <span>Add To Cart</span>
-                                                            </a>
-                                                        </div>
-                                                        <ul class="add-to-links">
-                                                            <li  class="rav-wishlist"><a href="wishlist" data-bs-toggle="tooltip" title="Add To Wishlist"><i class="fa fa-heart-o"></i></a></li>
-                                                             
-                                                            <li class="rav-quickviewbtn">
-                                                                <a href=".html" data-bs-toggle="modal" title="Quick view"><i class="fa fa-eye"></i></a>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                                <!-- Product Action Area End Here -->
-                                            </div>
-                                            <!-- Product List Content Area End Here -->
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg-4 col-md-4">
-                                            <!-- Begin Product Image Area -->
-                                            <div class="product-img pro-list-item pro-list-sidebar-items">
-                                                <a href="product">
-                                                    <img class="primary-img" src="images/product/6_1.jpg" alt="">
-                                                    <img class="secondary-img" src="images/product/6_2.jpg" alt="">
-                                                </a>
-                                            </div>
-                                            <!-- Product Image Area End Here -->
-                                        </div>
-                                        <div class="col-lg-8 col-md-8">
-                                            <!-- Begin Product List Content Area -->
-                                            <div class="pro-list-content">
-                                                <!-- Begin Product Name Area -->
-                                                <h5 class="product-name">
-                                                    <a href="product" title="Printed Chiffon Dress">Printed Chiffon Dress</a>
-                                                </h5>
-                                                <!-- Product Name Area End Here -->
-                                                <!-- Begin List Rating Area -->
-                                                <div class="rating list-rating">
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                </div>
-                                                <!-- List Rating Area End Here -->
-                                                <!-- Begin Price list Box Area -->
-                                                <div class="price-box list-price-box">
-                                                    <span class="price">$16.40</span>
-                                                    <span class="old-price">$20.50</span>
-                                                </div>
-                                                <!-- Price List Box Area End Here -->
-                                                <!-- Begin List Text -->
-                                                <div class="list-text">
-                                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis eaque cumque provident sed, nemo amet iure neque excepturi minus et quos recusandae enim praesentium laudantium sapiente voluptates facere impedit ab!</p>
-                                                </div>
-                                                <!-- List Text End Here -->
-                                                <!-- Begin Product Action Area -->
-                                                <div class="product-action product-action-2">
-                                                    <div class="product-action-inner">
-                                                        <div class="cart">
-                                                            <a href="cart">
-                                                                <span>Add To Cart</span>
-                                                            </a>
-                                                        </div>
-                                                        <ul class="add-to-links">
-                                                            <li  class="rav-wishlist"><a href="wishlist" data-bs-toggle="tooltip" title="Add To Wishlist"><i class="fa fa-heart-o"></i></a></li>
-                                                             
-                                                            <li class="rav-quickviewbtn">
-                                                                <a href=".html" data-bs-toggle="modal" title="Quick view"><i class="fa fa-eye"></i></a>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                                <!-- Product Action Area End Here -->
-                                            </div>
-                                            <!-- Product List Content Area End Here -->
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg-4 col-md-4">
-                                            <!-- Begin Product Image Area -->
-                                            <div class="product-img pro-list-item pro-list-sidebar-items">
-                                                <a href="product">
-                                                    <img class="primary-img" src="images/product/7_1.jpg" alt="">
-                                                    <img class="secondary-img" src="images/product/7_2.jpg" alt="">
-                                                </a>
-                                            </div>
-                                            <!-- Product Image Area End Here -->
-                                        </div>
-                                        <div class="col-lg-8 col-md-8">
-                                            <!-- Begin Product List Content Area -->
-                                            <div class="pro-list-content">
-                                                <!-- Begin Product Name Area -->
-                                                <h5 class="product-name">
-                                                    <a href="product" title="Printed Chiffon Dress">Printed Chiffon Dress</a>
-                                                </h5>
-                                                <!-- Product Name Area End Here -->
-                                                <!-- Begin List Rating Area -->
-                                                <div class="rating list-rating">
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                </div>
-                                                <!-- List Rating Area End Here -->
-                                                <!-- Begin Price list Box Area -->
-                                                <div class="price-box list-price-box">
-                                                    <span class="price">$16.40</span>
-                                                    <span class="old-price">$20.50</span>
-                                                </div>
-                                                <!-- Price List Box Area End Here -->
-                                                <!-- Begin List Text -->
-                                                <div class="list-text">
-                                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis eaque cumque provident sed, nemo amet iure neque excepturi minus et quos recusandae enim praesentium laudantium sapiente voluptates facere impedit ab!</p>
-                                                </div>
-                                                <!-- List Text End Here -->
-                                                <!-- Begin Product Action Area -->
-                                                <div class="product-action product-action-2">
-                                                    <div class="product-action-inner">
-                                                        <div class="cart">
-                                                            <a href="cart">
-                                                                <span>Add To Cart</span>
-                                                            </a>
-                                                        </div>
-                                                        <ul class="add-to-links">
-                                                            <li  class="rav-wishlist"><a href="wishlist" data-bs-toggle="tooltip" title="Add To Wishlist"><i class="fa fa-heart-o"></i></a></li>
-                                                             
-                                                            <li class="rav-quickviewbtn">
-                                                                <a href=".html" data-bs-toggle="modal" title="Quick view"><i class="fa fa-eye"></i></a>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                                <!-- Product Action Area End Here -->
-                                            </div>
-                                            <!-- Product List Content Area End Here -->
-                                        </div>
-                                    </div>
+                                    <input type="hidden" class="u_id" value="<?= $u_id; ?>" />
+                                    <input type="hidden" class="getter" value="<?= $getter; ?>" />
+                                    <input type="hidden" class="getter_id" value="<?= $url_cat_id; ?>" />
+                                    <div class="row shop_products_list"></div>
+
                                 </div>
                             </div>
                         </div>
+                        
+                    </div>
                         <!-- Tab Menu Content Area End Here -->
-                    </div>
-                    <!-- Begin Pagination Area -->
-                    <div class="pagination-area pagination-area-reverse">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-lg-12 p-0">
-                                    <div class="product-pagination">
-                                        <ul>
-                                            <li class="active"><a href="#">1</a></li>
-                                            <li><a href="#">2</a></li>
-                                            <li><a href="#">3</a></li>
-                                            <li><a href="#">4</a></li>
-                                            <li><a href="#">5</a></li>
-                                            <li><a href="#"><i class="fa fa-angle-double-right"></i></a></li>
-                                        </ul>
-                                    </div>
+                </div>
+                <!-- Begin Pagination Area -->
+                <div class="pagination-area pagination-area-reverse" style="display:none;">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-12 p-0">
+                                <div class="product-pagination">
+                                    <ul>
+                                        <li class="active"><a href="#">1</a></li>
+                                        <li><a href="#">2</a></li>
+                                        <li><a href="#">3</a></li>
+                                        <li><a href="#">4</a></li>
+                                        <li><a href="#">5</a></li>
+                                        <li><a href="#"><i class="fa fa-angle-double-right"></i></a></li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
                     </div>
-
                 </div>
+
             </div>
         </div>
     </div>
+</div>
 
 <?php include("footer.php"); ?>
 
 <?php include("foot.php"); ?>
+
+<script>
+$(document).ready(function() {
+
+    let u_id = $(".u_id").val();
+    let getter = $(".getter").val();
+    let getter_id = $(".getter_id").val();
+    
+    load_products(u_id,getter,getter_id);
+});
+
+function load_products(u_id,getter,getter_id) {
+
+    $.post('backend/shop_products_load.php',{ 
+        u_id : u_id,
+        getter : getter,
+        getter_id : getter_id
+    },(result)=>{
+        result = JSON.parse(result);
+        console.log(result);
+        var products = '';
+        for(let i=0;i<result.length;i++){
+            if(result[i][8] == 0) { 
+                var price_variation = `<span class="price">$${result[i][3]}</span>`;
+            } else {
+                var price_variation = `<span class="price">$${result[i][9]}</span><span class="old-price">$${result[i][3]}</span>`;
+            }
+
+            var rating_ = '';
+            for(let r=1;r<6;r++) { 
+                if(result[i][10] >= r) {
+                    rating_ = rating_+`<i class="fa fa-star" style="color:#e9b436;" ></i>`;
+                } else {
+                    rating_ = rating_+`<i class="fa fa-star" style="color:gray;" ></i>`;
+                }
+            }
+
+            products = products+`<div class="col-lg-4 col-md-6 col-sm-6 product_common product_id_${result[i][0]}">
+                                    <div class="single-product single-product-3">
+                                        <div class="product-img">
+                                            <a href="product?title=${result[i][1]}/${result[i][0]}">
+                                                <img class="primary-img" onerror="this.src='admin/assets/images/product.png'" src="images-main/products/${result[i][2]}" alt="">
+                                                <img class="secondary-img" onerror="this.src='admin/assets/images/product.png'" src="images-main/products/${result[i][2]}" alt="">
+                                            </a>
+                                            <div class="sticker"><span></span></div>
+                                            <div class="product-action">
+                                                <div class="product-action-inner">
+                                                    <div class="cart">
+                                                        <a class="add_to_cart_quick" p-price="${result[i][3]}" p-variant-title="${result[i][4]}" p-variant-type="${result[i][5]}" p-title="${result[i][1]}" p-image="${result[i][2]}" p-id="${result[i][0]}" u-id="${u_id}" c-id="${result[i][6]}" sub-c-id="${result[i][7]}" style="cursor:pointer;">
+                                                            <span>Add To Cart</span>
+                                                        </a>
+                                                    </div>
+                                                    <ul class="add-to-links">
+                                                        <li class="rav-wishlist"  >
+                                                            <a class="add_to_wishlist_quick" p-variant-title="${result[i][4]}" p-variant-type="${result[i][5]}" p-title="${result[i][1]}" p-image="${result[i][2]}" p-id="${result[i][0]}" u-id="${u_id}" c-id="${result[i][6]}" sub-c-id="${result[i][7]}" title="Add To Wishlist" style="cursor:pointer;">
+                                                                <i class="fa fa-heart-o"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li class="rav-quickviewbtn">
+                                                            <a target="_blank" href="product?title=${result[i][1]}/${result[i][0]}" data-bs-toggle="modal" title="Quick view"><i class="fa fa-eye"></i></a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="product-contents">
+                                            <h5 class="product-name">
+                                                <a href="#" title="${result[i][1]}">${result[i][1]}</a>
+                                            </h5>
+                                            <div class="price-box">
+                                                ${price_variation}
+                                            </div>
+                                            <div class="rating">
+                                                ${rating_}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>`;
+        }
+
+        $(".shop_products_list").html(products);
+        $(".total_products_count").html(result.length);
+    });
+}
+</script>
 
 </body>
 

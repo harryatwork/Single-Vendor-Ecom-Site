@@ -1,4 +1,5 @@
 <?php include("db.php"); ?>
+<?php include("backend/ipaddress_insert.php"); ?>
 <!doctype html>
 <html class="no-js" lang="zxx">
 <head>
@@ -41,7 +42,6 @@
         <link rel="stylesheet" href="css/responsive.css">
         <!-- Modernizr js -->
         <script src="js/vendor/modernizr-3.11.2.min.js"></script>
-
 
         <link rel="stylesheet" href="css/custom-style.css">
     </head>

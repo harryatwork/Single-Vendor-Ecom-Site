@@ -86,6 +86,22 @@
                                         $stmt_products->execute();
                                         $result_products = $stmt_products->get_result();
                                         while($row_products = $result_products->fetch_assoc()) {
+                                            $p_id = $row_products["id"]; 
+                                            if($row_products['discount'] == 0) {
+                                                $product_price = $row_products['price'];
+                                            } else { 
+                                                $product_price = round(($row_products['price'] - (($row_products['price'])*(($row_products['discount'])/100))),2);
+                                            }
+                                            $zero = 0;
+                                            $sql_products_variant = "SELECT * FROM product_variants WHERE p_id = ? AND stock != ? LIMIT 1";
+                                            $stmt_products_variant = $conn->prepare($sql_products_variant);
+                                            $stmt_products_variant->bind_param("si",$p_id,$zero);
+                                            $stmt_products_variant->execute();
+                                            $result_products_variant = $stmt_products_variant->get_result();
+                                            while($row_products_variant = $result_products_variant->fetch_assoc()) { 
+                                                $products_variant_title = $row_products_variant['title'];
+                                                $products_variant_variant = $row_products_variant['variant'];
+                                            }
                                     ?>
                                         <div class="single-product single-featured-pro-2">
                                             <div class="product-img">
@@ -96,16 +112,18 @@
                                                 <div class="product-action">
                                                     <div class="product-action-inner">
                                                         <div class="cart">
-                                                            <a class="add_to_cart_quick" p-id="<?= $row_products['id']; ?>" u-id="1" c-id="<?= $row_products['cat_id']; ?>" sub-c-id="<?= $row_products['subcat_id']; ?>" style="cursor:pointer;">
+                                                            <a class="add_to_cart_quick" p-price="<?= $product_price; ?>" p-variant-title="<?= $products_variant_title; ?>" p-variant-type="<?= $products_variant_variant; ?>" p-title="<?= $row_products['name']; ?>" p-image="<?= $row_products['image']; ?>" p-id="<?= $row_products['id']; ?>" u-id="<?= $u_id; ?>" c-id="<?= $row_products['cat_id']; ?>" sub-c-id="<?= $row_products['subcat_id']; ?>" style="cursor:pointer;">
                                                                 <span>Add To Cart</span>
                                                             </a>
                                                         </div>
                                                         <ul class="add-to-links">
                                                             <li class="rav-wishlist"  >
-                                                                <a class="add_to_wishlist_quick" p-id="<?= $row_products['id']; ?>" u-id="1" c-id="<?= $row_products['cat_id']; ?>" sub-c-id="<?= $row_products['subcat_id']; ?>" title="Add To Wishlist"><i class="fa fa-heart-o"></i></a>
+                                                                <a class="add_to_wishlist_quick" p-variant-title="<?= $products_variant_title; ?>" p-variant-type="<?= $products_variant_variant; ?>" p-title="<?= $row_products['name']; ?>" p-image="<?= $row_products['image']; ?>" p-id="<?= $row_products['id']; ?>" u-id="<?= $u_id; ?>" c-id="<?= $row_products['cat_id']; ?>" sub-c-id="<?= $row_products['subcat_id']; ?>" title="Add To Wishlist" style="cursor:pointer;">
+                                                                    <i class="fa fa-heart-o"></i>
+                                                                </a>
                                                             </li>
                                                             <li class="rav-quickviewbtn">
-                                                                <a href="product?title=<?= $row_products['name']; ?>/<?= $row_products['id']; ?>" data-bs-toggle="modal" title="Quick view"><i class="fa fa-eye"></i></a>
+                                                                <a target="_blank" href="product?title=<?= $row_products['name']; ?>/<?= $row_products['id']; ?>" data-bs-toggle="modal" title="Quick view"><i class="fa fa-eye"></i></a>
                                                             </li>
                                                         </ul>
                                                     </div>
@@ -135,7 +153,11 @@
                                                     $star_rating_overall = $star_rating_overall + $star_rating;
                                                 }
                                                 $star_rating_count = $result_product_rating->num_rows;
-                                                $star_rating_average = round($star_rating_overall/$star_rating_count);
+                                                if($star_rating_count == 0) {
+                                                    $star_rating_average = 0;
+                                                } else {
+                                                    $star_rating_average = round($star_rating_overall/$star_rating_count);
+                                                }
                                             ?>
                                                 <div class="rating">
                                                     <i class="fa fa-star" style="<?php if($star_rating_average >= 1) { ?> color:#e9b436; <?php } else { ?> color:gray; <?php } ?>" ></i>
@@ -190,6 +212,22 @@
                             $stmt_products->execute();
                             $result_products = $stmt_products->get_result();
                             while($row_products = $result_products->fetch_assoc()) {
+                                $p_id = $row_products["id"]; 
+                                if($row_products['discount'] == 0) {
+                                    $product_price = $row_products['price'];
+                                } else { 
+                                    $product_price = round(($row_products['price'] - (($row_products['price'])*(($row_products['discount'])/100))),2);
+                                }
+                                $zero = 0;
+                                $sql_products_variant = "SELECT * FROM product_variants WHERE p_id = ? AND stock != ? LIMIT 1";
+                                $stmt_products_variant = $conn->prepare($sql_products_variant);
+                                $stmt_products_variant->bind_param("si",$p_id,$zero);
+                                $stmt_products_variant->execute();
+                                $result_products_variant = $stmt_products_variant->get_result();
+                                while($row_products_variant = $result_products_variant->fetch_assoc()) { 
+                                    $products_variant_title = $row_products_variant['title'];
+                                    $products_variant_variant = $row_products_variant['variant'];
+                                }
                         ?>
                             <div class="single-product single-featured-pro-2">
                                 <div class="product-img">
@@ -200,16 +238,18 @@
                                     <div class="product-action">
                                         <div class="product-action-inner">
                                             <div class="cart">
-                                                <a class="add_to_cart_quick" p-id="<?= $row_products['id']; ?>" u-id="1" c-id="<?= $row_products['cat_id']; ?>" sub-c-id="<?= $row_products['subcat_id']; ?>" style="cursor:pointer;">
+                                                <a class="add_to_cart_quick" p-price="<?= $product_price; ?>" p-variant-title="<?= $products_variant_title; ?>" p-variant-type="<?= $products_variant_variant; ?>" p-title="<?= $row_products['name']; ?>" p-image="<?= $row_products['image']; ?>" p-id="<?= $row_products['id']; ?>" u-id="<?= $u_id; ?>" c-id="<?= $row_products['cat_id']; ?>" sub-c-id="<?= $row_products['subcat_id']; ?>" style="cursor:pointer;">
                                                     <span>Add To Cart</span>
                                                 </a>
                                             </div>
                                             <ul class="add-to-links">
                                                 <li class="rav-wishlist" >
-                                                    <a class="add_to_wishlist_quick" p-id="<?= $row_products['id']; ?>" u-id="1" c-id="<?= $row_products['cat_id']; ?>" sub-c-id="<?= $row_products['subcat_id']; ?>" title="Add To Wishlist"><i class="fa fa-heart-o"></i></a>
+                                                    <a class="add_to_wishlist_quick" p-variant-title="<?= $products_variant_title; ?>" p-variant-type="<?= $products_variant_variant; ?>" p-title="<?= $row_products['name']; ?>" p-image="<?= $row_products['image']; ?>" p-id="<?= $row_products['id']; ?>" u-id="<?= $u_id; ?>" c-id="<?= $row_products['cat_id']; ?>" sub-c-id="<?= $row_products['subcat_id']; ?>" title="Add To Wishlist" style="cursor:pointer;">
+                                                        <i class="fa fa-heart-o"></i>
+                                                    </a>
                                                 </li>
                                                 <li class="rav-quickviewbtn">
-                                                    <a href="product?title=<?= $row_products['name']; ?>/<?= $row_products['id']; ?>" data-bs-toggle="modal" title="Quick view"><i class="fa fa-eye"></i></a>
+                                                    <a target="_blank" href="product?title=<?= $row_products['name']; ?>/<?= $row_products['id']; ?>" data-bs-toggle="modal" title="Quick view"><i class="fa fa-eye"></i></a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -219,7 +259,7 @@
                                     <h5 class="product-name">
                                         <a href="#" title="<?= $row_products['name']; ?>"><?= $row_products['name']; ?></a>
                                     </h5>
-                                    <div class="price-box">
+                                    <div class="price-box" style="width: 100%;">
                                     <?php if($row_products['discount'] == 0) { ?>
                                         <span class="price">$<?= $row_products['price']; ?></span>
                                     <?php } else { ?> 
@@ -239,7 +279,11 @@
                                         $star_rating_overall = $star_rating_overall + $star_rating;
                                     }
                                     $star_rating_count = $result_product_rating->num_rows;
-                                    $star_rating_average = round($star_rating_overall/$star_rating_count);
+                                    if($star_rating_count == 0) {
+                                        $star_rating_average = 0;
+                                    } else {
+                                        $star_rating_average = round($star_rating_overall/$star_rating_count);
+                                    }
                                 ?>
                                     <div class="rating">
                                         <i class="fa fa-star" style="<?php if($star_rating_average >= 1) { ?> color:#e9b436; <?php } else { ?> color:gray; <?php } ?>" ></i>

@@ -39,8 +39,8 @@
 
         for($i=0;$i<count($variant_type);$i++){
 
-            $sql_variant = "INSERT INTO product_variants (p_id, variant, title, stock, price)
-                            VALUES ('$p_id', '$variant_type[$i]', '$variant_title[$i]', '$variant_quantity[$i]', '$product_price')";
+            $sql_variant = "INSERT INTO product_variants (p_id, variant, title, stock, price, cat_id)
+                            VALUES ('$p_id', '$variant_type[$i]', '$variant_title[$i]', '$variant_quantity[$i]', '$product_price', '$cat_id')";
                             if ($con->query($sql_variant) === TRUE) { 
                                 
                             } else { }

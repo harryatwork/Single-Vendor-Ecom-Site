@@ -64,43 +64,75 @@
                         <div class="main-menu primary-menu primary-menu-2">
                             <nav>
                                 <ul>
+                                    <?php
+                                        $sql_cart = "SELECT * FROM cart WHERE u_id = ?";
+                                        $stmt_cart = $conn->prepare($sql_cart);
+                                        $stmt_cart->bind_param("s",$u_id);
+                                        $stmt_cart->execute();
+                                        $result_cart = $stmt_cart->get_result();
+                                    ?>
                                     <li>
-                                        <a href="cart"><i class="fa fa-shopping-bag"></i>Cart <span>(0)</span></a>
+                                        <a href="cart"><i class="fa fa-shopping-bag"></i>Cart (<span class="header_cart_count"><?= $result_cart->num_rows; ?></span>)</a>
                                         <ul class="dropdown cart-dropdown">
                                             <li>
-                                                
-                                                <!-- <div class="cart-item">
-                                                    <div class="cart-img">
-                                                        <a href="#">
-                                                            <img src="images/menu/mini-cart/1.jpg" alt="">
-                                                        </a>
-                                                    </div>
-                                                    <div class="cart-info">
-                                                        <div class="pro-item">
-                                                            <span class="quantity-formated">1x</span>
-                                                            <a class="pro-name" href="#" title="Printed Dress">Printed Dress</a>
-                                                        </div>
-                                                        <div class="pro-atributes">
-                                                            <a href="#" title="Product Detail">S, Beige</a>
-                                                        </div>
-                                                        <div class="pro-price">
-                                                            <span>$50.99</span>
-                                                        </div>
-                                                        <div class="remove-link">
-                                                            <a href="#" title="Remove this product from my cart"></a>
-                                                        </div>
-                                                    </div>
-                                                </div> -->
+                                                <div class="header_cart_list">
+                                                <?php
+                                                    $total_cart_product_price = 0;
+                                                    while($row_cart = $result_cart->fetch_assoc()) {
+                                                        $cart_p_id = $row_cart['p_id'];
 
+                                                        $sql_cart_product = "SELECT * FROM products WHERE id = ?";
+                                                        $stmt_cart_product = $conn->prepare($sql_cart_product);
+                                                        $stmt_cart_product->bind_param("s",$cart_p_id);
+                                                        $stmt_cart_product->execute();
+                                                        $result_cart_product = $stmt_cart_product->get_result();
+                                                        while($row_cart_product = $result_cart_product->fetch_assoc()) {
+                                                            $cart_product_discount = $row_cart_product["discount"];
+                                                            $cart_product_price = $row_cart_product["price"];
+                                                            if($cart_product_discount == 0) {
+                                                                $cart_product_price = $cart_product_price;
+                                                            } else { 
+                                                                $cart_product_price = round(($cart_product_price - (($cart_product_price)*(($cart_product_discount)/100))),2);
+                                                            }
+                                                        }
+                                                        $total_cart_product_price_indi = $cart_product_price * $row_cart['quantity'];
+                                                        $total_cart_product_price = $total_cart_product_price + $total_cart_product_price_indi;
+                                                ?>
+                                                    <div class="cart-item-<?= $row_cart['id']; ?>">
+                                                        <div class="cart-img">
+                                                            <a target="_blank" href="product?title=<?= $row_cart['title']; ?>/<?= $cart_p_id; ?>">
+                                                                <img onerror="this.src='admin/assets/images/product.png'" src="images-main/products/<?= $row_cart['image']; ?>" alt="" style="width:100px;">
+                                                            </a>
+                                                        </div>
+                                                        <div class="cart-info">
+                                                            <div class="pro-item">
+                                                                <span class="quantity-formated"><?= $row_cart['quantity']; ?>x</span>
+                                                                <a class="pro-name" target="_blank" href="product?title=<?= $row_cart['title']; ?>/<?= $cart_p_id; ?>" title="<?= $row_cart['title']; ?>"><?= $row_cart['title']; ?></a>
+                                                            </div>
+                                                            <div class="pro-atributes">
+                                                                <a target="_blank" href="product?title=<?= $row_cart['title']; ?>/<?= $cart_p_id; ?>" title="Product Detail"><?= $row_cart['variant_type']; ?>, <?= $row_cart['variant_title']; ?></a>
+                                                            </div>
+                                                            <div class="pro-price">
+                                                                <span>$<?= $cart_product_price; ?></span>
+                                                            </div>
+                                                            <div class="remove-link">
+                                                                <a class="cart_remove" cart-id="<?= $row_cart['id']; ?>" item-value="<?= $cart_product_price; ?>" title="Remove this product from my cart" style="cursor:pointer;"></a>
+                                                            </div>
+                                                        </div>
+                                                        <br/>
+                                                    </div>
+                                                <?php } ?>
+
+                                                </div>
                                                 <div class="cart-inner-bottom">
                                                     <div class="cart-shipping cart-item">
                                                         <div class="total">
                                                             <span>Shipping</span>
-                                                            <span class="amount">$7.00</span>
+                                                            <span class="amount">$10.00</span>
                                                         </div>
                                                         <div class="total">
                                                             <span>Total</span>
-                                                            <span class="amount">$7.00</span>
+                                                            <span class="amount">$<span class="total_cart_product_price"><?= $total_cart_product_price; ?></span></span>
                                                         </div>
                                                     </div>
                                                     <div class="cart-btn">
@@ -134,7 +166,7 @@
                                 <ul>
                                     <li><a href="#"><i class="fa fa-cog"></i>My Account</a>
                                         <ul class="dropdown primary-dropdown">
-                                        <?php if(isset($_SESSION["email"])) { ?>
+                                        <?php if(isset($_SESSION["login"])) { ?>
                                             <li><a href="account"><i class="fa fa-user"></i>Account</a></li>
                                         <?php } else { ?>
                                             <li><a href="signin"><i class="fa fa-unlock"></i>Sign In</a></li>

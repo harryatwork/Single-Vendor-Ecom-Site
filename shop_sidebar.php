@@ -1,40 +1,7 @@
 <div class="col-lg-3 order-2 order-lg-1">
     <div class="shop-sidebar shop-sidebar-reverse">
         <!-- Shop Sidebar Area -->
-        <div class="category">
-            <h4>Categories</h4>
-            <!-- Begin Category List Area -->
-            <div class="category-list">
-                <ul>
-                    <li><a href="#">Accessories (14)</a></li>
-                    <li><a href="#">Clothings (14)</a></li>
-                    <li><a href="#">Dress (14)</a></li>
-                    <li><a href="#">Drink (14)</a></li>
-                    <li><a href="#">Fashion (14)</a></li>
-                    <li><a href="#">Food (9)</a></li>
-                    <li><a href="#">Men (14)</a></li>
-                    <li><a href="#">Short (0)</a></li>
-                    <li><a href="#">Women (10)</a></li>
-                </ul>
-            </div>
-            <!-- Category List Area End Here -->
-        </div>
-        <!-- Shop Sidebar Area End-->
-        <!-- Shop Sidebar Area -->
-        <div class="category mt-30">
-            <h4>Color</h4>
-            <!-- Begin Category List Area -->
-            <div class="category-list">
-                <ul>
-                    <li><a href="#">Gold (1)</a></li>
-                    <li><a href="#">Green (1)</a></li>
-                    <li><a href="#">White (1)</a></li>
-                </ul>
-            </div>
-            <!-- Category List Area End Here -->
-        </div>
-        <!-- Shop Sidebar Area End-->
-        <!-- Shop Sidebar Area -->
+
         <div class="category mt-30">
             <h4>Filter</h4>
             <div class="price-filter">
@@ -42,12 +9,78 @@
                 <div class="price-slider-amount">
                     <div class="label-input">
                         <label>price : </label>
-                        <input type="text" id="amount" name="price"  placeholder="Add Your Price" />
+                        <input type="text" id="amount" name="price" placeholder="Add Your Price" />
                     </div>
-                    <button type="button">Filter</button> 
+                    <!-- <button type="button">Filter</button>  -->
                 </div>
             </div>
         </div>
+
+    <?php
+        $sql_sidebar_variant_distinct = "SELECT DISTINCT(variant) FROM product_variants WHERE cat_id = ?";
+        $stmt_sidebar_variant_distinct = $conn->prepare($sql_sidebar_variant_distinct);
+        $stmt_sidebar_variant_distinct->bind_param("s",$url_cat_id);
+        $stmt_sidebar_variant_distinct->execute();
+        $result_sidebar_variant_distinct = $stmt_sidebar_variant_distinct->get_result();
+        while($row_sidebar_variant_distinct = $result_sidebar_variant_distinct->fetch_assoc()) {
+            $sidebar_variant_distinct = $row_sidebar_variant_distinct["variant"];
+    ?>
+        <div class="category mt-30">
+            <h4><?= $sidebar_variant_distinct; ?></h4>
+            <div class="category-list">
+                <ul>
+                <?php 
+                    $sql_sidebar_variant_title = "SELECT DISTINCT(title) FROM product_variants WHERE variant = ? AND cat_id = ?";
+                    $stmt_sidebar_variant_title = $conn->prepare($sql_sidebar_variant_title);
+                    $stmt_sidebar_variant_title->bind_param("ss",$sidebar_variant_distinct,$url_cat_id);
+                    $stmt_sidebar_variant_title->execute();
+                    $result_sidebar_variant_title = $stmt_sidebar_variant_title->get_result();
+                    while($row_sidebar_variant_title = $result_sidebar_variant_title->fetch_assoc()) {
+                        $sidebar_variant_title = $row_sidebar_variant_title["title"];
+
+                        $sidebar_variant_product_ids_array = [];
+                        $sql_sidebar_variant_product_ids = "SELECT DISTINCT(p_id) FROM product_variants WHERE title = ? AND cat_id = ?";
+                        $stmt_sidebar_variant_product_ids = $conn->prepare($sql_sidebar_variant_product_ids);
+                        $stmt_sidebar_variant_product_ids->bind_param("ss",$sidebar_variant_title,$url_cat_id);
+                        $stmt_sidebar_variant_product_ids->execute();
+                        $result_sidebar_variant_product_ids = $stmt_sidebar_variant_product_ids->get_result();
+                        while($row_sidebar_variant_product_ids = $result_sidebar_variant_product_ids->fetch_assoc()) {
+                            array_push($sidebar_variant_product_ids_array,$row_sidebar_variant_product_ids["p_id"]);
+                        }
+                ?>
+                    <li><a class="product_variant_filter" product-ids="<?= json_encode($sidebar_variant_product_ids_array); ?>" style="cursor:pointer;"><?= $sidebar_variant_title; ?> (<?= $result_sidebar_variant_product_ids->num_rows; ?>)</a></li>
+                <?php } ?>
+                </ul>
+            </div>
+        </div>
+    <?php } ?>
+
+
+        <div class="category">
+            <h4>Categories</h4>
+            <!-- Begin Category List Area -->
+            <div class="category-list">
+                <ul>
+                <?php 
+                    $sql_sidebar_cat = "SELECT * FROM categories";
+                    $stmt_sidebar_cat = $conn->prepare($sql_sidebar_cat);
+                    $stmt_sidebar_cat->execute();
+                    $result_sidebar_cat = $stmt_sidebar_cat->get_result();
+                    while($row_sidebar_cat = $result_sidebar_cat->fetch_assoc()) {
+                        $sidebar_cat_id = $row_sidebar_cat["id"];
+                        
+                        $sql_sidebar_cat_products_count = "SELECT * FROM products WHERE cat_id = ?";
+                        $stmt_sidebar_cat_products_count = $conn->prepare($sql_sidebar_cat_products_count);
+                        $stmt_sidebar_cat_products_count->bind_param("i",$sidebar_cat_id);
+                        $stmt_sidebar_cat_products_count->execute();
+                        $result_sidebar_cat_products_count = $stmt_sidebar_cat_products_count->get_result();
+                ?>
+                    <li><a href="shop?category=<?= str_replace('\'', '',str_replace(' ', '-',$row_sidebar_cat["name"])); ?>/<?= $sidebar_cat_id; ?>" ><?= $row_sidebar_cat["name"]; ?> (<?= $result_sidebar_cat_products_count->num_rows; ?>)</a></li>
+                <?php } ?>
+                </ul>
+            </div>
+        </div>
+
         <!-- Shop Sidebar Area End-->
     </div>
 
