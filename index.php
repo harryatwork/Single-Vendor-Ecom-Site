@@ -105,7 +105,7 @@
                                     ?>
                                         <div class="single-product single-featured-pro-2">
                                             <div class="product-img">
-                                                <a href="product?title=<?= $row_products['name']; ?>/<?= $row_products['id']; ?>">
+                                                <a href="product?title=<?= str_replace(' ', '-',$row_products['name']); ?>/<?= $row_products['id']; ?>">
                                                     <img class="primary-img" onerror="this.src='admin/assets/images/product.png'" src="images-main/products/<?= $row_products['image']; ?>" alt="">
                                                     <img class="secondary-img" onerror="this.src='admin/assets/images/product.png'" src="images-main/products/<?= $row_products['image']; ?>" alt="">
                                                 </a>
@@ -123,7 +123,7 @@
                                                                 </a>
                                                             </li>
                                                             <li class="rav-quickviewbtn">
-                                                                <a target="_blank" href="product?title=<?= $row_products['name']; ?>/<?= $row_products['id']; ?>" data-bs-toggle="modal" title="Quick view"><i class="fa fa-eye"></i></a>
+                                                                <a target="_blank" href="product?title=<?= str_replace(' ', '-',$row_products['name']); ?>/<?= $row_products['id']; ?>" data-bs-toggle="modal" title="Quick view"><i class="fa fa-eye"></i></a>
                                                             </li>
                                                         </ul>
                                                     </div>
@@ -231,7 +231,7 @@
                         ?>
                             <div class="single-product single-featured-pro-2">
                                 <div class="product-img">
-                                    <a href="product?title=<?= $row_products['name']; ?>/<?= $row_products['id']; ?>">
+                                    <a href="product?title=<?= str_replace(' ', '-',$row_products['name']); ?>/<?= $row_products['id']; ?>">
                                         <img class="primary-img" onerror="this.src='admin/assets/images/product.png'" src="images-main/products/<?= $row_products['image']; ?>" alt="">
                                         <img class="secondary-img" onerror="this.src='admin/assets/images/product.png'" src="images-main/products/<?= $row_products['image']; ?>" alt="">
                                     </a>
@@ -249,7 +249,7 @@
                                                     </a>
                                                 </li>
                                                 <li class="rav-quickviewbtn">
-                                                    <a target="_blank" href="product?title=<?= $row_products['name']; ?>/<?= $row_products['id']; ?>" data-bs-toggle="modal" title="Quick view"><i class="fa fa-eye"></i></a>
+                                                    <a target="_blank" href="product?title=<?= str_replace(' ', '-',$row_products['name']); ?>/<?= $row_products['id']; ?>" data-bs-toggle="modal" title="Quick view"><i class="fa fa-eye"></i></a>
                                                 </li>
                                             </ul>
                                         </div>

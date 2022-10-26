@@ -4,10 +4,11 @@
     $u_id = $_POST["u_id"];
     $getter = $_POST["getter"];
     $getter_id = $_POST["getter_id"];
+    $sort_by = $_POST["sort_by"];
 
     $all_products_array = [];
     
-    $sql_products = "SELECT * FROM products WHERE $getter = ?";
+    $sql_products = "SELECT * FROM products WHERE $getter = ? $sort_by";
     $stmt_products = $conn->prepare($sql_products);
     $stmt_products->bind_param("i",$getter_id);
     $stmt_products->execute();
@@ -64,6 +65,7 @@
         array_push($indi_products_array,$row_products['discount']);
         array_push($indi_products_array,$discounted_product_price);
         array_push($indi_products_array,$star_rating_average); //10
+        array_push($indi_products_array,str_replace(' ', '-',$row_products['name']));
 
 
     array_push($all_products_array,$indi_products_array);

@@ -100,23 +100,23 @@
                                                 ?>
                                                     <div class="cart-item-<?= $row_cart['id']; ?>">
                                                         <div class="cart-img">
-                                                            <a target="_blank" href="product?title=<?= $row_cart['title']; ?>/<?= $cart_p_id; ?>">
+                                                            <a target="_blank" href="product?title=<?= str_replace(' ', '-',$row_cart['title']); ?>/<?= $cart_p_id; ?>">
                                                                 <img onerror="this.src='admin/assets/images/product.png'" src="images-main/products/<?= $row_cart['image']; ?>" alt="" style="width:100px;">
                                                             </a>
                                                         </div>
                                                         <div class="cart-info">
                                                             <div class="pro-item">
                                                                 <span class="quantity-formated"><?= $row_cart['quantity']; ?>x</span>
-                                                                <a class="pro-name" target="_blank" href="product?title=<?= $row_cart['title']; ?>/<?= $cart_p_id; ?>" title="<?= $row_cart['title']; ?>"><?= $row_cart['title']; ?></a>
+                                                                <a class="pro-name" target="_blank" href="product?title=<?= str_replace(' ', '-',$row_cart['title']); ?>/<?= $cart_p_id; ?>" title="<?= $row_cart['title']; ?>"><?= $row_cart['title']; ?></a>
                                                             </div>
                                                             <div class="pro-atributes">
-                                                                <a target="_blank" href="product?title=<?= $row_cart['title']; ?>/<?= $cart_p_id; ?>" title="Product Detail"><?= $row_cart['variant_type']; ?>, <?= $row_cart['variant_title']; ?></a>
+                                                                <a target="_blank" href="product?title=<?= str_replace(' ', '-',$row_cart['title']); ?>/<?= $cart_p_id; ?>" title="Product Detail"><?= $row_cart['variant_type']; ?>, <?= $row_cart['variant_title']; ?></a>
                                                             </div>
                                                             <div class="pro-price">
                                                                 <span>$<?= $cart_product_price; ?></span>
                                                             </div>
                                                             <div class="remove-link">
-                                                                <a class="cart_remove" cart-id="<?= $row_cart['id']; ?>" item-value="<?= $cart_product_price; ?>" title="Remove this product from my cart" style="cursor:pointer;"></a>
+                                                                <a class="cart_remove" cart-id="<?= $row_cart['id']; ?>" item-value="<?= $cart_product_price; ?>" item-quantity="<?= $row_cart['quantity']; ?>" title="Remove this product from my cart" style="cursor:pointer;"></a>
                                                             </div>
                                                         </div>
                                                         <br/>

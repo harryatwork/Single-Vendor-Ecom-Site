@@ -2,6 +2,7 @@
     <div class="shop-sidebar shop-sidebar-reverse">
         <!-- Shop Sidebar Area -->
 
+    <!--
         <div class="category mt-30">
             <h4>Filter</h4>
             <div class="price-filter">
@@ -9,12 +10,12 @@
                 <div class="price-slider-amount">
                     <div class="label-input">
                         <label>price : </label>
-                        <input type="text" id="amount" name="price" placeholder="Add Your Price" />
+                        <input type="text" class="price_filter" id="amount" name="price" placeholder="Add Your Price" />
                     </div>
-                    <!-- <button type="button">Filter</button>  -->
                 </div>
             </div>
         </div>
+    -->
 
     <?php
         $sql_sidebar_variant_distinct = "SELECT DISTINCT(variant) FROM product_variants WHERE cat_id = ?";
@@ -26,7 +27,7 @@
             $sidebar_variant_distinct = $row_sidebar_variant_distinct["variant"];
     ?>
         <div class="category mt-30">
-            <h4><?= $sidebar_variant_distinct; ?></h4>
+            <h4>SHOP BY <?= $sidebar_variant_distinct; ?></h4>
             <div class="category-list">
                 <ul>
                 <?php 

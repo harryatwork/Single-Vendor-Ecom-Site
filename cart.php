@@ -19,8 +19,7 @@
             <div class="page-banner-content">
                 <ul>
                     <li><a href="index">Home</a></li>
-                    <li><a href="shop">Shop</a></li>
-                    <li class="active"><a href="#">Cart</a></li>
+                    <li class="active"><a >Cart</a></li>
                 </ul>
             </div>
         </div>
@@ -46,30 +45,54 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td class="raavin-product-remove"><a href="#"><i class="fa fa-times"></i></a></td>
-                                        <td class="raavin-product-thumbnail"><a href="#"><img src="images/shoping-cart-thumb/product1.jpg" alt=""></a></td>
-                                        <td class="raavin-product-name"><a href="#">Aliquam lobortis est</a></td>
-                                        <td class="raavin-product-price"><span class="amount">$70.00</span></td>
-                                        <td class="raavin-product-quantity">
-                                            <input class="input-text qty text" step="1" min="1" max="200" name="quantity" value="1" title="Qty" size="4" type="number">
+                                <?php
+                                    $sql_cart = "SELECT * FROM cart WHERE u_id = ?";
+                                    $stmt_cart = $conn->prepare($sql_cart);
+                                    $stmt_cart->bind_param("s",$u_id);
+                                    $stmt_cart->execute();
+                                    $result_cart = $stmt_cart->get_result();
+
+                                    $total_cart_product_price = 0;
+                                    while($row_cart = $result_cart->fetch_assoc()) {
+                                        $cart_p_id = $row_cart['p_id'];
+
+                                        $sql_cart_product = "SELECT * FROM products WHERE id = ?";
+                                        $stmt_cart_product = $conn->prepare($sql_cart_product);
+                                        $stmt_cart_product->bind_param("s",$cart_p_id);
+                                        $stmt_cart_product->execute();
+                                        $result_cart_product = $stmt_cart_product->get_result();
+                                        while($row_cart_product = $result_cart_product->fetch_assoc()) {
+                                            $cart_product_discount = $row_cart_product["discount"];
+                                            $cart_product_price = $row_cart_product["price"];
+                                            if($cart_product_discount == 0) {
+                                                $cart_product_price = $cart_product_price;
+                                            } else { 
+                                                $cart_product_price = round(($cart_product_price - (($cart_product_price)*(($cart_product_discount)/100))),2);
+                                            }
+                                        }
+                                        $total_cart_product_price_indi = $cart_product_price * $row_cart['quantity'];
+                                        $total_cart_product_price = $total_cart_product_price + $total_cart_product_price_indi;
+                                ?>
+                                    <tr class="cart-item-<?= $row_cart['id']; ?>">
+                                        <td class="raavin-product-remove cart_remove" cart-id="<?= $row_cart['id']; ?>" item-value="<?= $cart_product_price; ?>" item-quantity="<?= $row_cart['quantity']; ?>""><a href="#"><i class="fa fa-times"></i></a></td>
+                                        <td class="raavin-product-thumbnail">
+                                            <a href="product?title=<?= str_replace(' ', '-',$row_cart['title']); ?>/<?= $cart_p_id; ?>">
+                                                <img onerror="this.src='admin/assets/images/product.png'" src="images-main/products/<?= $row_cart['image']; ?>" alt="" style="width:100px;" />
+                                            </a>
                                         </td>
-                                        <td class="product-subtotal"><span class="amount">$70.00</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="raavin-product-remove"><a href="#"><i class="fa fa-times"></i></a></td>
-                                        <td class="raavin-product-thumbnail"><a href="#"><img src="images/shoping-cart-thumb/product2.jpg" alt=""></a></td>
-                                        <td class="raavin-product-name"><a href="#">Cras neque metus</a></td>
-                                        <td class="raavin-product-price"><span class="amount">$60.50</span></td>
+                                        <td class="raavin-product-name"><a href="product?title=<?= str_replace(' ', '-',$row_cart['title']); ?>/<?= $cart_p_id; ?>">Aliquam lobortis est</a></td>
+                                        <td class="raavin-product-price"><span class="amount">$<?= $cart_product_price; ?></span></td>
                                         <td class="raavin-product-quantity">
-                                            <input class="input-text qty text" step="1" min="1" max="200" name="quantity" value="1" title="Qty" size="4" type="number">
+                                            <input class="input-text qty text" style="text-align:center;" readonly step="1" min="1" max="200" name="quantity" value="<?= $row_cart['quantity']; ?>" title="Qty" size="4" type="number">
                                         </td>
-                                        <td class="product-subtotal"><span class="amount">$60.50</span></td>
+                                        <td class="product-subtotal"><span class="amount">$<?= $cart_product_price*$row_cart['quantity']; ?></span></td>
                                     </tr>
+                                <?php } ?>
                                 </tbody>
                             </table>
                         </div>
-                        <div class="row">
+
+                        <div class="row" style="display:none;">
                             <div class="col-12">
                                 <div class="coupon-all">
                                     <div class="coupon">
@@ -82,15 +105,16 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="row">
                             <div class="col-md-5 ml-auto">
                                 <div class="cart-page-total">
                                     <h2>Cart totals</h2>
                                     <ul>
-                                        <li>Subtotal <span>$130.00</span></li>
-                                        <li>Total <span>$130.00</span></li>
+                                        <li>Subtotal <span>$<?= $total_cart_product_price; ?></span></li>
+                                        <li>Total <span>$<?= $total_cart_product_price; ?></span></li>
                                     </ul>
-                                    <a href="#">Proceed to checkout</a>
+                                    <a href="checkout">Proceed to checkout</a>
                                 </div>
                             </div>
                         </div>

@@ -29,7 +29,7 @@
     $url_cat_name_array = explode("=", $url_cat_name_array);
     $url_cat_name = $url_cat_name_array[count($url_cat_name_array)-1];
 
-    if(isset($_GET[category])) {
+    if(isset($_GET["category"])) {
         $getter = 'cat_id';
     } elseif (isset($_GET["subcategory"])) {
         $getter = 'subcat_id';
@@ -64,12 +64,12 @@
                             <p class="show-product">Total <span class="total_products_count"></span> Products</p>
                             <div class="toolbar-shorter">
                                 <label>Sort By:</label>
-                                <select class="nice-select wide">
-                                    <option data-display="Select">Select</option>
-                                    <option value="price:asc">Price: Lowest first</option>
-                                    <option value="price:desc">Price: Highest first</option>
-                                    <option value="name:asc">Product Name: A to Z</option>
-                                    <option value="name:desc">Product Name: Z to A</option>
+                                <select class="nice-select wide products_sort">
+                                    <option value="ORDER BY id DESC" data-display="Select">Latest</option>
+                                    <option value="ORDER BY price ASC">Price: Lowest first</option>
+                                    <option value="ORDER BY price DESC">Price: Highest first</option>
+                                    <option value="ORDER BY name ASC">Product Name: A to Z</option>
+                                    <option value="ORDER BY name DESC">Product Name: Z to A</option>
                                 </select>
                             </div>
                         </div>
@@ -124,20 +124,35 @@
 
 <script>
 $(document).ready(function() {
-
     let u_id = $(".u_id").val();
     let getter = $(".getter").val();
     let getter_id = $(".getter_id").val();
-    
-    load_products(u_id,getter,getter_id);
+    let sort_by = $(".products_sort").val();
+
+    load_products(u_id,getter,getter_id,sort_by);
 });
 
-function load_products(u_id,getter,getter_id) {
+$(".products_sort").on("change",function(){
+    let u_id = $(".u_id").val();
+    let getter = $(".getter").val();
+    let getter_id = $(".getter_id").val();
+    let sort_by = $(".products_sort").val();
+
+    load_products(u_id,getter,getter_id,sort_by);
+});
+
+// $(".price_filter").on("change",function(){
+//     console.log(1);
+//     console.log($(this).val());
+// });
+
+function load_products(u_id,getter,getter_id,sort_by) {
 
     $.post('backend/shop_products_load.php',{ 
         u_id : u_id,
         getter : getter,
-        getter_id : getter_id
+        getter_id : getter_id,
+        sort_by : sort_by
     },(result)=>{
         result = JSON.parse(result);
         console.log(result);
@@ -161,7 +176,7 @@ function load_products(u_id,getter,getter_id) {
             products = products+`<div class="col-lg-4 col-md-6 col-sm-6 product_common product_id_${result[i][0]}">
                                     <div class="single-product single-product-3">
                                         <div class="product-img">
-                                            <a href="product?title=${result[i][1]}/${result[i][0]}">
+                                            <a href="product?title=${result[i][11]}/${result[i][0]}">
                                                 <img class="primary-img" onerror="this.src='admin/assets/images/product.png'" src="images-main/products/${result[i][2]}" alt="">
                                                 <img class="secondary-img" onerror="this.src='admin/assets/images/product.png'" src="images-main/products/${result[i][2]}" alt="">
                                             </a>
@@ -180,7 +195,7 @@ function load_products(u_id,getter,getter_id) {
                                                             </a>
                                                         </li>
                                                         <li class="rav-quickviewbtn">
-                                                            <a target="_blank" href="product?title=${result[i][1]}/${result[i][0]}" data-bs-toggle="modal" title="Quick view"><i class="fa fa-eye"></i></a>
+                                                            <a target="_blank" href="product?title=${result[i][11]}/${result[i][0]}" data-bs-toggle="modal" title="Quick view"><i class="fa fa-eye"></i></a>
                                                         </li>
                                                     </ul>
                                                 </div>
