@@ -167,13 +167,15 @@
                                     <li><a href="#"><i class="fa fa-cog"></i>My Account</a>
                                         <ul class="dropdown primary-dropdown">
                                         <?php if(isset($_SESSION["login"])) { ?>
-                                            <li><a href="account"><i class="fa fa-user"></i>Account</a></li>
+                                            <li><a href="orders"><i class="fa fa-sitemap"></i>Orders</a></li>
+                                            <li><a href="addresses"><i class="fa fa-address-card"></i>Addresses</a></li>
+                                            <li><a href="account_details"><i class="fa fa-user"></i>Account Details</a></li>
+                                            <li><a href="logout"><i class="fa fa-key"></i>Logout</a></li>
                                         <?php } else { ?>
                                             <li><a href="signin"><i class="fa fa-unlock"></i>Sign In</a></li>
                                             <li><a href="signup"><i class="fa fa-user"></i>Sign Up</a></li>
                                         <?php } ?>
                                             <li><a href="wishlist"><i class="fa fa-heart"></i>Wishlist</a></li>
-                                            <!-- <li><a href="#"><i class="fa fa-check-square"></i>Checkout</a></li> -->
                                         </ul>
                                     </li>
                                 </ul>
