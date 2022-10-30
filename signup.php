@@ -35,8 +35,7 @@
             <div class="page-banner-content">
                 <ul>
                     <li><a href="index">Home</a></li>
-                    <li><a href="shop">Shop</a></li>
-                    <li class="active"><a href="#">Shop</a></li>
+                    <li class="active">Sign Up</li>
                 </ul>
             </div>
         </div>
@@ -62,21 +61,21 @@
                             <h2>Sign Up</h2>
                         </div>
                         <div class="register-form">
-                            <form action="#">
+                            <form>
                                 <div class="form-fild">
                                     <label>First Name <span class="required">*</span></label>
-                                    <input name="username" value="" type="text">
+                                    <input name="username" class="signin_f_name" value="" type="text">
                                 </div>  
                                 <div class="form-fild">
                                     <label>Email address <span class="required">*</span></label>
-                                    <input name="username" value="" type="text">
+                                    <input name="username" class="signin_email" value="" type="text">
                                 </div>
                                 <div class="form-fild">
                                     <label>Password <span class="required">*</span></label>
-                                    <input name="password" value="" type="password">
+                                    <input name="password" class="signin_password" value="" type="password">
                                 </div>
                                 <div class="register-submit">
-                                    <button type="submit" class="form-button">Sign Up</button>
+                                    <button type="button" class="form-button signup_btn">Sign Up</button>
                                 </div>
                             </form>
                         </div>
@@ -88,6 +87,7 @@
     </div>
     <!--Login Register Area End-->
 
+<?php include("pop_notifications.php"); ?>
 
 <?php include("footer.php"); ?>
 

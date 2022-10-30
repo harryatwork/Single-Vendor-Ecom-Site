@@ -35,8 +35,7 @@
             <div class="page-banner-content">
                 <ul>
                     <li><a href="index">Home</a></li>
-                    <li><a href="shop">Shop</a></li>
-                    <li class="active"><a href="#">Shop</a></li>
+                    <li class="active">Sign In</li>
                 </ul>
             </div>
         </div>
@@ -55,17 +54,17 @@
                             <h2>Sign In</h2>
                         </div>
                         <div class="register-form">
-                            <form action="#">
+                            <form>
                                 <div class="form-fild">
                                     <label>Email address <span class="required">*</span></label>
-                                    <input name="username" value="" type="text">
+                                    <input name="username" class="signin_email" value="" type="text">
                                 </div>
                                 <div class="form-fild">
                                     <label>Password <span class="required">*</span></label>
-                                    <input name="password" value="" type="password">
+                                    <input name="password" class="signin_password" value="" type="password">
                                 </div>
                                 <div class="register-submit">
-                                    <button type="submit" class="form-button">Sign In</button>
+                                    <button type="button" class="form-button signin_btn">Sign In</button>
                                 </div>
                             </form>
                         </div>
@@ -87,6 +86,8 @@
 <?php include("footer.php"); ?>
 
 <?php include("foot.php"); ?>
+
+<?php include("pop_notifications.php"); ?>
 
 </body>
 

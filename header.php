@@ -125,6 +125,7 @@
 
                                                 </div>
                                                 <div class="cart-inner-bottom">
+                                                <?php if($result_cart->num_rows>0){ ?>
                                                     <div class="cart-shipping cart-item">
                                                         <div class="total">
                                                             <span>Shipping</span>
@@ -138,6 +139,11 @@
                                                     <div class="cart-btn">
                                                         <a class="links links-3" href="checkout">Check Out</a>
                                                     </div>
+                                                <?php } else { ?>
+                                                    <div class="cart-btn cart_empty_div">
+                                                        <a class="links links-3">Cart is Empty</a>
+                                                    </div>
+                                                <?php } ?>
                                                 </div>
                                             </li>
                                         </ul>
@@ -168,14 +174,15 @@
                                         <ul class="dropdown primary-dropdown">
                                         <?php if(isset($_SESSION["login"])) { ?>
                                             <li><a href="orders"><i class="fa fa-sitemap"></i>Orders</a></li>
+                                            <li><a href="wishlist"><i class="fa fa-heart"></i>Wishlist</a></li>
                                             <li><a href="addresses"><i class="fa fa-address-card"></i>Addresses</a></li>
                                             <li><a href="account_details"><i class="fa fa-user"></i>Account Details</a></li>
                                             <li><a href="logout"><i class="fa fa-key"></i>Logout</a></li>
                                         <?php } else { ?>
+                                            <li><a href="wishlist"><i class="fa fa-heart"></i>Wishlist</a></li>
                                             <li><a href="signin"><i class="fa fa-unlock"></i>Sign In</a></li>
                                             <li><a href="signup"><i class="fa fa-user"></i>Sign Up</a></li>
                                         <?php } ?>
-                                            <li><a href="wishlist"><i class="fa fa-heart"></i>Wishlist</a></li>
                                         </ul>
                                     </li>
                                 </ul>

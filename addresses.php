@@ -72,47 +72,42 @@
                         <div class="woocommerce-MyAccount-content" style="width: 50%;padding-left: 5%;">
                             <div class="woocommerce-EditAccountForm edit-account" >
                                 <p class="woocommerce-FormRow woocommerce-FormRow--first form-row form-row-first">
-                                    <label for="account_first_name">First name <span class="required">*</span></label>
-                                    <input type="text" class="woocommerce-Input woocommerce-Input--text input-text account_first_name" name="account_first_name" id="account_first_name" value="<?= $row_user["f_name"]; ?>">
+                                    <label for="account_first_name">Address 1 <span class="required">*</span></label>
+                                    <input type="text" class="woocommerce-Input woocommerce-Input--text input-text account_address_1" name="" id="" value="<?= $row_user["address1"]; ?>">
                                 </p>
                                 <p class="woocommerce-FormRow woocommerce-FormRow--last form-row form-row-last">
-                                    <label for="account_last_name">Last name <span class="required">*</span></label>
-                                    <input type="text" class="woocommerce-Input woocommerce-Input--text input-text account_last_name" name="account_last_name" id="account_last_name" value="<?= $row_user["l_name"]; ?>">
+                                    <label for="account_last_name">Address 2 <span class="required">*</span></label>
+                                    <input type="text" class="woocommerce-Input woocommerce-Input--text input-text account_address_2" name="" id="" value="<?= $row_user["address2"]; ?>">
+                                </p>
+                                <p class="woocommerce-FormRow woocommerce-FormRow--last form-row form-row-last">
+                                    <label for="account_last_name">Mobile <span class="required">*</span></label>
+                                    <input type="number" class="woocommerce-Input woocommerce-Input--text input-text account_mobile" name="" id="" value="<?= $row_user["mobile"]; ?>">
                                 </p>
                                 <div class="clear"></div>
                                 <p class="woocommerce-FormRow woocommerce-FormRow--wide form-row form-row-wide">
-                                    <label for="account_email">Email address <span class="required">*</span></label>
-                                    <input type="email" class="woocommerce-Input woocommerce-Input--email input-text account_email" name="account_email" id="account_email" value="<?= $row_user["email"]; ?>">
+                                    <label for="account_email">City <span class="required">*</span></label>
+                                    <input type="text" class="woocommerce-Input woocommerce-Input--email input-text account_city" name="" id="" value="<?= $row_user["city"]; ?>">
                                 </p>
+                                <p class="woocommerce-FormRow woocommerce-FormRow--wide form-row form-row-wide">
+                                    <label for="account_email">State <span class="required">*</span></label>
+                                    <input type="text" class="woocommerce-Input woocommerce-Input--email input-text account_state" name="" id="" value="<?= $row_user["state"]; ?>">
+                                </p>
+                                <p class="woocommerce-FormRow woocommerce-FormRow--wide form-row form-row-wide">
+                                    <label for="account_email">Country <span class="required">*</span></label>
+                                    <input type="text" class="woocommerce-Input woocommerce-Input--email input-text account_country" name="" id="" value="Canada">
+                                </p>
+                                <p class="woocommerce-FormRow woocommerce-FormRow--wide form-row form-row-wide">
+                                    <label for="account_email">Pincode <span class="required">*</span></label>
+                                    <input type="text" class="woocommerce-Input woocommerce-Input--email input-text account_pincode" name="" id="" value="<?= $row_user["pincode"]; ?>">
+                                </p>
+
                                 <div class="clear"></div>
                                 <p>
-                                    <button type="button" class="woocommerce-Button button update_user_details_btn" style="background: #cb9a00;border: none;color: white;padding: 10px 15px;">Update Details</button>
+                                    <button type="button" class="woocommerce-Button button update_user_address_btn" style="background: #cb9a00;border: none;color: white;padding: 10px 15px;">Update Address</button>
                                 </p>
                             </div>
 
-                            <br/><br/>
-                       
-                            <div class="woocommerce-EditAccountForm edit-account" >
-                                <fieldset>
-                                    <legend>Password Change</legend>
-                                    <p class="woocommerce-FormRow woocommerce-FormRow--wide form-row form-row-wide">
-                                        <label for="password_current">Current Password</label>
-                                        <input type="password" class="woocommerce-Input woocommerce-Input--password input-text password_current" name="password_current" id="password_current">
-                                    </p>
-                                    <p class="woocommerce-FormRow woocommerce-FormRow--wide form-row form-row-wide">
-                                        <label for="password_1">New Password</label>
-                                        <input type="password" class="woocommerce-Input woocommerce-Input--password input-text password_new_1" name="password_1" id="password_1">
-                                    </p>
-                                    <p class="woocommerce-FormRow woocommerce-FormRow--wide form-row form-row-wide">
-                                        <label for="password_2">Confirm New Password</label>
-                                        <input type="password" class="woocommerce-Input woocommerce-Input--password input-text password_new_2" name="password_2" id="password_2">
-                                    </p>
-                                </fieldset>
-                                <div class="clear"></div>
-                                <p>
-                                    <button type="button" class="woocommerce-Button button password_set_btn" style="background: #cb9a00;border: none;color: white;padding: 10px 15px;">Update Password</button>
-                                </p>
-                            </div>
+                          
                         </div>
 
                     <?php } ?>

@@ -1,3 +1,208 @@
+//* Sign In Page ---------------------------------------------->
+$(".signin_btn").on("click",()=>{
+    $(".signin_btn").prop("disabled",true);
+    $(".signin_btn").html("Processing");
+    let email = $(".signin_email").val();
+    let password = $(".signin_password").val();
+    if(email == '' || password == '') {
+        $(".signin_btn").prop("disabled",false);
+        $(".signin_btn").html("Sign In");
+
+        $(".pop_notify").fadeIn().css({"background":"red"}).animate({"bottom":"2%"}).html("All fields need to be filled");
+        setTimeout(()=>{
+            $(".pop_notify").animate({"bottom":"-20%"}).fadeOut().html('');
+        },3000);
+
+    } else {
+        $.post('backend/logincheck.php',
+        {
+            email : email,
+            password : password
+        }, function(result){
+            if(result == 'success') {
+                window.location.replace('index');
+            } else {
+                $(".signin_btn").prop("disabled",false);
+                $(".signin_btn").html("Sign In");
+
+                $(".pop_notify").fadeIn().css({"background":"red"}).animate({"bottom":"2%"}).html("Credentials seems to be incorrect");
+                setTimeout(()=>{
+                    $(".pop_notify").animate({"bottom":"-20%"}).fadeOut().html('');
+                },3000);
+            }
+        });
+    }
+    
+});
+//Todo Sign In Page ---------------------------------------------->
+
+
+//* Sign Up Page ---------------------------------------------->
+$(".signup_btn").on("click",()=>{
+    $(".signup_btn").prop("disabled",true);
+    $(".signup_btn").html("Processing");
+    let f_name = $(".signin_f_name").val();
+    let email = $(".signin_email").val();
+    let password = $(".signin_password").val();
+    if(email == '' || password == '' || f_name == '') {
+        $(".signup_btn").prop("disabled",false);
+        $(".signup_btn").html("Sign Up");
+
+        $(".pop_notify").fadeIn().css({"background":"red"}).animate({"bottom":"2%"}).html("All fields need to be filled");
+        setTimeout(()=>{
+            $(".pop_notify").animate({"bottom":"-20%"}).fadeOut().html('');
+        },3000);
+
+    } else {
+        $.post('backend/signupinsert.php',
+        {
+            f_name : f_name,
+            email : email,
+            password : password
+        }, function(result){
+            if(result == 'success') {
+                window.location.replace('index');
+            } else if(result == 'exists') {
+                $(".signup_btn").prop("disabled",false);
+                $(".signup_btn").html("Sign Up");
+
+                $(".pop_notify").fadeIn().css({"background":"red"}).animate({"bottom":"2%"}).html("Account already exists with the Email ID.");
+                setTimeout(()=>{
+                    $(".pop_notify").animate({"bottom":"-20%"}).fadeOut().html('');
+                },3000);
+            } else {
+                $(".signup_btn").prop("disabled",false);
+                $(".signup_btn").html("Sign Up");
+
+                $(".pop_notify").fadeIn().css({"background":"red"}).animate({"bottom":"2%"}).html("There seems to be an error. Please try again.");
+                setTimeout(()=>{
+                    $(".pop_notify").animate({"bottom":"-20%"}).fadeOut().html('');
+                },3000);
+            }
+        });
+    }
+    
+});
+//Todo Sign up Page ---------------------------------------------->
+
+
+//* User Account Data Update ------------------------------------->
+$(".update_user_details_btn").on("click",()=>{
+    $(".update_user_details_btn").html("Processeing..");
+    $(".update_user_details_btn").prop("disabled",true);
+    let u_id = $(".u_id").val();
+    let account_first_name = $(".account_first_name").val();
+    let account_last_name = $(".account_last_name").val();
+    let account_email = $(".account_email").val();
+
+    $.post('backend/user_details_update.php',{
+        u_id : u_id,
+        account_first_name : account_first_name,
+        account_last_name : account_last_name,
+        account_email : account_email
+    },(result)=>{
+        $(".update_user_details_btn").html("Update Details");
+        $(".update_user_details_btn").prop("disabled",false);
+        $(".pop_notify").fadeIn().css({"background":"red"}).animate({"bottom":"2%"}).html("Data Updated succesfully");
+        setTimeout(()=>{
+            $(".pop_notify").animate({"bottom":"-20%"}).fadeOut().html('');
+        },3000);
+    })
+});
+//Todo User Account Data Update ----------------------------------->
+
+//* User Password Update ------------------------------------->
+$(".password_set_btn").on("click",()=>{
+    $(".password_set_btn").html("Processeing..");
+    $(".password_set_btn").prop("disabled",true);
+    let u_id = $(".u_id").val();
+    let password_current = $(".password_current").val();
+    let password_new_1 = $(".password_new_1").val();
+    let password_new_2 = $(".password_new_2").val();
+
+    if(password_new_1 == password_new_2) {
+
+        $.post('backend/user_password_update.php',{
+            u_id : u_id,
+            password_current : password_current,
+            password_new : password_new_1
+        },(result)=>{
+            if(result == 'incorrect'){
+                $(".password_set_btn").html("Update Password");
+                $(".password_set_btn").prop("disabled",false);
+                $(".pop_notify").fadeIn().css({"background":"red"}).animate({"bottom":"2%"}).html("Old password is incorrect");
+                setTimeout(()=>{
+                    $(".pop_notify").animate({"bottom":"-20%"}).fadeOut().html('');
+                },3000);
+            } else if(result == 'success'){
+                $(".password_set_btn").html("Update Password");
+                $(".password_set_btn").prop("disabled",false);
+                $(".pop_notify").fadeIn().css({"background":"red"}).animate({"bottom":"2%"}).html("Password Updated succesfully");
+                setTimeout(()=>{
+                    $(".pop_notify").animate({"bottom":"-20%"}).fadeOut().html('');
+                },3000);
+            } else {
+                $(".password_set_btn").html("Update Password");
+                $(".password_set_btn").prop("disabled",false);
+                $(".pop_notify").fadeIn().css({"background":"red"}).animate({"bottom":"2%"}).html("Some Error occurered. Please try again");
+                setTimeout(()=>{
+                    $(".pop_notify").animate({"bottom":"-20%"}).fadeOut().html('');
+                },3000);
+            }
+            console.log(result);
+        });
+
+    } else {
+        $(".password_set_btn").html("Update Password");
+        $(".password_set_btn").prop("disabled",false);
+        $(".pop_notify").fadeIn().css({"background":"red"}).animate({"bottom":"2%"}).html("New Passwords Need to be same");
+        setTimeout(()=>{
+            $(".pop_notify").animate({"bottom":"-20%"}).fadeOut().html('');
+        },3000);
+    }
+});
+//Todo User Password Update ----------------------------------->
+
+
+
+
+//* User Address Data Update ------------------------------------->
+$(".update_user_address_btn").on("click",()=>{
+    $(".update_user_address_btn").html("Processeing..");
+    $(".update_user_address_btn").prop("disabled",true);
+    let u_id = $(".u_id").val();
+    let account_address_1 = $(".account_address_1").val();
+    let account_address_2 = $(".account_address_2").val();
+    let account_city = $(".account_city").val();
+    let account_mobile = $(".account_mobile").val();
+    let account_state = $(".account_state").val();
+    let account_country = $(".account_country").val();
+    let account_pincode = $(".account_pincode").val();
+
+    $.post('backend/user_address_update.php',{
+        u_id : u_id,
+        account_address_1 : account_address_1,
+        account_address_2 : account_address_2,
+        account_mobile : account_mobile,
+        account_city : account_city,
+        account_state : account_state,
+        account_country : account_country,
+        account_pincode : account_pincode
+         
+    },(result)=>{
+        $(".update_user_address_btn").html("Update Details");
+        $(".update_user_address_btn").prop("disabled",false);
+        $(".pop_notify").fadeIn().css({"background":"red"}).animate({"bottom":"2%"}).html("Data Updated succesfully");
+        setTimeout(()=>{
+            $(".pop_notify").animate({"bottom":"-20%"}).fadeOut().html('');
+        },3000);
+    })
+});
+//Todo User Address Data Update ----------------------------------->
+
+
+
+
 $(document).on("click",".add_to_cart_quick",function() {
     $(this).removeClass("add_to_cart_quick");
     $(this).html("Added");
@@ -33,6 +238,7 @@ $(document).on("click",".add_to_cart_quick",function() {
         var total_cart_product_price = parseInt($(".total_cart_product_price").html());
         $(".header_cart_count").html(header_cart_count+1);
         $(".total_cart_product_price").html(total_cart_product_price+(p_price*p_quantity));
+        $(".cart_empty_div").css("display","none");
 
         $(".header_cart_list").append(`<div class="cart-item-${result}">
                                             <div class="cart-img">

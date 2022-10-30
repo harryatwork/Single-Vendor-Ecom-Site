@@ -74,7 +74,7 @@
 															while($row_users = $result_users->fetch_assoc()) {
 																$u_f_name = $row_users["f_name"];
 																$u_l_name = $row_users["l_name"];
-															} } else { }
+															
 
 															$sql_products = "SELECT * FROM products WHERE id = '$reviews_p_id'";
                                                             $result_products = $conn->query($sql_products);
@@ -82,7 +82,6 @@
                                                             while($row_products = $result_products->fetch_assoc()) {
                                                                 $product_name = $row_products["name"];
 																$product_profile_pic = $row_products["image"];
-															} } else { } 
 														?>
 															<tr>
 															    <td>
@@ -168,7 +167,9 @@
 															</tr>
 
 															
-														<?php } } else { } ?>
+														<?php } } else { }
+															} } else { } 
+															 } } else { } ?>
 
 														</tbody>
 													</table>

@@ -83,7 +83,8 @@
 									$result_addresses = $conn->query($sql_addresses);
 									if($result_addresses->num_rows > 0) {
 									while($row_addresses = $result_addresses->fetch_assoc()) {
-										$order_address = $row_addresses["address"];
+										$order_address1 = $row_addresses["address1"];
+										$order_address2 = $row_addresses["address2"];
 										$order_city = $row_addresses["city"];
 										$order_state = $row_addresses["state"];
 										$order_country = $row_addresses["country"];
@@ -335,7 +336,7 @@
 																	<h2>Shipping Address</h2>
 																</div>
 															</div>
-															<div class="card-body pt-0"><?= $order_address; ?>,
+															<div class="card-body pt-0"><?= $order_address1; ?> <?= $order_address2; ?>,
 															<br><?= $order_city; ?>,
 															<br><?= $order_state; ?>,
 															<br><?= $order_country; ?>, <?= $order_pincode; ?>.
